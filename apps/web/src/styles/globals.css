@@ -1,0 +1,83 @@
+/* Tokens visuais — docs/04-frontend.md §7.1 + prototype/radar-compromissos.html */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Cores */
+  --bg: #F2F5F4;
+  --surface: #FFF;
+  --ink: #17231F;
+  --muted: #5C6B66;
+  --line: #DBE3E0;
+  --accent: #0E6E5C;
+  --accent-ink: #0A5246;
+  --accent-soft: #E0F0EB;
+  --danger: #C0392B;
+  --danger-soft: #FDECEA;
+  --warning: #D4720A;
+  --warning-soft: #FEF3E2;
+
+  /* Tipografia */
+  --font-sans: 'Archivo', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* Espaçamentos / radii */
+  --radius: 8px;
+  --radius-sm: 4px;
+  --r: 14px;
+  --r-lg: 18px;
+
+  /* Superfícies adicionais */
+  --surface-2: #F7FAF8;
+  --faint: #8C9A94;
+  --line-soft: #EBF0ED;
+  --accent-glow: rgba(14,110,92,.20);
+
+  /* Cores semânticas */
+  --amber: #8A5510;
+  --amber-soft: #FBF0DC;
+  --red: #AC2E2E;
+  --red-soft: #FDEDED;
+  --green: #3E7113;
+  --green-soft: #ECF4E1;
+  --gray-soft: #F1F0EA;
+  --blue: #1A63A8;
+  --blue-soft: #E8F2FC;
+
+  /* Sombras */
+  --shadow-sm: 0 1px 2px rgba(14,24,20,.05);
+  --shadow-md: 0 1px 2px rgba(14,24,20,.04), 0 10px 28px -14px rgba(14,24,20,.18);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-ink);
+  text-decoration: underline;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input, textarea {
+  font-family: inherit;
+}

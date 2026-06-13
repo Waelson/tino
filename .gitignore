@@ -1,0 +1,22 @@
+node_modules/
+dist/
+.env
+*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Coverage
+coverage/
+
+# Playwright
+e2e/test-results/
+e2e/playwright-report/

@@ -1,0 +1,81 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 200px;
+  flex: 1;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.valor {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.valorAlerta {
+  color: var(--red);
+}
+
+.trilho {
+  position: relative;
+  height: 8px;
+  background: var(--line-soft);
+  border-radius: 999px;
+  overflow: visible;
+}
+
+.barra {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+  max-width: 100%;
+}
+
+.barraAlerta {
+  background: var(--red);
+}
+
+/* Marca fixa em 30% */
+.marca {
+  position: absolute;
+  top: -3px;
+  left: 30%;
+  width: 2px;
+  height: 14px;
+  background: var(--ink);
+  border-radius: 1px;
+  opacity: 0.35;
+  animation: pulse-marca 3s ease-in-out infinite;
+}
+
+@keyframes pulse-marca {
+  0%, 100% { opacity: 0.35; }
+  50%       { opacity: 0.6; }
+}
+
+.legenda {
+  font-size: 11px;
+  color: var(--red);
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barra { transition: none; }
+  .marca { animation: none; }
+}
