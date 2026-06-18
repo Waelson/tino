@@ -74,6 +74,12 @@ export function hojeEmSP(): string {
   return new Intl.DateTimeFormat('sv', { timeZone: 'America/Sao_Paulo' }).format(new Date())
 }
 
+function addDias(base: string, dias: number): string {
+  const d = new Date(base + 'T12:00:00Z')
+  d.setUTCDate(d.getUTCDate() + dias)
+  return d.toISOString().slice(0, 10)
+}
+
 export function calcularCargaEAlerta(
   ativos: number,
   comigo: number,
@@ -168,12 +174,14 @@ export async function listar(
   dono?: string,
 ): Promise<CompromissoApi[]> {
   const hoje = hojeEmSP()
+  const prox7Dias = addDias(hoje, 7)
   const rows = await listarRepo({
     usuarioId,
     hoje,
     filtro,
     ...(q !== undefined && { q }),
     ...(dono !== undefined && { dono }),
+    ...(filtro === 'semana' && { prox7Dias }),
   })
   return rows.map(mapToApi)
 }

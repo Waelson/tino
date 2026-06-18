@@ -36,6 +36,7 @@ const TIPO_LABELS: Record<string, string> = {
 
 const EMPTY_MESSAGES: Record<FiltroLista, { principal: string; dica?: string }> = {
   ativas:     { principal: 'Nenhum compromisso por aqui ainda.', dica: 'Capture a primeira demanda no campo acima.' },
+  semana:     { principal: 'Nenhum compromisso para esta semana.' },
   comigo:     { principal: 'Nenhum compromisso com você agora.' },
   delegadas:  { principal: 'Nenhuma delegação no momento.' },
   atencao:    { principal: 'Nada precisa de atenção. Bom sinal.' },

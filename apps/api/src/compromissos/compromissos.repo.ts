@@ -39,11 +39,12 @@ export async function capturar(
   return result.insertId as bigint
 }
 
-export type FiltroLista = 'ativas' | 'comigo' | 'delegadas' | 'atencao' | 'concluidas' | 'todas'
+export type FiltroLista = 'ativas' | 'comigo' | 'delegadas' | 'atencao' | 'concluidas' | 'todas' | 'semana'
 
 export async function listar(params: {
   usuarioId: bigint
   hoje: string
+  prox7Dias?: string
   filtro?: FiltroLista
   q?: string
   dono?: string
@@ -83,6 +84,19 @@ export async function listar(params: {
     const nome = params.dono.trim()
     return base
       .where(sql<boolean>`LOWER(TRIM(c.dono)) = LOWER(TRIM(${nome}))`)
+      .orderBy(sql`(c.prazo IS NULL)`)
+      .orderBy('c.prazo', 'asc')
+      .orderBy('c.criada_em', 'desc')
+      .execute()
+  }
+
+  if (filtro === 'semana') {
+    const limite = params.prox7Dias ?? params.hoje
+    return base
+      .where('c.status', '!=', 'concluida')
+      .where(
+        sql<boolean>`((c.prazo IS NOT NULL AND c.prazo <= ${limite}) OR (c.checkpoint IS NOT NULL AND c.checkpoint <= ${limite}) OR c.status = 'em_andamento')`,
+      )
       .orderBy(sql`(c.prazo IS NULL)`)
       .orderBy('c.prazo', 'asc')
       .orderBy('c.criada_em', 'desc')
