@@ -6,6 +6,7 @@ import { CaptureBar } from '../components/CaptureBar.js'
 import { CommitmentList } from '../components/CommitmentList.js'
 import { FilterChips } from '../components/FilterChips.js'
 import { MetricsBar } from '../components/MetricsBar.js'
+import { SearchBar } from '../components/SearchBar.js'
 import { TriageQueue } from '../components/TriageQueue.js'
 import { ToastProvider } from '../components/Toast.js'
 
@@ -22,6 +23,7 @@ export function Painel() {
         <CaptureBar />
         <TriageQueue itens={triagemData?.itens ?? []} />
         <FilterChips />
+        <SearchBar />
         <CommitmentList />
       </AppShell>
       <Outlet />

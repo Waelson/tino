@@ -40,6 +40,7 @@ const EMPTY_MESSAGES: Record<FiltroLista, { principal: string; dica?: string }> 
   delegadas:  { principal: 'Nenhuma delegação no momento.' },
   atencao:    { principal: 'Nada precisa de atenção. Bom sinal.' },
   concluidas: { principal: 'Nenhum compromisso concluído ainda.' },
+  todas:      { principal: 'Nenhum compromisso encontrado.' },
 }
 
 function fmtDate(iso: string | null): string {
@@ -51,13 +52,16 @@ function fmtDate(iso: string | null): string {
 export function CommitmentList() {
   const [searchParams] = useSearchParams()
   const filtro = (searchParams.get('filtro') ?? 'ativas') as FiltroLista
+  const q = searchParams.get('q')
 
   const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ['compromissos', filtro],
-    queryFn: () => listar(filtro),
+    queryKey: ['compromissos', filtro, q],
+    queryFn: () => listar(filtro, q),
   })
 
-  const emptyMsg = EMPTY_MESSAGES[filtro]
+  const emptyMsg = q
+    ? { principal: 'Nenhum compromisso com esse resultado esperado.' }
+    : EMPTY_MESSAGES[filtro]
 
   return (
     <section className={styles.wrap} aria-label="Lista de compromissos">

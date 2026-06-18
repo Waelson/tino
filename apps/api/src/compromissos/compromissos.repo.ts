@@ -39,14 +39,15 @@ export async function capturar(
   return result.insertId as bigint
 }
 
-export type FiltroLista = 'ativas' | 'comigo' | 'delegadas' | 'atencao' | 'concluidas'
+export type FiltroLista = 'ativas' | 'comigo' | 'delegadas' | 'atencao' | 'concluidas' | 'todas'
 
 export async function listar(params: {
   usuarioId: bigint
   hoje: string
   filtro?: FiltroLista
+  q?: string
 }): Promise<CompromissoRow[]> {
-  const base = db
+  let base = db
     .selectFrom('compromissos as c')
     .select([
       'c.id',
@@ -70,7 +71,20 @@ export async function listar(params: {
     .where('c.descartada_em', 'is', null)
     .where('c.tipo', 'is not', null)
 
+  if (params.q?.trim()) {
+    const termo = `%${params.q.trim()}%`
+    base = base.where(sql<boolean>`LOWER(c.titulo) LIKE LOWER(${termo})`) as typeof base
+  }
+
   const filtro = params.filtro ?? 'ativas'
+
+  if (filtro === 'todas') {
+    return base
+      .orderBy(sql`(c.prazo IS NULL)`)
+      .orderBy('c.prazo', 'asc')
+      .orderBy('c.criada_em', 'desc')
+      .execute()
+  }
 
   if (filtro === 'concluidas') {
     return base

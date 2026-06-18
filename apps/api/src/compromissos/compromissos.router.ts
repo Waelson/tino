@@ -60,8 +60,8 @@ export function compromissosRoutes(
       schema: { querystring: filtroQuerySchema },
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const { filtro } = request.query as { filtro?: FiltroLista }
-      const itens = await listar(request.usuarioId, filtro)
+      const { filtro, q } = request.query as { filtro?: FiltroLista; q?: string }
+      const itens = await listar(request.usuarioId, filtro, q)
       return reply.send({ itens })
     },
   )

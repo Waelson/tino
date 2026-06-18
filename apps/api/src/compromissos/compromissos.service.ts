@@ -164,9 +164,10 @@ export { FiltroLista }
 export async function listar(
   usuarioId: bigint,
   filtro: FiltroLista = 'ativas',
+  q?: string,
 ): Promise<CompromissoApi[]> {
   const hoje = hojeEmSP()
-  const rows = await listarRepo({ usuarioId, hoje, filtro })
+  const rows = await listarRepo({ usuarioId, hoje, filtro, ...(q !== undefined ? { q } : {}) })
   return rows.map(mapToApi)
 }
 

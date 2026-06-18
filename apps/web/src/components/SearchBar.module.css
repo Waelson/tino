@@ -1,0 +1,48 @@
+.wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 0 0.5rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.input:focus {
+  border-color: var(--accent);
+}
+
+.input::placeholder {
+  color: var(--muted);
+}
+
+/* Remove o botão nativo de limpar do input[type=search] */
+.input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.limpar {
+  position: absolute;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 0.25rem;
+  line-height: 1;
+}
+
+.limpar:hover {
+  color: var(--ink);
+}

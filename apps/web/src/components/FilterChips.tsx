@@ -4,7 +4,7 @@ import { getMetricas } from '../api/metricas.js'
 // @ts-ignore
 import styles from './FilterChips.module.css'
 
-export type FiltroLista = 'ativas' | 'comigo' | 'delegadas' | 'atencao' | 'concluidas'
+export type FiltroLista = 'ativas' | 'comigo' | 'delegadas' | 'atencao' | 'concluidas' | 'todas'
 
 const CHIPS: { id: FiltroLista; label: string; contador?: keyof import('../types/api.js').Metricas }[] = [
   { id: 'ativas',     label: 'Ativas',     contador: 'ativos' },
@@ -17,6 +17,7 @@ const CHIPS: { id: FiltroLista; label: string; contador?: keyof import('../types
 export function FilterChips() {
   const [searchParams, setSearchParams] = useSearchParams()
   const filtroAtual = (searchParams.get('filtro') ?? 'ativas') as FiltroLista
+  const qAtivo = !!searchParams.get('q')
 
   const { data: metricas } = useQuery({
     queryKey: ['metricas'],
@@ -24,11 +25,9 @@ export function FilterChips() {
   })
 
   function selecionar(filtro: FiltroLista) {
-    if (filtro === 'ativas') {
-      setSearchParams({})
-    } else {
-      setSearchParams({ filtro })
-    }
+    if (qAtivo) return
+    const params: Record<string, string> = filtro === 'ativas' ? {} : { filtro }
+    setSearchParams(params)
   }
 
   return (
@@ -41,7 +40,9 @@ export function FilterChips() {
             key={chip.id}
             role="tab"
             aria-selected={ativo}
-            className={`${styles.chip} ${ativo ? styles.chipOn : ''}`}
+            disabled={qAtivo}
+            aria-disabled={qAtivo}
+            className={`${styles.chip} ${ativo ? styles.chipOn : ''} ${qAtivo ? styles.chipDisabled : ''}`}
             onClick={() => selecionar(chip.id)}
           >
             {chip.label}

@@ -4,8 +4,11 @@ import type { Compromisso, CompromissoDetalhe, ListaResponse, PatchBody, Referen
 export const capturar = (titulo: string): Promise<Compromisso> =>
   client.post<Compromisso>('/compromissos', { titulo })
 
-export const listar = (filtro = 'ativas'): Promise<ListaResponse> =>
-  client.get<ListaResponse>(`/compromissos?filtro=${filtro}`)
+export const listar = (filtro = 'ativas', q?: string | null): Promise<ListaResponse> => {
+  const params = new URLSearchParams({ filtro })
+  if (q?.trim()) params.set('q', q.trim())
+  return client.get<ListaResponse>(`/compromissos?${params.toString()}`)
+}
 
 export const listarTriagem = (): Promise<ListaResponse> =>
   client.get<ListaResponse>('/compromissos/triagem')

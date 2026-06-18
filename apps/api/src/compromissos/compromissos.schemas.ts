@@ -13,6 +13,7 @@ export const filtroQuerySchema = {
   type: 'object',
   additionalProperties: false,
   properties: {
-    filtro: { type: 'string', enum: ['ativas', 'comigo', 'delegadas', 'atencao', 'concluidas'] },
+    filtro: { type: 'string', enum: ['ativas', 'comigo', 'delegadas', 'atencao', 'concluidas', 'todas'] },
+    q:      { type: 'string', maxLength: 280 },
   },
 } as const
