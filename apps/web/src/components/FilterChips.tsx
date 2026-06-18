@@ -4,23 +4,20 @@ import { getMetricas } from '../api/metricas.js'
 // @ts-ignore
 import styles from './FilterChips.module.css'
 
-export type FiltroLista = 'ativas' | 'comigo' | 'delegadas' | 'atencao' | 'concluidas' | 'todas' | 'semana'
-export type FiltroPainel = FiltroLista | 'equipe' | 'revisao'
+export type FiltroLista = 'ativas' | 'semana' | 'comigo' | 'delegadas' | 'atencao' | 'concluidas' | 'todas'
 
-const CHIPS: { id: FiltroPainel; label: string; contador?: keyof import('../types/api.js').Metricas }[] = [
-  { id: 'ativas',     label: 'Ativas',     contador: 'ativos' },
+const CHIPS: { id: FiltroLista; label: string; contador?: keyof import('../types/api.js').Metricas }[] = [
+  { id: 'ativas',     label: 'Ativas',       contador: 'ativos' },
   { id: 'semana',     label: 'Esta semana' },
-  { id: 'comigo',     label: 'Comigo',     contador: 'comigo' },
+  { id: 'comigo',     label: 'Comigo',       contador: 'comigo' },
   { id: 'delegadas',  label: 'Delegadas' },
-  { id: 'equipe',     label: 'Equipe' },
-  { id: 'atencao',    label: 'Atenção',    contador: 'precisamAtencao' },
+  { id: 'atencao',    label: 'Atenção',      contador: 'precisamAtencao' },
   { id: 'concluidas', label: 'Concluídas' },
-  { id: 'revisao',    label: 'Revisão' },
 ]
 
 export function FilterChips() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const filtroAtual = (searchParams.get('filtro') ?? 'ativas') as FiltroPainel
+  const filtroAtual = (searchParams.get('filtro') ?? 'ativas') as FiltroLista
   const qAtivo = !!searchParams.get('q')
   const donoAtivo = searchParams.get('dono')
   const desabilitar = qAtivo || !!donoAtivo
@@ -30,7 +27,7 @@ export function FilterChips() {
     queryFn: getMetricas,
   })
 
-  function selecionar(filtro: FiltroPainel) {
+  function selecionar(filtro: FiltroLista) {
     if (desabilitar) return
     const params: Record<string, string> = filtro === 'ativas' ? {} : { filtro }
     setSearchParams(params)
