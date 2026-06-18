@@ -125,11 +125,12 @@ Hash de senha: argon2id ou bcrypt (custo ≥ 12). NUNCA logar senha ou token.
 
 ## 4. Compromissos
 
-### `GET /compromissos?filtro=ativas`
+### `GET /compromissos?filtro=ativas&q=`
 
 `filtro` ∈ `ativas` (default) | `comigo` | `delegadas` | `atencao` | `concluidas`.
-Semântica exata: §5 do domínio + query §6.1 de `02-dados.md`. Itens em triagem
-(`tipo = null`) NUNCA aparecem aqui (I-07).
+`q` (opcional, ≤ 280 chars) — busca case-insensitive por substring no `titulo`
+(resultado esperado). Ortogonal ao `filtro`; vazio ou ausente desativa o filtro
+de busca. Itens em triagem (`tipo = null`) NUNCA aparecem aqui (I-07).
 **200** `{ "itens": [Compromisso, ...] }` ordenado por urgência (prazo ASC com
 nulos por último, depois criação DESC).
 
@@ -248,7 +249,7 @@ integração nomeado com o ID correspondente.
 
 ## 9. Fora do escopo da v1 (API)
 
-- Paginação, ordenação parametrizada, busca textual.
+- Paginação, ordenação parametrizada.
 - Webhooks, rate limiting, refresh token, logout server-side, recuperação de senha.
 - Endpoints administrativos (hard delete, export). Exportação de dados é candidata
   à v1.1 — registrar em `decisoes/` quando priorizar.
