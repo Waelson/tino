@@ -1,5 +1,5 @@
 import { client } from './client.js'
-import type { Compromisso, CompromissoDetalhe, ListaResponse, PatchBody, Referencia, RegistroEntrada, TriagemBody } from '../types/api.js'
+import type { Compromisso, CompromissoDetalhe, EquipeResponse, ListaResponse, PatchBody, Referencia, RegistroEntrada, TriagemBody } from '../types/api.js'
 
 export const capturar = (titulo: string): Promise<Compromisso> =>
   client.post<Compromisso>('/compromissos', { titulo })
@@ -37,6 +37,9 @@ export const adicionarReferencia = (
 
 export const removerReferencia = (id: number, refId: number): Promise<void> =>
   client.delete<void>(`/compromissos/${id}/referencias/${refId}`)
+
+export const getEquipe = (): Promise<EquipeResponse> =>
+  client.get<EquipeResponse>('/compromissos/equipe')
 
 export const adicionarRegistro = (
   id: number,

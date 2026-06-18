@@ -1,0 +1,126 @@
+.wrap {
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-lg);
+  padding: 8px 18px 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.table thead th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--faint);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 12px 8px 8px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.row {
+  cursor: pointer;
+}
+
+.row:hover td {
+  background: var(--surface-2);
+}
+
+.row:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.row td {
+  padding: 12px 8px;
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: middle;
+}
+
+.row:last-child td {
+  border-bottom: none;
+}
+
+.nome {
+  font-weight: 500;
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.alerta {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--red);
+  background: var(--amber-soft);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.ok {
+  color: var(--faint);
+}
+
+.empty {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.error {
+  text-align: center;
+  padding: 32px 20px;
+  color: var(--muted);
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.retryBtn {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent-ink);
+  transition: background 0.14s;
+}
+
+.retryBtn:hover {
+  background: var(--accent-soft);
+}
+
+.skeleton {
+  display: block;
+  height: 14px;
+  background: var(--line-soft);
+  border-radius: 4px;
+  width: 80%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+@media (max-width: 760px) {
+  .hideMobile { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+}

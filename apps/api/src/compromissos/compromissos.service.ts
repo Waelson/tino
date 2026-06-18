@@ -6,6 +6,7 @@ import {
   listar as listarRepo,
   listarTriagem as listarTriagemRepo,
   metricas as metricasRepo,
+  equipe as equipeRepo,
   listarReferencias,
   listarRegistro,
   findById,
@@ -208,6 +209,26 @@ export function mapRegistro(r: RegistroEntrada): RegistroEntradaApi {
     texto: r.texto,
     criadaEm: r.criada_em.toISOString(),
   }
+}
+
+export interface DonoMetricasApi {
+  dono: string
+  ativos: number
+  checkpointsVencidos: number
+  prazosEstourados: number
+  bloqueados: number
+}
+
+export async function obterEquipe(usuarioId: bigint): Promise<DonoMetricasApi[]> {
+  const hoje = hojeEmSP()
+  const rows = await equipeRepo({ usuarioId, hoje })
+  return rows.map((r) => ({
+    dono: r.dono!,
+    ativos: Number(r.ativos),
+    checkpointsVencidos: Number(r.checkpoints_vencidos),
+    prazosEstourados: Number(r.prazos_estourados),
+    bloqueados: Number(r.bloqueados),
+  }))
 }
 
 export async function buscarDetalhe(

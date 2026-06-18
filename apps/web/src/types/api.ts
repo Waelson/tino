@@ -83,6 +83,18 @@ export interface PatchBody {
   tipo?: string
 }
 
+export interface DonoMetricas {
+  dono: string
+  ativos: number
+  checkpointsVencidos: number
+  prazosEstourados: number
+  bloqueados: number
+}
+
+export interface EquipeResponse {
+  membros: DonoMetricas[]
+}
+
 export interface Metricas {
   ativos: number
   checkpointsVencidos: number

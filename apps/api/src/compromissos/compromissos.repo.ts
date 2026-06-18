@@ -364,6 +364,41 @@ export async function atualizarPatch(
   await trx.updateTable('compromissos').set(updates).where('id', '=', id).execute()
 }
 
+// ─── Painel de equipe ─────────────────────────────────────────────────────────
+
+export interface DonoMetricasRow {
+  dono: string | null
+  ativos: number
+  checkpoints_vencidos: number
+  prazos_estourados: number
+  bloqueados: number
+}
+
+export async function equipe(params: {
+  usuarioId: bigint
+  hoje: string
+}): Promise<DonoMetricasRow[]> {
+  return db
+    .selectFrom('compromissos')
+    .select([
+      'dono',
+      sql<number>`COUNT(*)`.as('ativos'),
+      sql<number>`COALESCE(SUM(checkpoint IS NOT NULL AND checkpoint < ${params.hoje}), 0)`.as('checkpoints_vencidos'),
+      sql<number>`COALESCE(SUM(prazo IS NOT NULL AND prazo < ${params.hoje}), 0)`.as('prazos_estourados'),
+      sql<number>`COALESCE(SUM(status = 'bloqueada'), 0)`.as('bloqueados'),
+    ])
+    .where('usuario_id', '=', params.usuarioId)
+    .where('descartada_em', 'is', null)
+    .where('tipo', 'is not', null)
+    .where('status', '!=', 'concluida')
+    .where('dono', 'is not', null)
+    .where(sql<boolean>`TRIM(dono) != ''`)
+    .groupBy('dono')
+    .orderBy(sql`COUNT(*) DESC`)
+    .orderBy('dono', 'asc')
+    .execute() as unknown as DonoMetricasRow[]
+}
+
 export async function atualizarTriagem(
   trx: Transaction<Database>,
   params: {

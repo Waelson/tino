@@ -1,7 +1,7 @@
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify'
 import { capturaBodySchema, filtroQuerySchema } from './compromissos.schemas.js'
 import { triagemBodySchema } from './triagem.schemas.js'
-import { capturar, listar, listarTriagem, buscarDetalhe, type FiltroLista } from './compromissos.service.js'
+import { capturar, listar, listarTriagem, buscarDetalhe, obterEquipe, type FiltroLista } from './compromissos.service.js'
 import { processarTriagem, type TriagemBody } from './triagem.service.js'
 import { editarCompromisso, type PatchBody } from './patch.service.js'
 import { patchBodySchema } from './patch.schemas.js'
@@ -94,6 +94,19 @@ export function compromissosRoutes(
         }
         throw err
       }
+    },
+  )
+
+  // GET /equipe — painel de carga por dono (Feature 008)
+  fastify.get(
+    '/equipe',
+    {
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      preHandler: fastify.autenticar,
+    },
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const membros = await obterEquipe(request.usuarioId)
+      return reply.send({ membros })
     },
   )
 
