@@ -18,6 +18,9 @@ export default defineConfig({
       exclude: ['src/infra/migrations/**', 'src/infra/seed.ts', 'src/infra/migrate.ts'],
     },
     // Testes de integração precisam do banco — rodar com `docker compose up -d && npm run migrate`
+    // Sequencial para evitar deadlocks MySQL entre arquivos de teste paralelos
+    pool: 'forks',
+    poolOptions: { forks: { singleFork: true } },
     include: ['test/**/*.test.ts'],
   },
 })

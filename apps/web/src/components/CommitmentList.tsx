@@ -50,16 +50,23 @@ function fmtDate(iso: string | null): string {
 }
 
 export function CommitmentList() {
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const filtro = (searchParams.get('filtro') ?? 'ativas') as FiltroLista
   const q = searchParams.get('q')
+  const dono = searchParams.get('dono')
 
   const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ['compromissos', filtro, q],
-    queryFn: () => listar(filtro, q),
+    queryKey: ['compromissos', filtro, q, dono],
+    queryFn: () => listar(filtro, q, dono),
   })
 
-  const emptyMsg = q
+  function filtrarPorDono(nome: string) {
+    setSearchParams({ dono: nome })
+  }
+
+  const emptyMsg = dono
+    ? { principal: `Nenhum compromisso de ${dono}.` }
+    : q
     ? { principal: 'Nenhum compromisso com esse resultado esperado.' }
     : EMPTY_MESSAGES[filtro]
 
@@ -97,7 +104,7 @@ export function CommitmentList() {
           </thead>
           <tbody>
             {data.itens.map((item) => (
-              <CommitmentRow key={item.id} item={item} />
+              <CommitmentRow key={item.id} item={item} onFiltrarDono={filtrarPorDono} />
             ))}
           </tbody>
         </table>
@@ -106,7 +113,7 @@ export function CommitmentList() {
   )
 }
 
-function CommitmentRow({ item }: { item: Compromisso }) {
+function CommitmentRow({ item, onFiltrarDono }: { item: Compromisso; onFiltrarDono: (nome: string) => void }) {
   const navigate = useNavigate()
   const statusLabel = STATUS_LABELS[item.status] ?? item.status
   const statusClass = STATUS_CLASS[item.status] ?? styles.bNao
@@ -141,9 +148,20 @@ function CommitmentRow({ item }: { item: Compromisso }) {
         )}
       </td>
       <td>
-        <span className={item.comigo ? styles.donoEu : undefined}>
-          {item.dono ?? '—'}
-        </span>
+        {item.dono ? (
+          <span
+            className={`${item.comigo ? styles.donoEu : ''} ${styles.donoLink}`}
+            role="button"
+            tabIndex={0}
+            aria-label={`Filtrar por dono: ${item.dono}`}
+            onClick={(e) => { e.stopPropagation(); onFiltrarDono(item.dono!) }}
+            onKeyDown={(e) => { if (e.key === 'Enter') { e.stopPropagation(); onFiltrarDono(item.dono!) } }}
+          >
+            {item.dono}
+          </span>
+        ) : (
+          <span>—</span>
+        )}
       </td>
       <td className={styles.hideMobile}>
         <span className={styles.muted}>{TIPO_LABELS[item.tipo ?? ''] ?? '—'}</span>

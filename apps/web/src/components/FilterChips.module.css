@@ -50,6 +50,13 @@
   pointer-events: none;
 }
 
+.chipDono {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  cursor: pointer;
+  font-weight: 600;
+}
+
 .chipN {
   font-family: var(--font-mono);
   font-size: 11.5px;

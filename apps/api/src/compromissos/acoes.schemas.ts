@@ -15,7 +15,7 @@ export const registroManualBodySchema = {
   required: ['texto'],
   additionalProperties: false,
   properties: {
-    texto: { type: 'string' },
-    data:  { type: 'string' },
+    texto: { type: 'string', minLength: 1, maxLength: 2000 },
+    data:  { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' },
   },
 } as const

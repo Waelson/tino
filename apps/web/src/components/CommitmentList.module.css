@@ -111,6 +111,17 @@
   color: var(--accent-ink);
 }
 
+.donoLink {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  transition: text-decoration-color 0.12s;
+}
+
+.donoLink:hover {
+  text-decoration-color: currentColor;
+}
+
 .muted {
   color: var(--muted);
 }

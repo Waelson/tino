@@ -18,6 +18,8 @@ export function FilterChips() {
   const [searchParams, setSearchParams] = useSearchParams()
   const filtroAtual = (searchParams.get('filtro') ?? 'ativas') as FiltroLista
   const qAtivo = !!searchParams.get('q')
+  const donoAtivo = searchParams.get('dono')
+  const desabilitar = qAtivo || !!donoAtivo
 
   const { data: metricas } = useQuery({
     queryKey: ['metricas'],
@@ -25,13 +27,22 @@ export function FilterChips() {
   })
 
   function selecionar(filtro: FiltroLista) {
-    if (qAtivo) return
+    if (desabilitar) return
     const params: Record<string, string> = filtro === 'ativas' ? {} : { filtro }
     setSearchParams(params)
   }
 
   return (
     <div className={styles.filters} role="tablist" aria-label="Filtrar compromissos">
+      {donoAtivo && (
+        <button
+          className={`${styles.chip} ${styles.chipDono}`}
+          onClick={() => setSearchParams({})}
+          aria-label={`Remover filtro por dono: ${donoAtivo}`}
+        >
+          {donoAtivo} ×
+        </button>
+      )}
       {CHIPS.map((chip) => {
         const ativo = filtroAtual === chip.id
         const contador = chip.contador !== undefined ? metricas?.[chip.contador] : undefined
@@ -40,9 +51,9 @@ export function FilterChips() {
             key={chip.id}
             role="tab"
             aria-selected={ativo}
-            disabled={qAtivo}
-            aria-disabled={qAtivo}
-            className={`${styles.chip} ${ativo ? styles.chipOn : ''} ${qAtivo ? styles.chipDisabled : ''}`}
+            disabled={desabilitar}
+            aria-disabled={desabilitar}
+            className={`${styles.chip} ${ativo ? styles.chipOn : ''} ${desabilitar ? styles.chipDisabled : ''}`}
             onClick={() => selecionar(chip.id)}
           >
             {chip.label}

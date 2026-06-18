@@ -46,6 +46,7 @@ export async function listar(params: {
   hoje: string
   filtro?: FiltroLista
   q?: string
+  dono?: string
 }): Promise<CompromissoRow[]> {
   let base = db
     .selectFrom('compromissos as c')
@@ -77,6 +78,16 @@ export async function listar(params: {
   }
 
   const filtro = params.filtro ?? 'ativas'
+
+  if (params.dono?.trim()) {
+    const nome = params.dono.trim()
+    return base
+      .where(sql<boolean>`LOWER(TRIM(c.dono)) = LOWER(TRIM(${nome}))`)
+      .orderBy(sql`(c.prazo IS NULL)`)
+      .orderBy('c.prazo', 'asc')
+      .orderBy('c.criada_em', 'desc')
+      .execute()
+  }
 
   if (filtro === 'todas') {
     return base

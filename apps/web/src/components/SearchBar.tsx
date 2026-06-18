@@ -16,10 +16,12 @@ export function SearchBar() {
   // Debounce: atualiza a URL 300 ms após o usuário parar de digitar
   useEffect(() => {
     const timer = setTimeout(() => {
+      const donoAtual = searchParams.get('dono')
       const params: Record<string, string> = {}
+      if (donoAtual) params['dono'] = donoAtual
       if (valor.trim()) {
-        params['filtro'] = 'todas'
         params['q'] = valor.trim()
+        if (!donoAtual) params['filtro'] = 'todas'
       }
       setSearchParams(params, { replace: true })
     }, 300)
@@ -29,7 +31,10 @@ export function SearchBar() {
 
   function limpar() {
     setValor('')
-    setSearchParams({}, { replace: true })
+    const donoAtual = searchParams.get('dono')
+    const params: Record<string, string> = {}
+    if (donoAtual) params['dono'] = donoAtual
+    setSearchParams(params, { replace: true })
   }
 
   return (
