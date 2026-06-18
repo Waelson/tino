@@ -40,6 +40,7 @@ const EMPTY_MESSAGES: Record<FiltroLista, { principal: string; dica?: string }> 
   comigo:     { principal: 'Nenhum compromisso com você agora.' },
   delegadas:  { principal: 'Nenhuma delegação no momento.' },
   risco:      { principal: 'Nenhum compromisso em risco no momento. Bom sinal.' },
+  criticas:   { principal: 'Nenhum compromisso marcado como crítico.' },
   atencao:    { principal: 'Nada precisa de atenção. Bom sinal.' },
   concluidas: { principal: 'Nenhum compromisso concluído ainda.' },
   todas:      { principal: 'Nenhum compromisso encontrado.' },
@@ -143,6 +144,9 @@ function CommitmentRow({ item, onFiltrarDono }: { item: Compromisso; onFiltrarDo
     >
       <td className={styles.tdTitulo}>
         <span className={styles.titulo}>{item.titulo}</span>
+        {item.critica && item.status !== 'concluida' && (
+          <span className={`${styles.flag} ${styles.flagCritica}`}>★ crítico</span>
+        )}
         {flag === 'prazo' && (
           <span className={styles.flag}>prazo estourado</span>
         )}

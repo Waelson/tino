@@ -26,6 +26,7 @@ export interface CompromissosTable {
   prazo: string | null       // DATE → string 'YYYY-MM-DD'
   checkpoint: string | null  // DATE → string 'YYYY-MM-DD'
   status: Status
+  critica: Generated<number>  // TINYINT(1) — DEFAULT 0
   descartada_em: Date | null
   criada_em: Generated<Date>
   atualizada_em: Generated<Date>

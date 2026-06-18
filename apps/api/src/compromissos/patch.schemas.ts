@@ -18,5 +18,6 @@ export const patchBodySchema = {
       type: 'string',
       enum: ['fazer', 'delegada', 'adiada'],
     },
+    critica: { type: 'boolean' },
   },
 } as const

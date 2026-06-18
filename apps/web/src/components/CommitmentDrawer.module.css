@@ -331,3 +331,25 @@
 
 .btnDescartar:hover { border-color: var(--red); color: var(--red); }
 .btnDescartar:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+
+/* Toggle criticidade */
+.criticaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--surface-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.14s;
+}
+.criticaBtn:hover { border-color: #7c3aed; color: #7c3aed; }
+.criticaBtnOn {
+  color: #7c3aed;
+  background: #f5f3ff;
+  border-color: #7c3aed;
+}

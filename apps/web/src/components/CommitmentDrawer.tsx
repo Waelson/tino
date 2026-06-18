@@ -170,6 +170,7 @@ function FichaForm({ data, id }: { data: CompromissoDetalhe; id: number }) {
   const [prazo, setPrazo] = useState(data.prazo ?? '')
   const [checkpoint, setCheckpoint] = useState(data.checkpoint ?? '')
   const [status, setStatus] = useState(data.status)
+  const [critica, setCritica] = useState(data.critica)
 
   const [saved, setSaved] = useState({
     titulo: data.titulo,
@@ -190,6 +191,7 @@ function FichaForm({ data, id }: { data: CompromissoDetalhe; id: number }) {
     setPrazo(data.prazo ?? '')
     setCheckpoint(data.checkpoint ?? '')
     setStatus(data.status)
+    setCritica(data.critica)
     setSaved({
       titulo: data.titulo,
       dono: data.dono ?? '',
@@ -319,6 +321,21 @@ function FichaForm({ data, id }: { data: CompromissoDetalhe; id: number }) {
           <option value="aguardando">Aguardando</option>
           <option value="concluida">Concluída</option>
         </select>
+      </div>
+
+      <div className={styles.field}>
+        <label>Criticidade</label>
+        <button
+          type="button"
+          className={`${styles.criticaBtn} ${critica ? styles.criticaBtnOn : ''}`}
+          onClick={() => {
+            const novo = !critica
+            setCritica(novo)
+            patchMutation.mutate({ critica: novo })
+          }}
+        >
+          {critica ? '★ Crítico' : '☆ Marcar como crítico'}
+        </button>
       </div>
     </div>
   )

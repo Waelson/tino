@@ -19,6 +19,7 @@ export interface PatchBody {
   checkpoint?: string | null
   status?: string
   tipo?: string
+  critica?: boolean
 }
 
 // ─── Estado resultante (interno) ─────────────────────────────────────────────
@@ -164,8 +165,12 @@ export async function editarCompromisso(
 
     const algumaMudanca = Object.values(mudou).some(Boolean)
 
+    // critica é fato de negócio — detectado separadamente (I-06 não se aplica)
+    const criticaMudou =
+      body.critica !== undefined && Boolean(body.critica) !== Boolean(comp.critica)
+
     // Noop: nenhum campo realmente mudou
-    if (!algumaMudanca) {
+    if (!algumaMudanca && !criticaMudou) {
       const atual = await findByIdTrx(trx, { id, usuarioId, hoje })
       if (!atual) throw new Error('Erro interno.')
       return mapToApi(atual)
@@ -180,10 +185,17 @@ export async function editarCompromisso(
       ...(mudou.prazo      && { prazo:      resultado.prazo }),
       ...(mudou.checkpoint && { checkpoint: resultado.checkpoint }),
       ...(mudou.status     && { status:     resultado.status as Status }),
+      ...(criticaMudou     && { critica:    body.critica ? 1 : 0 }),
     })
 
     // Entradas automáticas
     for (const texto of entradas) {
+      await criarEntrada(trx, { compromissoId: id, data: hoje, texto, origem: 'sistema' })
+    }
+
+    // Log de criticidade (I-05 — append-only, só quando muda)
+    if (criticaMudou) {
+      const texto = body.critica ? 'Marcado como crítico.' : 'Criticidade removida.'
       await criarEntrada(trx, { compromissoId: id, data: hoje, texto, origem: 'sistema' })
     }
 

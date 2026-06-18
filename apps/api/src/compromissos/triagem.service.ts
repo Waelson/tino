@@ -197,6 +197,7 @@ async function processarDescartar(
     checkpointVencido: false,
     prazoEstourado: false,
     prazoEmRisco: false,
+    critica: false,
     precisaAtencao: false,
     comigo: false,
     criadaEm: new Date().toISOString(),

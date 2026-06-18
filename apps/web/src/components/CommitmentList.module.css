@@ -110,6 +110,10 @@
   color: var(--amber);
 }
 
+.flagCritica {
+  color: #7c3aed;
+}
+
 .donoEu {
   font-weight: 600;
   color: var(--accent-ink);

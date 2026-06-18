@@ -38,6 +38,7 @@ export interface Compromisso {
   checkpointVencido: boolean
   prazoEstourado: boolean
   prazoEmRisco: boolean
+  critica: boolean
   precisaAtencao: boolean
   comigo: boolean
   criadaEm: string
@@ -82,6 +83,7 @@ export interface PatchBody {
   checkpoint?: string | null
   status?: string
   tipo?: string
+  critica?: boolean
 }
 
 export interface DonoMetricas {
@@ -106,6 +108,7 @@ export interface Metricas {
   aguardandoTriagem: number
   precisamAtencao: number
   emRisco: number
+  criticas: number
 }
 
 export interface CompromissoConcluido {

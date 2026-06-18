@@ -43,6 +43,7 @@ const BASE = {
   checkpointVencido: false,
   prazoEstourado: false,
   prazoEmRisco: false,
+  critica: false,
   precisaAtencao: false,
   comigo: false,
   criadaEm: '2026-06-01T10:00:00.000Z',

@@ -48,6 +48,7 @@ export interface MetricasApi {
   aguardandoTriagem: number
   precisamAtencao: number
   emRisco: number
+  criticas: number
 }
 
 export interface CompromissoApi {
@@ -61,6 +62,7 @@ export interface CompromissoApi {
   checkpointVencido: boolean
   prazoEstourado: boolean
   prazoEmRisco: boolean
+  critica: boolean
   precisaAtencao: boolean
   comigo: boolean
   criadaEm: string
@@ -109,6 +111,7 @@ export async function obterMetricas(usuarioId: bigint): Promise<MetricasApi> {
     aguardandoTriagem: row.aguardando_triagem,
     precisamAtencao: row.precisa_atencao,
     emRisco: row.em_risco,
+    criticas: row.criticas,
   }
 }
 
@@ -133,6 +136,7 @@ export function mapToApi(row: CompromissoRow): CompromissoApi {
     checkpointVencido,
     prazoEstourado,
     prazoEmRisco,
+    critica: Boolean(row.critica),
     precisaAtencao,
     comigo,
     criadaEm: row.criada_em.toISOString(),

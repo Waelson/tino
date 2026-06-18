@@ -4,7 +4,7 @@ import { getMetricas } from '../api/metricas.js'
 // @ts-ignore
 import styles from './FilterChips.module.css'
 
-export type FiltroLista = 'ativas' | 'semana' | 'comigo' | 'delegadas' | 'risco' | 'atencao' | 'concluidas' | 'todas'
+export type FiltroLista = 'ativas' | 'semana' | 'comigo' | 'delegadas' | 'risco' | 'criticas' | 'atencao' | 'concluidas' | 'todas'
 
 const CHIPS: { id: FiltroLista; label: string; contador?: keyof import('../types/api.js').Metricas }[] = [
   { id: 'ativas',     label: 'Ativas',       contador: 'ativos' },
@@ -12,6 +12,7 @@ const CHIPS: { id: FiltroLista; label: string; contador?: keyof import('../types
   { id: 'comigo',     label: 'Comigo',       contador: 'comigo' },
   { id: 'delegadas',  label: 'Delegadas' },
   { id: 'risco',      label: 'Em risco',     contador: 'emRisco' },
+  { id: 'criticas',   label: 'Críticas',     contador: 'criticas' },
   { id: 'atencao',    label: 'Atenção',      contador: 'precisamAtencao' },
   { id: 'concluidas', label: 'Concluídas' },
 ]

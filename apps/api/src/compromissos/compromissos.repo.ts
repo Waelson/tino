@@ -17,6 +17,8 @@ export interface CompromissoRow {
   descartada_em: Date | null
   criada_em: Date
   atualizada_em: Date
+  // Coluna de negócio persistida
+  critica: number
   // Colunas derivadas (0 | 1 do MySQL)
   checkpoint_vencido: number
   prazo_estourado: number
@@ -40,7 +42,7 @@ export async function capturar(
   return result.insertId as bigint
 }
 
-export type FiltroLista = 'ativas' | 'comigo' | 'delegadas' | 'atencao' | 'concluidas' | 'todas' | 'semana' | 'risco'
+export type FiltroLista = 'ativas' | 'comigo' | 'delegadas' | 'atencao' | 'concluidas' | 'todas' | 'semana' | 'risco' | 'criticas'
 
 export async function listar(params: {
   usuarioId: bigint
@@ -63,6 +65,7 @@ export async function listar(params: {
       'c.prazo',
       'c.checkpoint',
       'c.status',
+      'c.critica',
       'c.descartada_em',
       'c.criada_em',
       'c.atualizada_em',
@@ -88,6 +91,16 @@ export async function listar(params: {
     const nome = params.dono.trim()
     return base
       .where(sql<boolean>`LOWER(TRIM(c.dono)) = LOWER(TRIM(${nome}))`)
+      .orderBy(sql`(c.prazo IS NULL)`)
+      .orderBy('c.prazo', 'asc')
+      .orderBy('c.criada_em', 'desc')
+      .execute()
+  }
+
+  if (filtro === 'criticas') {
+    return base
+      .where('c.status', '!=', 'concluida')
+      .where('c.critica', '=', 1)
       .orderBy(sql`(c.prazo IS NULL)`)
       .orderBy('c.prazo', 'asc')
       .orderBy('c.criada_em', 'desc')
@@ -163,6 +176,7 @@ export interface MetricasRow {
   precisa_atencao: number
   aguardando_triagem: number
   em_risco: number
+  criticas: number
 }
 
 export async function metricas(params: {
@@ -188,6 +202,7 @@ export async function metricas(params: {
       sql<number>`COALESCE(SUM((checkpoint IS NOT NULL AND checkpoint < ${params.hoje}) OR (prazo IS NOT NULL AND prazo < ${params.hoje}) OR status = 'bloqueada'), 0)`.as(
         'precisa_atencao',
       ),
+      sql<number>`COALESCE(SUM(critica = 1), 0)`.as('criticas'),
     ])
     .where('usuario_id', '=', params.usuarioId)
     .where('descartada_em', 'is', null)
@@ -224,6 +239,7 @@ export async function metricas(params: {
     precisa_atencao: Number(ativosRow.precisa_atencao),
     aguardando_triagem: Number(triagemRow.aguardando_triagem),
     em_risco: Number(riscoRow.em_risco),
+    criticas: Number(ativosRow.criticas),
   }
 }
 
@@ -239,6 +255,7 @@ export async function listarTriagem(params: { usuarioId: bigint }): Promise<Comp
       'c.prazo',
       'c.checkpoint',
       'c.status',
+      'c.critica',
       'c.descartada_em',
       'c.criada_em',
       'c.atualizada_em',
@@ -269,6 +286,7 @@ function selectCompromissoComDeriv(
       'c.prazo',
       'c.checkpoint',
       'c.status',
+      'c.critica',
       'c.descartada_em',
       'c.criada_em',
       'c.atualizada_em',
@@ -384,6 +402,7 @@ export async function atualizarPatch(
     checkpoint?: string | null
     status?: Status
     tipo?: Tipo
+    critica?: number
   },
 ): Promise<void> {
   const { id, ...fields } = params
