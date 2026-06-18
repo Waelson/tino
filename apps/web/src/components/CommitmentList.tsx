@@ -148,7 +148,7 @@ function CommitmentRow({ item, onFiltrarDono }: { item: Compromisso; onFiltrarDo
           <span className={`${styles.flag} ${styles.flagCritica}`}>★ crítico</span>
         )}
         {flag === 'prazo' && (
-          <span className={styles.flag}>prazo estourado</span>
+          <span className={styles.flag}>! prazo estourado</span>
         )}
         {flag === 'checkpoint' && (
           <span className={styles.flag}>checkpoint vencido</span>

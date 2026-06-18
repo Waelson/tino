@@ -14,7 +14,6 @@ export function AppShell({ children }: AppShellProps) {
         <div className={styles.brand}>
           <span className={styles.dot} aria-hidden="true" />
           <h1 className={styles.title}>Radar</h1>
-          <span className={styles.sub}>controle de compromissos do Tech Lead</span>
         </div>
         <div className={styles.userArea}>
           {usuario && <span className={styles.userName}>{usuario.nome}</span>}
