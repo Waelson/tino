@@ -25,7 +25,7 @@ function baseMock() {
   return {
     id: 1, titulo: 'Item teste', dono: 'Eu', tipo: 'fazer' as const,
     prazo: null, checkpoint: null, status: 'nao_iniciada',
-    checkpointVencido: false, prazoEstourado: false,
+    checkpointVencido: false, prazoEstourado: false, prazoEmRisco: false,
     precisaAtencao: false, comigo: true,
     criadaEm: '2026-01-01T00:00:00Z', atualizadaEm: '2026-01-01T00:00:00Z',
   }

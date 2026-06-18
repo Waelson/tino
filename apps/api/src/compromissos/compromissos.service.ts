@@ -10,8 +10,10 @@ import {
   listarReferencias,
   listarRegistro,
   findById,
+  listarRiscoComRegistro as listarRiscoComRegistroRepo,
   type CompromissoRow,
   type FiltroLista,
+  type ItemRiscoContexto,
 } from './compromissos.repo.js'
 
 // ─── Tipos de saída da API (camelCase, serialize-safe) ───────────────────────
@@ -45,6 +47,7 @@ export interface MetricasApi {
   alertaCarga: boolean
   aguardandoTriagem: number
   precisamAtencao: number
+  emRisco: number
 }
 
 export interface CompromissoApi {
@@ -57,6 +60,7 @@ export interface CompromissoApi {
   status: string
   checkpointVencido: boolean
   prazoEstourado: boolean
+  prazoEmRisco: boolean
   precisaAtencao: boolean
   comigo: boolean
   criadaEm: string
@@ -91,7 +95,9 @@ export function calcularCargaEAlerta(
 
 export async function obterMetricas(usuarioId: bigint): Promise<MetricasApi> {
   const hoje = hojeEmSP()
-  const row = await metricasRepo({ usuarioId, hoje })
+  const prox3Dias = addDias(hoje, 3)
+  const limiarSilencio = addDias(hoje, -5)
+  const row = await metricasRepo({ usuarioId, hoje, prox3Dias, limiarSilencio })
   const { carga, alertaCarga } = calcularCargaEAlerta(row.ativos, row.comigo)
   return {
     ativos: row.ativos,
@@ -102,6 +108,7 @@ export async function obterMetricas(usuarioId: bigint): Promise<MetricasApi> {
     alertaCarga,
     aguardandoTriagem: row.aguardando_triagem,
     precisamAtencao: row.precisa_atencao,
+    emRisco: row.em_risco,
   }
 }
 
@@ -111,6 +118,7 @@ export function mapToApi(row: CompromissoRow): CompromissoApi {
   const isFlaggable = row.tipo !== null && row.status !== 'concluida'
   const checkpointVencido = isFlaggable ? Boolean(row.checkpoint_vencido) : false
   const prazoEstourado = isFlaggable ? Boolean(row.prazo_estourado) : false
+  const prazoEmRisco = isFlaggable ? Boolean(row.prazo_em_risco) : false
   const comigo = isFlaggable ? Boolean(row.comigo) : false
   const precisaAtencao = checkpointVencido || prazoEstourado || row.status === 'bloqueada'
 
@@ -124,6 +132,7 @@ export function mapToApi(row: CompromissoRow): CompromissoApi {
     status: row.status,
     checkpointVencido,
     prazoEstourado,
+    prazoEmRisco,
     precisaAtencao,
     comigo,
     criadaEm: row.criada_em.toISOString(),
@@ -167,6 +176,14 @@ export async function capturar(usuarioId: bigint, titulo: string): Promise<Compr
 }
 
 export { FiltroLista }
+export type { ItemRiscoContexto }
+
+export async function listarRiscoComRegistro(usuarioId: bigint): Promise<ItemRiscoContexto[]> {
+  const hoje = hojeEmSP()
+  const prox3Dias = addDias(hoje, 3)
+  const limiarSilencio = addDias(hoje, -5)
+  return listarRiscoComRegistroRepo({ usuarioId, hoje, prox3Dias, limiarSilencio })
+}
 
 export async function listar(
   usuarioId: bigint,
@@ -176,9 +193,13 @@ export async function listar(
 ): Promise<CompromissoApi[]> {
   const hoje = hojeEmSP()
   const prox7Dias = addDias(hoje, 7)
+  const prox3Dias = addDias(hoje, 3)
+  const limiarSilencio = addDias(hoje, -5)
   const rows = await listarRepo({
     usuarioId,
     hoje,
+    prox3Dias,
+    limiarSilencio,
     filtro,
     ...(q !== undefined && { q }),
     ...(dono !== undefined && { dono }),

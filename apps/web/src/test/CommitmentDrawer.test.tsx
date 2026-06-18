@@ -42,6 +42,7 @@ const BASE = {
   status: 'nao_iniciada',
   checkpointVencido: false,
   prazoEstourado: false,
+  prazoEmRisco: false,
   precisaAtencao: false,
   comigo: false,
   criadaEm: '2026-06-01T10:00:00.000Z',

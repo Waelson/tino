@@ -8,6 +8,7 @@ import { FilterChips } from '../components/FilterChips.js'
 import { MetricsBar } from '../components/MetricsBar.js'
 import { NavPrincipal, type Secao } from '../components/NavPrincipal.js'
 import { SearchBar } from '../components/SearchBar.js'
+import { RiscoBriefing } from '../components/RiscoBriefing.js'
 import { TeamPanel } from '../components/TeamPanel.js'
 import { TriageQueue } from '../components/TriageQueue.js'
 import { WeeklyReview } from '../components/WeeklyReview.js'
@@ -16,6 +17,7 @@ import { ToastProvider } from '../components/Toast.js'
 export function Painel() {
   const [searchParams] = useSearchParams()
   const secao = (searchParams.get('secao') ?? 'compromissos') as Secao
+  const filtro = searchParams.get('filtro') ?? 'ativas'
 
   const { data: triagemData } = useQuery({
     queryKey: ['triagem'],
@@ -35,6 +37,7 @@ export function Painel() {
             <TriageQueue itens={triagemData?.itens ?? []} />
             <FilterChips />
             <SearchBar />
+            {filtro === 'risco' && <RiscoBriefing />}
             <CommitmentList />
           </>
         )}

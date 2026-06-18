@@ -19,7 +19,7 @@ function makeItem(id: number, titulo: string): Compromisso {
   return {
     id, titulo, dono: null, tipo: null,
     prazo: null, checkpoint: null, status: 'nao_iniciada',
-    checkpointVencido: false, prazoEstourado: false,
+    checkpointVencido: false, prazoEstourado: false, prazoEmRisco: false,
     precisaAtencao: false, comigo: false,
     criadaEm: new Date().toISOString(), atualizadaEm: new Date().toISOString(),
   }

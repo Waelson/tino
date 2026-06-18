@@ -37,6 +37,7 @@ export interface Compromisso {
   status: string
   checkpointVencido: boolean
   prazoEstourado: boolean
+  prazoEmRisco: boolean
   precisaAtencao: boolean
   comigo: boolean
   criadaEm: string
@@ -104,6 +105,7 @@ export interface Metricas {
   alertaCarga: boolean
   aguardandoTriagem: number
   precisamAtencao: number
+  emRisco: number
 }
 
 export interface CompromissoConcluido {
@@ -164,3 +166,15 @@ export interface NarrativaIA {
 export type NarrativaCacheResponse =
   | { disponivel: false; semana: string }
   | ({ disponivel: true } & NarrativaIA)
+
+export interface RiscoBriefing {
+  briefing: string
+  acaoPrioritaria: string
+  geradoEm: string
+  modeloUsado: string
+  estaAtualizado: boolean
+}
+
+export type RiscoBriefingResponse =
+  | { disponivel: false }
+  | ({ disponivel: true } & RiscoBriefing)

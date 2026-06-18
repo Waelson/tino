@@ -21,6 +21,7 @@ export interface CompromissoRow {
   checkpoint_vencido: number
   prazo_estourado: number
   comigo: number
+  prazo_em_risco: number
 }
 
 export async function capturar(
@@ -39,12 +40,14 @@ export async function capturar(
   return result.insertId as bigint
 }
 
-export type FiltroLista = 'ativas' | 'comigo' | 'delegadas' | 'atencao' | 'concluidas' | 'todas' | 'semana'
+export type FiltroLista = 'ativas' | 'comigo' | 'delegadas' | 'atencao' | 'concluidas' | 'todas' | 'semana' | 'risco'
 
 export async function listar(params: {
   usuarioId: bigint
   hoje: string
   prox7Dias?: string
+  prox3Dias: string
+  limiarSilencio: string
   filtro?: FiltroLista
   q?: string
   dono?: string
@@ -68,6 +71,7 @@ export async function listar(params: {
       ),
       sql<number>`(c.prazo IS NOT NULL AND c.prazo < ${params.hoje})`.as('prazo_estourado'),
       sql<number>`(c.tipo = 'fazer' OR LOWER(TRIM(COALESCE(c.dono,''))) = 'eu')`.as('comigo'),
+      sql<number>`(c.prazo IS NOT NULL AND c.prazo >= ${params.hoje} AND c.prazo <= ${params.prox3Dias} AND NOT EXISTS (SELECT 1 FROM registro_entradas re2 WHERE re2.compromisso_id = c.id AND re2.criada_em >= ${params.limiarSilencio}))`.as('prazo_em_risco'),
     ])
     .where('c.usuario_id', '=', params.usuarioId)
     .where('c.descartada_em', 'is', null)
@@ -87,6 +91,14 @@ export async function listar(params: {
       .orderBy(sql`(c.prazo IS NULL)`)
       .orderBy('c.prazo', 'asc')
       .orderBy('c.criada_em', 'desc')
+      .execute()
+  }
+
+  if (filtro === 'risco') {
+    return base
+      .where('c.status', '!=', 'concluida')
+      .where(sql<boolean>`(c.prazo IS NOT NULL AND c.prazo >= ${params.hoje} AND c.prazo <= ${params.prox3Dias} AND NOT EXISTS (SELECT 1 FROM registro_entradas re2 WHERE re2.compromisso_id = c.id AND re2.criada_em >= ${params.limiarSilencio}))`)
+      .orderBy('c.prazo', 'asc')
       .execute()
   }
 
@@ -150,11 +162,14 @@ export interface MetricasRow {
   comigo: number
   precisa_atencao: number
   aguardando_triagem: number
+  em_risco: number
 }
 
 export async function metricas(params: {
   usuarioId: bigint
   hoje: string
+  prox3Dias: string
+  limiarSilencio: string
 }): Promise<MetricasRow> {
   // Query 1 — §6.2 canônica + precisamAtencao (uma passada, sem N+1)
   const ativosRow = await db
@@ -189,6 +204,18 @@ export async function metricas(params: {
     .where('tipo', 'is', null)
     .executeTakeFirstOrThrow()
 
+  // Query 3 — compromissos em risco (prazo ≤ hoje+3 e sem registro nos últimos 5 dias)
+  const riscoRow = await db
+    .selectFrom('compromissos as c')
+    .select(sql<number>`COUNT(*)`.as('em_risco'))
+    .where('c.usuario_id', '=', params.usuarioId)
+    .where('c.descartada_em', 'is', null)
+    .where('c.tipo', 'is not', null)
+    .where('c.status', '!=', 'concluida')
+    .where(sql<boolean>`(c.prazo IS NOT NULL AND c.prazo >= ${params.hoje} AND c.prazo <= ${params.prox3Dias})`)
+    .where(sql<boolean>`NOT EXISTS (SELECT 1 FROM registro_entradas re WHERE re.compromisso_id = c.id AND re.criada_em >= ${params.limiarSilencio})`)
+    .executeTakeFirstOrThrow()
+
   return {
     ativos: Number(ativosRow.ativos),
     checkpoints_vencidos: Number(ativosRow.checkpoints_vencidos),
@@ -196,6 +223,7 @@ export async function metricas(params: {
     comigo: Number(ativosRow.comigo),
     precisa_atencao: Number(ativosRow.precisa_atencao),
     aguardando_triagem: Number(triagemRow.aguardando_triagem),
+    em_risco: Number(riscoRow.em_risco),
   }
 }
 
@@ -217,6 +245,7 @@ export async function listarTriagem(params: { usuarioId: bigint }): Promise<Comp
       sql<number>`0`.as('checkpoint_vencido'),
       sql<number>`0`.as('prazo_estourado'),
       sql<number>`0`.as('comigo'),
+      sql<number>`0`.as('prazo_em_risco'),
     ])
     .where('c.usuario_id', '=', params.usuarioId)
     .where('c.descartada_em', 'is', null)
@@ -248,6 +277,7 @@ function selectCompromissoComDeriv(
       ),
       sql<number>`(c.prazo IS NOT NULL AND c.prazo < ${params.hoje})`.as('prazo_estourado'),
       sql<number>`(c.tipo = 'fazer' OR LOWER(TRIM(COALESCE(c.dono,''))) = 'eu')`.as('comigo'),
+      sql<number>`0`.as('prazo_em_risco'),
     ])
     .where('c.id', '=', params.id)
     .where('c.usuario_id', '=', params.usuarioId)
@@ -397,6 +427,84 @@ export async function equipe(params: {
     .orderBy(sql`COUNT(*) DESC`)
     .orderBy('dono', 'asc')
     .execute() as unknown as DonoMetricasRow[]
+}
+
+// ─── Contexto de risco para IA ────────────────────────────────────────────────
+
+export interface ItemRiscoContexto {
+  id: number
+  titulo: string
+  dono: string | null
+  prazo: string
+  diasSemRegistro: number
+  ultimasEntradas: { data: string; texto: string; origem: string }[]
+}
+
+export async function listarRiscoComRegistro(params: {
+  usuarioId: bigint
+  hoje: string
+  prox3Dias: string
+  limiarSilencio: string
+}): Promise<ItemRiscoContexto[]> {
+  const itens = await db
+    .selectFrom('compromissos as c')
+    .select([
+      'c.id',
+      'c.titulo',
+      'c.dono',
+      'c.prazo',
+      sql<Date | null>`(SELECT MAX(re.criada_em) FROM registro_entradas re WHERE re.compromisso_id = c.id)`.as('ultima_em'),
+    ])
+    .where('c.usuario_id', '=', params.usuarioId)
+    .where('c.descartada_em', 'is', null)
+    .where('c.tipo', 'is not', null)
+    .where('c.status', '!=', 'concluida')
+    .where(sql<boolean>`(c.prazo IS NOT NULL AND c.prazo >= ${params.hoje} AND c.prazo <= ${params.prox3Dias})`)
+    .where(sql<boolean>`NOT EXISTS (SELECT 1 FROM registro_entradas re2 WHERE re2.compromisso_id = c.id AND re2.criada_em >= ${params.limiarSilencio})`)
+    .orderBy('c.prazo', 'asc')
+    .execute()
+
+  if (itens.length === 0) return []
+
+  const ids = itens.map((i) => i.id)
+
+  const todasEntradas = await db
+    .selectFrom('registro_entradas')
+    .select(['compromisso_id', 'data', 'texto', 'origem', 'criada_em'])
+    .where('compromisso_id', 'in', ids)
+    .orderBy('criada_em', 'desc')
+    .orderBy('id', 'desc')
+    .execute()
+
+  const entradasPorItem = new Map<bigint, { data: string; texto: string; origem: string }[]>()
+  for (const e of todasEntradas) {
+    const arr = entradasPorItem.get(e.compromisso_id) ?? []
+    if (arr.length < 3) {
+      arr.push({
+        data: String(e.data).substring(0, 10),
+        texto: e.texto,
+        origem: e.origem,
+      })
+      entradasPorItem.set(e.compromisso_id, arr)
+    }
+  }
+
+  const hojeMs = new Date(params.hoje + 'T12:00:00Z').getTime()
+  return itens.map((item) => {
+    const ultimaEm = item.ultima_em
+    let diasSemRegistro = 999
+    if (ultimaEm) {
+      diasSemRegistro = Math.max(0, Math.floor((hojeMs - new Date(ultimaEm).getTime()) / 86400000))
+    }
+    return {
+      id: Number(item.id),
+      titulo: item.titulo,
+      dono: item.dono,
+      prazo: String(item.prazo).substring(0, 10),
+      diasSemRegistro,
+      ultimasEntradas: entradasPorItem.get(item.id) ?? [],
+    }
+  })
 }
 
 export async function atualizarTriagem(

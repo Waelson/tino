@@ -88,7 +88,7 @@ describe('DelegarPopover', () => {
     const compromissoMock = {
       id: 42, titulo: 'T', dono: 'Marina', tipo: 'delegada' as const,
       prazo: '2026-12-31', checkpoint: '2026-12-15', status: 'nao_iniciada',
-      checkpointVencido: false, prazoEstourado: false,
+      checkpointVencido: false, prazoEstourado: false, prazoEmRisco: false,
       precisaAtencao: false, comigo: false,
       criadaEm: new Date().toISOString(), atualizadaEm: new Date().toISOString(),
     }

@@ -24,6 +24,7 @@ const metricasMock = {
   alertaCarga: false,
   aguardandoTriagem: 0,
   precisamAtencao: 4,
+  emRisco: 1,
 }
 
 beforeEach(() => {

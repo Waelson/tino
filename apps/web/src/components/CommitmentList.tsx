@@ -39,6 +39,7 @@ const EMPTY_MESSAGES: Record<FiltroLista, { principal: string; dica?: string }> 
   semana:     { principal: 'Nenhum compromisso para esta semana.' },
   comigo:     { principal: 'Nenhum compromisso com você agora.' },
   delegadas:  { principal: 'Nenhuma delegação no momento.' },
+  risco:      { principal: 'Nenhum compromisso em risco no momento. Bom sinal.' },
   atencao:    { principal: 'Nada precisa de atenção. Bom sinal.' },
   concluidas: { principal: 'Nenhum compromisso concluído ainda.' },
   todas:      { principal: 'Nenhum compromisso encontrado.' },
@@ -119,10 +120,11 @@ function CommitmentRow({ item, onFiltrarDono }: { item: Compromisso; onFiltrarDo
   const statusLabel = STATUS_LABELS[item.status] ?? item.status
   const statusClass = STATUS_CLASS[item.status] ?? styles.bNao
 
-  // A-24: prazoEstourado tem precedência sobre checkpointVencido — flag única
-  const flag: 'prazo' | 'checkpoint' | null =
+  // A-24: prazoEstourado tem precedência sobre checkpointVencido; prazoEmRisco é mais baixo
+  const flag: 'prazo' | 'checkpoint' | 'risco' | null =
     item.prazoEstourado ? 'prazo' :
     item.checkpointVencido ? 'checkpoint' :
+    item.prazoEmRisco ? 'risco' :
     null
 
   function abrir() {
@@ -146,6 +148,9 @@ function CommitmentRow({ item, onFiltrarDono }: { item: Compromisso; onFiltrarDo
         )}
         {flag === 'checkpoint' && (
           <span className={styles.flag}>checkpoint vencido</span>
+        )}
+        {flag === 'risco' && (
+          <span className={`${styles.flag} ${styles.flagAmber}`}>prazo em risco</span>
         )}
       </td>
       <td>
