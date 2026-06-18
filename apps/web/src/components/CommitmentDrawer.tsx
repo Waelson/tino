@@ -43,8 +43,8 @@ function useFocusTrap(ref: React.RefObject<HTMLElement | null>, onEsc: () => voi
       if (e.key !== 'Tab') return
       const nodes = focusable()
       if (nodes.length === 0) return
-      const first = nodes[0]
-      const last = nodes[nodes.length - 1]
+      const first = nodes[0]!
+      const last = nodes[nodes.length - 1]!
       if (e.shiftKey && document.activeElement === first) {
         e.preventDefault()
         last.focus()

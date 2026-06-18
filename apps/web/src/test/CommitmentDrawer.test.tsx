@@ -252,7 +252,7 @@ describe('A-19 — focus trap e devolução de foco', () => {
     expect(focusable.length).toBeGreaterThan(1)
 
     // Foca o último elemento e pressiona Tab
-    focusable[focusable.length - 1].focus()
+    focusable[focusable.length - 1]!.focus()
     await user.tab()
 
     // O foco deve ter voltado para o primeiro
@@ -274,7 +274,7 @@ describe('A-19 — focus trap e devolução de foco', () => {
     expect(focusable.length).toBeGreaterThan(1)
 
     // Foca o primeiro e pressiona Shift+Tab
-    focusable[0].focus()
+    focusable[0]!.focus()
     await user.tab({ shift: true })
 
     expect(document.activeElement).toBe(focusable[focusable.length - 1])

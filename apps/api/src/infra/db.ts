@@ -82,6 +82,6 @@ export const db = new Kysely<Database>({
       password: config.DB_PASSWORD,
       timezone: '+00:00',
       decimalNumbers: true,
-    }),
+    }) as any,
   }),
 })

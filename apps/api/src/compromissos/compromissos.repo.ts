@@ -1,7 +1,7 @@
 import { sql } from 'kysely'
 import type { Kysely, Transaction } from 'kysely'
 import { db } from '../infra/db.js'
-import type { Database, Referencia, RegistroEntrada } from '../infra/db.js'
+import type { Database, Referencia, RegistroEntrada, Status } from '../infra/db.js'
 import type { Tipo } from '../infra/db.js'
 
 // Tipo retornado pelas queries com colunas derivadas

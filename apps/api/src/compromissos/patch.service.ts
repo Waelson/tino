@@ -175,7 +175,7 @@ export async function editarCompromisso(
     await atualizarPatch(trx, {
       id,
       ...(mudou.titulo     && { titulo:     resultado.titulo }),
-      ...(mudou.tipo       && { tipo:       resultado.tipo ?? undefined }),
+      ...(mudou.tipo       && resultado.tipo != null && { tipo: resultado.tipo }),
       ...(mudou.dono       && { dono:       resultado.dono }),
       ...(mudou.prazo      && { prazo:      resultado.prazo }),
       ...(mudou.checkpoint && { checkpoint: resultado.checkpoint }),

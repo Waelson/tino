@@ -21,11 +21,11 @@ const STATUS_LABELS: Record<string, string> = {
 }
 
 const STATUS_CLASS: Record<string, string> = {
-  nao_iniciada: styles.bNao,
-  em_andamento: styles.bAnd,
-  bloqueada: styles.bBlo,
-  aguardando: styles.bAgu,
-  concluida: styles.bCon,
+  nao_iniciada: styles.bNao!,
+  em_andamento: styles.bAnd!,
+  bloqueada: styles.bBlo!,
+  aguardando: styles.bAgu!,
+  concluida: styles.bCon!,
 }
 
 const TIPO_LABELS: Record<string, string> = {

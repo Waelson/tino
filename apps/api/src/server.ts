@@ -14,7 +14,7 @@ export async function buildServer() {
 
   // ─── Plugins globais ────────────────────────────────────────────────────────
   await fastify.register(cors, {
-    origin: config.NODE_ENV === 'production' ? false : true,
+    origin: process.env['CORS_ORIGIN'] ?? true,
   })
 
   await fastify.register(jwt, {

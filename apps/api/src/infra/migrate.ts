@@ -24,7 +24,7 @@ const migrateDb = new Kysely<Database>({
       user: process.env['DB_MIGRATE_USER'] ?? 'root',
       password: process.env['DB_MIGRATE_PASSWORD'] ?? process.env['DB_ROOT_PASSWORD'] ?? '',
       timezone: '+00:00',
-    }),
+    }) as any,
   }),
 })
 

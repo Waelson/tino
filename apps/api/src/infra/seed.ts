@@ -38,7 +38,7 @@ const [usuarioResult] = await db
   })
   .execute()
 
-const usuarioId = usuarioResult.insertId as bigint
+const usuarioId = usuarioResult!.insertId as bigint
 
 // ─── Compromisso 1: delegado · em_andamento · checkpoint futuro ──────────────
 // Cobre o caso "feliz" de delegação — sem alertas.
@@ -55,7 +55,7 @@ const [c1] = await db
   })
   .execute()
 
-const c1Id = c1.insertId as bigint
+const c1Id = c1!.insertId as bigint
 
 await db
   .insertInto('registro_entradas')
@@ -92,7 +92,7 @@ const [c2] = await db
   })
   .execute()
 
-const c2Id = c2.insertId as bigint
+const c2Id = c2!.insertId as bigint
 
 await db
   .insertInto('registro_entradas')
@@ -133,7 +133,7 @@ const [c3] = await db
   })
   .execute()
 
-const c3Id = c3.insertId as bigint
+const c3Id = c3!.insertId as bigint
 
 await db
   .insertInto('registro_entradas')
