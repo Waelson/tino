@@ -9,6 +9,7 @@ import { MetricsBar } from '../components/MetricsBar.js'
 import { SearchBar } from '../components/SearchBar.js'
 import { TeamPanel } from '../components/TeamPanel.js'
 import { TriageQueue } from '../components/TriageQueue.js'
+import { WeeklyReview } from '../components/WeeklyReview.js'
 import { ToastProvider } from '../components/Toast.js'
 
 export function Painel() {
@@ -28,7 +29,11 @@ export function Painel() {
         <TriageQueue itens={triagemData?.itens ?? []} />
         <FilterChips />
         <SearchBar />
-        {filtro === 'equipe' ? <TeamPanel /> : <CommitmentList />}
+        {filtro === 'equipe'
+          ? <TeamPanel />
+          : filtro === 'revisao'
+            ? <WeeklyReview />
+            : <CommitmentList />}
       </AppShell>
       <Outlet />
     </ToastProvider>

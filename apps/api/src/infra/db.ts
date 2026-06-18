@@ -48,11 +48,23 @@ export interface RegistroEntradasTable {
   criada_em: Generated<Date>
 }
 
+export interface RevisaoNarrativasTable {
+  id: Generated<bigint>
+  usuario_id: bigint
+  semana: string        // ex.: '2026-W25'
+  narrativa: string
+  sugestoes: string     // JSON serializado — array de strings
+  modelo_usado: string
+  dados_hash: string | null
+  gerado_em: Generated<Date>
+}
+
 export interface Database {
   usuarios: UsuariosTable
   compromissos: CompromissosTable
   referencias: ReferenciasTable
   registro_entradas: RegistroEntradasTable
+  revisao_narrativas: RevisaoNarrativasTable
 }
 
 // ─── Tipos derivados para uso na aplicação ───────────────────────────────────

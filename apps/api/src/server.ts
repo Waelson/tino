@@ -6,6 +6,7 @@ import { autenticar } from './infra/autenticar.js'
 import { authRoutes } from './auth/auth.router.js'
 import { compromissosRoutes } from './compromissos/compromissos.router.js'
 import { metricasRoutes } from './compromissos/metricas.router.js'
+import { revisaoRoutes } from './revisao/revisao.router.js'
 
 export async function buildServer() {
   const fastify = Fastify({
@@ -48,6 +49,7 @@ export async function buildServer() {
   // ─── Rotas protegidas ───────────────────────────────────────────────────────
   await fastify.register(metricasRoutes)
   await fastify.register(compromissosRoutes, { prefix: '/compromissos' })
+  await fastify.register(revisaoRoutes, { prefix: '/revisao' })
 
   return fastify
 }

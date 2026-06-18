@@ -105,3 +105,62 @@ export interface Metricas {
   aguardandoTriagem: number
   precisamAtencao: number
 }
+
+export interface CompromissoConcluido {
+  id: number
+  titulo: string
+  dono: string | null
+  tipo: string | null
+  concluidoEm: string
+}
+
+export interface CompromissoParalisado {
+  id: number
+  titulo: string
+  dono: string | null
+  tipo: string | null
+  status: string
+  prazo: string | null
+  diasSemAtualizacao: number
+}
+
+export interface CompromissoRedelegado {
+  id: number
+  titulo: string
+  donoAtual: string | null
+  dataRedelegacao: string
+}
+
+export interface DonoSilencio {
+  dono: string
+  ativos: number
+  diasSemAtualizacao: number
+}
+
+export interface RevisaoSemana {
+  semana: string
+  periodo: { inicio: string; fim: string }
+  concluidos: CompromissoConcluido[]
+  paralisados: CompromissoParalisado[]
+  redelegados: CompromissoRedelegado[]
+  donosEmSilencio: DonoSilencio[]
+  resumo: {
+    concluidos: number
+    paralisados: number
+    redelegados: number
+    donosEmSilencio: number
+  }
+}
+
+export interface NarrativaIA {
+  semana: string
+  narrativa: string
+  sugestoes: string[]
+  geradoEm: string
+  modeloUsado: string
+  estaAtualizada: boolean
+}
+
+export type NarrativaCacheResponse =
+  | { disponivel: false; semana: string }
+  | ({ disponivel: true } & NarrativaIA)
