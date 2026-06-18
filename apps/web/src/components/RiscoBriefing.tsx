@@ -1,8 +1,12 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { getRiscoBriefingCache, gerarRiscoBriefing } from '../api/risco.js'
+import { getMetricas } from '../api/metricas.js'
 import type { RiscoBriefing as RiscoBriefingType } from '../types/api.js'
 // @ts-ignore
 import styles from './RiscoBriefing.module.css'
+
+const DEFINICAO_RISCO =
+  'Um compromisso é considerado em risco quando o prazo vence em até 3 dias e não há nenhum registro de atualização nos últimos 5 dias.'
 
 function formatarHora(iso: string): string {
   return new Intl.DateTimeFormat('pt-BR', {
@@ -15,6 +19,14 @@ function formatarHora(iso: string): string {
 }
 
 export function RiscoBriefing() {
+  // Reutiliza o cache já carregado por FilterChips/MetricsBar
+  const { data: metricas } = useQuery({
+    queryKey: ['metricas'],
+    queryFn: getMetricas,
+  })
+
+  const emRisco = metricas?.emRisco ?? null
+
   const { data: cacheData, isLoading: loadingCache, refetch: refetchCache } = useQuery({
     queryKey: ['risco-briefing-cache'],
     queryFn: getRiscoBriefingCache,
@@ -40,6 +52,8 @@ export function RiscoBriefing() {
 
   const loadingBriefing = loadingCache || gerando
 
+  const semRiscos = emRisco === 0
+
   return (
     <div className={styles.card}>
       <div className={styles.header}>
@@ -48,6 +62,8 @@ export function RiscoBriefing() {
           <span className={styles.badge}>IA</span>
         </span>
       </div>
+
+      <p className={styles.definicao}>{DEFINICAO_RISCO}</p>
 
       {loadingBriefing ? (
         <SkeletonBriefing />
@@ -78,10 +94,10 @@ export function RiscoBriefing() {
             </button>
           )}
         </>
-      ) : (
+      ) : semRiscos ? null : (
         <button
           className={styles.btn}
-          disabled={loadingCache}
+          disabled={loadingCache || emRisco === null}
           onClick={() => gerar()}
         >
           Gerar briefing com IA
