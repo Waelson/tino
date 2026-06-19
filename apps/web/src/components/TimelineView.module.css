@@ -1,0 +1,170 @@
+.wrap {
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-lg);
+  padding: 16px 20px 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Toolbar de janela */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.toolbarLabel {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-right: 2px;
+}
+
+.janelaBt {
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line-soft);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.janelaBt:hover { border-color: var(--accent); color: var(--accent); }
+.janelaOn {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* Grupos semanais */
+.grupo {
+  margin-bottom: 20px;
+}
+
+.semana {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.semanaRed  { color: var(--red); border-color: var(--red-soft); }
+.semanaMuted { color: var(--faint); }
+
+/* Linhas de item */
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 10px 9px 12px;
+  border-radius: var(--radius);
+  border-left: 3px solid transparent;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.row:hover { background: var(--surface-2); }
+.row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.rowGreen { border-left-color: var(--green); }
+.rowAmber { border-left-color: var(--amber); }
+
+/* Lado esquerdo */
+.rowMain {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.estrela {
+  font-size: 13px;
+  color: #7c3aed;
+  flex-shrink: 0;
+}
+
+.titulo {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tituloRed { color: var(--red); }
+
+.flagRed {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--red);
+  flex-shrink: 0;
+}
+
+.flagAmber {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--amber);
+  flex-shrink: 0;
+}
+
+/* Lado direito */
+.rowMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.dono {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.prazoData {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--muted);
+  min-width: 36px;
+  text-align: right;
+}
+
+/* Badge de status */
+.badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+.bNao { background: var(--gray-soft);    color: var(--muted); }
+.bAnd { background: var(--green-soft);   color: var(--green); }
+.bBlo { background: var(--red-soft);     color: var(--red); }
+.bAgu { background: var(--amber-soft);   color: var(--amber); }
+.bCon { background: var(--accent-soft);  color: var(--accent-ink); }
+
+/* Info / empty */
+.info {
+  font-size: 13.5px;
+  color: var(--muted);
+  padding: 16px 0;
+}
+
+.retryBtn {
+  display: inline-flex;
+  margin-top: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent-ink);
+  background: var(--accent-soft);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+}

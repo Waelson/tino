@@ -12,6 +12,7 @@ import { RiscoBriefing } from '../components/RiscoBriefing.js'
 import { TeamPanel } from '../components/TeamPanel.js'
 import { TriageQueue } from '../components/TriageQueue.js'
 import { WeeklyReview } from '../components/WeeklyReview.js'
+import { TimelineView } from '../components/TimelineView.js'
 import { ToastProvider } from '../components/Toast.js'
 
 export function Painel() {
@@ -45,6 +46,8 @@ export function Painel() {
         {secao === 'equipe' && <TeamPanel />}
 
         {secao === 'revisao' && <WeeklyReview />}
+
+        {secao === 'timeline' && <TimelineView />}
       </AppShell>
       <Outlet />
     </ToastProvider>

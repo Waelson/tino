@@ -4,12 +4,13 @@ import { getMetricas } from '../api/metricas.js'
 // @ts-ignore
 import styles from './NavPrincipal.module.css'
 
-export type Secao = 'compromissos' | 'equipe' | 'revisao'
+export type Secao = 'compromissos' | 'equipe' | 'revisao' | 'timeline'
 
 const TABS: { id: Secao; label: string; icone: string }[] = [
   { id: 'compromissos', label: 'Compromissos', icone: '◎' },
   { id: 'equipe',       label: 'Equipe',        icone: '⊞' },
   { id: 'revisao',      label: 'Revisão',       icone: '✦' },
+  { id: 'timeline',     label: 'Timeline',      icone: '◈' },
 ]
 
 export function NavPrincipal() {
