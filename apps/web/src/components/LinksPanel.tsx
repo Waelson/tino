@@ -114,33 +114,37 @@ function LinkRow({
         onClick={abrir}
         title={item.url}
       >
-        <span className={styles.rowIcon}>↗</span>
         <div className={styles.rowInfo}>
-          <span className={styles.rowNome}>{item.nome}</span>
+          <span className={styles.rowNome}>
+            {item.nome}
+            <span className={styles.rowNomeArrow}>↗</span>
+          </span>
           {item.descricao && <span className={styles.rowDesc}>{item.descricao}</span>}
         </div>
       </button>
       <div className={styles.rowMeta}>
         {item.categoria && (
-          <span className={styles.badge}>#{item.categoria}</span>
+          <span className={styles.badge}>{item.categoria}</span>
         )}
-        <span className={styles.cliques}>{item.cliques} clique{item.cliques !== 1 ? 's' : ''}</span>
-        <button
-          className={styles.iconBtn}
-          onClick={() => onEditar(item)}
-          title="Editar"
-          aria-label={`Editar ${item.nome}`}
-        >
-          ✎
-        </button>
-        <button
-          className={`${styles.iconBtn} ${styles.iconBtnDanger}`}
-          onClick={() => onExcluir(item.id)}
-          title="Excluir"
-          aria-label={`Excluir ${item.nome}`}
-        >
-          ✕
-        </button>
+        <span className={styles.cliques}>{item.cliques}x</span>
+        <div className={styles.rowActions}>
+          <button
+            className={styles.iconBtn}
+            onClick={() => onEditar(item)}
+            title="Editar"
+            aria-label={`Editar ${item.nome}`}
+          >
+            ✎
+          </button>
+          <button
+            className={`${styles.iconBtn} ${styles.iconBtnDanger}`}
+            onClick={() => onExcluir(item.id)}
+            title="Excluir"
+            aria-label={`Excluir ${item.nome}`}
+          >
+            ✕
+          </button>
+        </div>
       </div>
     </div>
   )
