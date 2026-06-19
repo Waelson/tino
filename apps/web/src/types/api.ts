@@ -181,3 +181,13 @@ export interface RiscoBriefing {
 export type RiscoBriefingResponse =
   | { disponivel: false }
   | ({ disponivel: true } & RiscoBriefing)
+
+export interface LinkFavorito {
+  id:        number
+  nome:      string
+  url:       string
+  descricao: string | null
+  categoria: string | null
+  cliques:   number
+  criadaEm:  string
+}

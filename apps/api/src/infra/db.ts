@@ -60,12 +60,25 @@ export interface RevisaoNarrativasTable {
   gerado_em: Generated<Date>
 }
 
+export interface LinksFavoritosTable {
+  id:            Generated<bigint>
+  usuario_id:    bigint
+  nome:          string
+  url:           string
+  descricao:     string | null
+  categoria:     string | null
+  cliques:       Generated<number>
+  criada_em:     Generated<Date>
+  atualizada_em: Generated<Date>
+}
+
 export interface Database {
   usuarios: UsuariosTable
   compromissos: CompromissosTable
   referencias: ReferenciasTable
   registro_entradas: RegistroEntradasTable
   revisao_narrativas: RevisaoNarrativasTable
+  links_favoritos: LinksFavoritosTable
 }
 
 // ─── Tipos derivados para uso na aplicação ───────────────────────────────────

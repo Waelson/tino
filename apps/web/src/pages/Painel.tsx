@@ -13,6 +13,7 @@ import { TeamPanel } from '../components/TeamPanel.js'
 import { TriageQueue } from '../components/TriageQueue.js'
 import { WeeklyReview } from '../components/WeeklyReview.js'
 import { TimelineView } from '../components/TimelineView.js'
+import { LinksPanel } from '../components/LinksPanel.js'
 import { ToastProvider } from '../components/Toast.js'
 
 export function Painel() {
@@ -48,6 +49,8 @@ export function Painel() {
         {secao === 'revisao' && <WeeklyReview />}
 
         {secao === 'timeline' && <TimelineView />}
+
+        {secao === 'links' && <LinksPanel />}
       </AppShell>
       <Outlet />
     </ToastProvider>

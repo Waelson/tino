@@ -8,6 +8,7 @@ import { compromissosRoutes } from './compromissos/compromissos.router.js'
 import { metricasRoutes } from './compromissos/metricas.router.js'
 import { revisaoRoutes } from './revisao/revisao.router.js'
 import { riscoRoutes } from './risco/risco.router.js'
+import { linksRoutes } from './links/links.router.js'
 
 export async function buildServer() {
   const fastify = Fastify({
@@ -52,6 +53,7 @@ export async function buildServer() {
   await fastify.register(compromissosRoutes, { prefix: '/compromissos' })
   await fastify.register(revisaoRoutes, { prefix: '/revisao' })
   await fastify.register(riscoRoutes, { prefix: '/risco' })
+  await fastify.register(linksRoutes, { prefix: '/links' })
 
   return fastify
 }
