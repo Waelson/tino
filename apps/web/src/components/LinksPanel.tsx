@@ -114,7 +114,7 @@ function LinkRow({
         onClick={abrir}
         title={item.url}
       >
-        <span className={styles.rowIcon}>🔗</span>
+        <span className={styles.rowIcon}>↗</span>
         <div className={styles.rowInfo}>
           <span className={styles.rowNome}>{item.nome}</span>
           {item.descricao && <span className={styles.rowDesc}>{item.descricao}</span>}
