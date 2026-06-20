@@ -418,6 +418,14 @@
     white-space: nowrap;
   }
 
+  /* Separador entre itens */
+  .row {
+    border-bottom: 1px solid var(--md-outline-variant);
+  }
+  .row:last-child {
+    border-bottom: none;
+  }
+
   /* Bloco atrasados: reduz padding */
   .grupoAtrasado {
     padding: 10px;
