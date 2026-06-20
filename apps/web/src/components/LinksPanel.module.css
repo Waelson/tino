@@ -371,4 +371,27 @@
   .inputUrl {
     flex: 1;
   }
+
+  /* Links: nome e descrição em cima, meta embaixo */
+  .row {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 6px 8px;
+  }
+  .rowLink {
+    flex: 0 0 100%;
+  }
+  .rowNome {
+    white-space: normal;
+    word-break: break-word;
+  }
+  .rowDesc {
+    white-space: normal;
+    word-break: break-word;
+  }
+  .rowMeta {
+    flex: 0 0 100%;
+    justify-content: flex-end;
+    padding-bottom: 4px;
+  }
 }

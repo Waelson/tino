@@ -55,6 +55,7 @@
   /* Tokens de componente (override por tema) */
   --md-topbar-bg: var(--md-surface-container-low);
   --md-input-bg: #FFFFFF;
+  --md-input-color: var(--md-on-surface);
   --md-input-placeholder: var(--md-on-surface-variant);
 }
 
@@ -93,6 +94,7 @@
 /* ── Tema: Escuro ── */
 [data-theme="escuro"] {
   --md-input-bg: #E8EAED;
+  --md-input-color: #1A1A1A;
   --md-input-placeholder: #555555;
   --md-topbar-bg: #000000;
   --md-primary: #9DCAFF;

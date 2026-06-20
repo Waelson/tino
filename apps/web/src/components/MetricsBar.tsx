@@ -9,14 +9,16 @@ function MetricCard({
   value,
   subtitle,
   alerta,
+  hideMobile,
 }: {
   label: string
   value: number
   subtitle: string
   alerta?: boolean
+  hideMobile?: boolean
 }) {
   return (
-    <div className={styles.card}>
+    <div className={`${styles.card} ${hideMobile ? styles.hideMobile : ''}`}>
       <span className={styles.cardLabel}>{label}</span>
       <span className={`${styles.cardValue} ${alerta && value > 0 ? styles.cardValueAlerta : ''}`}>
         {value}
@@ -66,9 +68,9 @@ export function MetricsBar() {
         </>
       ) : (
         <>
-          <MetricCard label="Ativos" value={data.ativos} subtitle="compromissos em aberto" />
-          <MetricCard label="Checkpoints" value={data.checkpointsVencidos} subtitle="vencidos aguardando" alerta />
-          <MetricCard label="Prazos" value={data.prazosEstourados} subtitle="estourado(s)" alerta />
+          <MetricCard label="Ativos" value={data.ativos} subtitle="compromissos em aberto" hideMobile />
+          <MetricCard label="Checkpoints" value={data.checkpointsVencidos} subtitle="vencidos aguardando" alerta hideMobile />
+          <MetricCard label="Prazos" value={data.prazosEstourados} subtitle="estourado(s)" alerta hideMobile />
           <div className={`${styles.card} ${styles.cardGauge}`}>
             <CargaGauge carga={data.carga} alertaCarga={data.alertaCarga} />
           </div>

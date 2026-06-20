@@ -74,7 +74,12 @@ export function AppShell({ children, drawer }: AppShellProps) {
   }
 
   function handleCapturar() {
-    openCapture()
+    if (window.innerWidth <= 768 && sidebarOpen) {
+      setSidebarOpen(false)
+      setTimeout(() => openCapture(), 260)
+    } else {
+      openCapture()
+    }
   }
 
   return (

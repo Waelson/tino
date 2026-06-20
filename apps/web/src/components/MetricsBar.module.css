@@ -91,6 +91,12 @@
   outline-offset: 2px;
 }
 
+@media (max-width: 768px) {
+  .hideMobile { display: none; }
+  .bar { grid-template-columns: 1fr; }
+  .cardGauge { grid-column: auto; }
+}
+
 @media (max-width: 760px) {
   .bar {
     grid-template-columns: 1fr 1fr;
