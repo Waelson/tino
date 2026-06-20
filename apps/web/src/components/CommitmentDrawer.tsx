@@ -103,29 +103,26 @@ export function CommitmentDrawer() {
   }, [isError])
 
   return (
-    <>
-      <div className={styles.overlay} onClick={fechar} aria-hidden="true" />
-      <aside
-        ref={drawerRef}
-        className={styles.drawer}
-        aria-label="Ficha do compromisso"
-        role="dialog"
-        aria-modal="true"
-      >
-        <FichaHeader data={data} id={id} onClose={fechar} />
-        <div className={styles.body}>
-          {isLoading && <p className={styles.loading}>Carregando…</p>}
-          {data && (
-            <>
-              <FichaForm data={data} id={id} />
-              <RefSection refs={data.referencias} id={id} />
-              <LogSection registro={data.registro} id={id} />
-            </>
-          )}
-        </div>
-        <FichaFooter id={id} status={data?.status} onClose={fechar} />
-      </aside>
-    </>
+    <aside
+      ref={drawerRef}
+      className={styles.drawer}
+      aria-label="Ficha do compromisso"
+      role="dialog"
+      aria-modal="true"
+    >
+      <FichaHeader data={data} id={id} onClose={fechar} />
+      <div className={styles.body}>
+        {isLoading && <p className={styles.loading}>Carregando…</p>}
+        {data && (
+          <>
+            <FichaForm data={data} id={id} />
+            <RefSection refs={data.referencias} id={id} />
+            <LogSection registro={data.registro} id={id} />
+          </>
+        )}
+      </div>
+      <FichaFooter id={id} status={data?.status} onClose={fechar} />
+    </aside>
   )
 }
 
@@ -514,23 +511,28 @@ function FichaFooter({
     }
   }
 
-  if (status === 'concluida') return null
-
   return (
     <div className={styles.foot}>
-      <button
-        className={styles.btnConcluir}
-        onClick={() => concluirMutation.mutate()}
-        disabled={concluirMutation.isPending}
-      >
-        Concluir
-      </button>
-      <button
-        className={styles.btnDescartar}
-        onClick={handleDescartar}
-        disabled={descartarMutation.isPending}
-      >
-        Descartar
+      {status !== 'concluida' && (
+        <>
+          <button
+            className={styles.btnConcluir}
+            onClick={() => concluirMutation.mutate()}
+            disabled={concluirMutation.isPending}
+          >
+            Concluir
+          </button>
+          <button
+            className={styles.btnDescartar}
+            onClick={handleDescartar}
+            disabled={descartarMutation.isPending}
+          >
+            Descartar
+          </button>
+        </>
+      )}
+      <button className={styles.btnFechar} onClick={onClose}>
+        Fechar
       </button>
     </div>
   )

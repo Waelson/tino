@@ -6,6 +6,7 @@ import { isApiError } from '../types/api.js'
 import { DelegarPopover } from './DelegarPopover.js'
 import { useToast } from './Toast.js'
 import styles from './TriageQueue.module.css'
+import dpStyles from './DelegarPopover.module.css'
 
 interface TriageQueueProps {
   itens: Compromisso[]
@@ -24,10 +25,11 @@ export function TriageQueue({ itens }: TriageQueueProps) {
 
   return (
     <section className={styles.queue} aria-label="Triagem pendente">
-      <h2 className={styles.heading}>
-        Entrada — aguardando triagem{' '}
-        <span className={styles.count}>({itens.length})</span>
-      </h2>
+      <div className={styles.heading}>
+        <span className={`material-symbols-outlined ${styles.headingIcon}`}>inbox</span>
+        <span className={styles.headingTitle}>Fila de entrada</span>
+        <span className={styles.headingBadge}>{itens.length}</span>
+      </div>
       <div className={styles.list}>
         {itens.map((item) => (
           <TriageItem
@@ -92,66 +94,53 @@ function TriageItem({ item, acaoAberta, setAcao }: TriageItemProps) {
 
   return (
     <div className={styles.item}>
-      <span className={styles.titulo}>{item.titulo}</span>
-      <span className={styles.btns}>
-        <button
-          className={styles.btn}
-          onClick={() => mutFazer.mutate()}
-          disabled={isPending}
-        >
-          Fazer
-        </button>
-        <button
-          className={styles.btn}
-          onClick={() => setAcao(acaoAberta === 'delegar' ? null : 'delegar')}
-          disabled={isPending}
-        >
-          Delegar
-        </button>
-        <button
-          className={styles.btn}
-          onClick={() => setAcao(acaoAberta === 'adiar' ? null : 'adiar')}
-          disabled={isPending}
-        >
-          Adiar
-        </button>
-        <button
-          className={`${styles.btn} ${styles.btnDescartar}`}
-          onClick={handleDescartar}
-          disabled={isPending}
-        >
-          Descartar
-        </button>
-      </span>
+      <span className={styles.itemCircle} aria-hidden="true" />
+      <div className={styles.itemBody}>
+        <span className={styles.titulo}>{item.titulo}</span>
+        <div className={styles.btns}>
+          <button
+            className={`${styles.btn} ${styles.btnFazer}`}
+            onClick={() => mutFazer.mutate()}
+            disabled={isPending}
+          >
+            <span className="material-symbols-outlined">person</span>
+            Fazer
+          </button>
+          <button
+            className={styles.btn}
+            onClick={() => setAcao(acaoAberta === 'delegar' ? null : 'delegar')}
+            disabled={isPending}
+          >
+            <span className="material-symbols-outlined">group</span>
+            Delegar
+          </button>
+          <button
+            className={styles.btn}
+            onClick={() => setAcao(acaoAberta === 'adiar' ? null : 'adiar')}
+            disabled={isPending}
+          >
+            <span className="material-symbols-outlined">schedule</span>
+            Adiar
+          </button>
+          <button
+            className={`${styles.btn} ${styles.btnDescartar}`}
+            onClick={handleDescartar}
+            disabled={isPending}
+          >
+            <span className="material-symbols-outlined">delete</span>
+            Descartar
+          </button>
+        </div>
+      </div>
 
       {acaoAberta === 'adiar' && (
-        <div className={styles.acaoInline}>
-          <label className={styles.acaoLabel} htmlFor={`adiar-prazo-${item.id}`}>
-            Nova data
-          </label>
-          <div className={styles.acaoRow}>
-            <input
-              id={`adiar-prazo-${item.id}`}
-              type="date"
-              className={styles.dateInput}
-              value={prazoAdiar}
-              onChange={(e) => setPrazoAdiar(e.target.value)}
-            />
-            <button
-              className={styles.acaoSubmit}
-              onClick={() => { if (prazoAdiar) mutAdiar.mutate(prazoAdiar) }}
-              disabled={!prazoAdiar || mutAdiar.isPending}
-            >
-              Confirmar
-            </button>
-            <button
-              className={styles.acaoCancel}
-              onClick={() => { setAcao(null); setPrazoAdiar('') }}
-            >
-              Cancelar
-            </button>
-          </div>
-        </div>
+        <AdiarModal
+          isPending={mutAdiar.isPending}
+          onConfirmar={(prazo) => mutAdiar.mutate(prazo)}
+          onClose={() => { setAcao(null); setPrazoAdiar('') }}
+          prazo={prazoAdiar}
+          setPrazo={setPrazoAdiar}
+        />
       )}
 
       {acaoAberta === 'delegar' && (
@@ -162,5 +151,58 @@ function TriageItem({ item, acaoAberta, setAcao }: TriageItemProps) {
         />
       )}
     </div>
+  )
+}
+
+interface AdiarModalProps {
+  isPending: boolean
+  onConfirmar: (prazo: string) => void
+  onClose: () => void
+  prazo: string
+  setPrazo: (v: string) => void
+}
+
+function AdiarModal({ isPending, onConfirmar, onClose, prazo, setPrazo }: AdiarModalProps) {
+  return (
+    <>
+      <div className={dpStyles.overlay} onClick={onClose} aria-hidden="true" />
+      <div
+        className={dpStyles.dialog}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Adiar compromisso"
+      >
+        <div className={dpStyles.dialogHeader}>
+          <span className={`material-symbols-outlined ${dpStyles.dialogIcon}`}>schedule</span>
+          <h2 className={dpStyles.dialogTitle}>Adiar</h2>
+        </div>
+
+        <div className={dpStyles.field}>
+          <label className={dpStyles.label} htmlFor="adiar-prazo">Nova data</label>
+          <input
+            id="adiar-prazo"
+            type="date"
+            className={dpStyles.input}
+            value={prazo}
+            onChange={(e) => setPrazo(e.target.value)}
+            autoFocus
+          />
+        </div>
+
+        <div className={dpStyles.actions}>
+          <button className={dpStyles.cancelBtn} onClick={onClose} type="button">
+            Cancelar
+          </button>
+          <button
+            className={dpStyles.submitBtn}
+            onClick={() => onConfirmar(prazo)}
+            disabled={!prazo || isPending}
+            type="button"
+          >
+            Adiar
+          </button>
+        </div>
+      </div>
+    </>
   )
 }

@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { capturar } from '../api/compromissos.js'
 import { isApiError } from '../types/api.js'
 import { useToast } from './Toast.js'
-import { useCapture } from '../contexts/CaptureContext.js'
 // @ts-ignore
 import styles from './CaptureBar.module.css'
 
@@ -13,14 +12,6 @@ export function CaptureBar() {
   const inputRef = useRef<HTMLInputElement>(null)
   const queryClient = useQueryClient()
   const { showToast } = useToast()
-  const { registerCapture } = useCapture()
-
-  useEffect(() => {
-    registerCapture(() => {
-      inputRef.current?.focus()
-      inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    })
-  }, [registerCapture])
 
   const mutation = useMutation({
     mutationFn: (t: string) => capturar(t),

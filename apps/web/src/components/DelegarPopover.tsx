@@ -45,71 +45,74 @@ export function DelegarPopover({ id, onClose, onSuccess }: DelegarPopoverProps) 
   })
 
   return (
-    <div className={styles.popover} role="form" aria-label="Delegar compromisso">
-      <div className={styles.field}>
-        <label className={styles.label} htmlFor={`dp-dono-${id}`}>
-          Dono
-        </label>
-        <input
-          id={`dp-dono-${id}`}
-          className={styles.input}
-          value={dono}
-          onChange={(e) => setDono(e.target.value)}
-          placeholder="Nome da pessoa"
-        />
-      </div>
-      <div className={styles.row}>
+    <>
+      <div className={styles.overlay} onClick={onClose} aria-hidden="true" />
+      <div
+        className={styles.dialog}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Delegar compromisso"
+      >
+        <div className={styles.dialogHeader}>
+          <span className={`material-symbols-outlined ${styles.dialogIcon}`}>group</span>
+          <h2 className={styles.dialogTitle}>Delegar</h2>
+        </div>
+
+        <p className={styles.dialogDesc}>
+          Delegação exige dono, prazo e checkpoint anterior ao prazo.
+        </p>
+
         <div className={styles.field}>
-          <label className={styles.label} htmlFor={`dp-prazo-${id}`}>
-            Prazo
-          </label>
+          <label className={styles.label} htmlFor={`dp-dono-${id}`}>Dono</label>
+          <input
+            id={`dp-dono-${id}`}
+            className={styles.input}
+            value={dono}
+            onChange={(e) => setDono(e.target.value)}
+            placeholder="Nome do responsável"
+            autoFocus
+          />
+        </div>
+
+        <div className={styles.field}>
+          <label className={styles.label} htmlFor={`dp-prazo-${id}`}>Prazo</label>
           <input
             id={`dp-prazo-${id}`}
             type="date"
             className={styles.input}
             value={prazo}
-            onChange={(e) => {
-              setPrazo(e.target.value)
-              setErroCheckpoint(null)
-            }}
+            onChange={(e) => { setPrazo(e.target.value); setErroCheckpoint(null) }}
           />
         </div>
+
         <div className={styles.field}>
           <label className={styles.label} htmlFor={`dp-check-${id}`}>
-            Checkpoint
+            Checkpoint (antes do prazo)
           </label>
           <input
             id={`dp-check-${id}`}
             type="date"
             className={`${styles.input}${erroCheckpoint ? ` ${styles.inputError}` : ''}`}
             value={checkpoint}
-            onChange={(e) => {
-              setCheckpoint(e.target.value)
-              setErroCheckpoint(null)
-            }}
+            onChange={(e) => { setCheckpoint(e.target.value); setErroCheckpoint(null) }}
           />
-          {erroCheckpoint && (
-            <span className={styles.erroMsg}>{erroCheckpoint}</span>
-          )}
+          {erroCheckpoint && <span className={styles.erroMsg}>{erroCheckpoint}</span>}
+        </div>
+
+        <div className={styles.actions}>
+          <button className={styles.cancelBtn} onClick={onClose} type="button">
+            Cancelar
+          </button>
+          <button
+            className={styles.submitBtn}
+            onClick={() => mutation.mutate()}
+            disabled={checkpointInvalido || mutation.isPending}
+            type="button"
+          >
+            Delegar
+          </button>
         </div>
       </div>
-      <div className={styles.actions}>
-        <button
-          className={styles.cancelBtn}
-          onClick={onClose}
-          type="button"
-        >
-          Cancelar
-        </button>
-        <button
-          className={styles.submitBtn}
-          onClick={() => mutation.mutate()}
-          disabled={checkpointInvalido || mutation.isPending}
-          type="button"
-        >
-          Delegar
-        </button>
-      </div>
-    </div>
+    </>
   )
 }

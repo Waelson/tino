@@ -4,11 +4,24 @@ import { CargaGauge } from './CargaGauge.js'
 // @ts-ignore
 import styles from './MetricsBar.module.css'
 
-function MetricCard({ label, value }: { label: string; value: number }) {
+function MetricCard({
+  label,
+  value,
+  subtitle,
+  alerta,
+}: {
+  label: string
+  value: number
+  subtitle: string
+  alerta?: boolean
+}) {
   return (
     <div className={styles.card}>
       <span className={styles.cardLabel}>{label}</span>
-      <span className={styles.cardValue}>{value}</span>
+      <span className={`${styles.cardValue} ${alerta && value > 0 ? styles.cardValueAlerta : ''}`}>
+        {value}
+      </span>
+      <span className={styles.cardSubtitle}>{subtitle}</span>
     </div>
   )
 }
@@ -53,9 +66,9 @@ export function MetricsBar() {
         </>
       ) : (
         <>
-          <MetricCard label="Ativos" value={data.ativos} />
-          <MetricCard label="Checkpoints vencidos" value={data.checkpointsVencidos} />
-          <MetricCard label="Prazos estourados" value={data.prazosEstourados} />
+          <MetricCard label="Ativos" value={data.ativos} subtitle="compromissos em aberto" />
+          <MetricCard label="Checkpoints" value={data.checkpointsVencidos} subtitle="vencidos aguardando" alerta />
+          <MetricCard label="Prazos" value={data.prazosEstourados} subtitle="estourado(s)" alerta />
           <div className={`${styles.card} ${styles.cardGauge}`}>
             <CargaGauge carga={data.carga} alertaCarga={data.alertaCarga} />
           </div>

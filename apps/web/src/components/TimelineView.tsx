@@ -21,8 +21,8 @@ function addDias(base: string, dias: number): string {
 
 function fmtDate(iso: string | null): string {
   if (!iso) return '—'
-  const [, m, d] = iso.split('-')
-  return `${d}/${m}`
+  const [y, m, d] = iso.split('-')
+  return `${d}/${m}/${y}`
 }
 
 // Início da semana (segunda-feira) para uma data YYYY-MM-DD
@@ -126,16 +126,18 @@ export function TimelineView() {
   return (
     <div className={styles.wrap}>
       <div className={styles.toolbar}>
-        <span className={styles.toolbarLabel}>Próximos</span>
-        {([30, 60, 90] as const).map((d) => (
-          <button
-            key={d}
-            className={`${styles.janelaBt} ${janela === d ? styles.janelaOn : ''}`}
-            onClick={() => setJanela(d)}
-          >
-            {d} dias
-          </button>
-        ))}
+        <span className={styles.toolbarTitle}>Próximos {janela} dias</span>
+        <div className={styles.toolbarBtns}>
+          {([30, 60, 90] as const).map((d) => (
+            <button
+              key={d}
+              className={`${styles.janelaBt} ${janela === d ? styles.janelaOn : ''}`}
+              onClick={() => setJanela(d)}
+            >
+              {d}d
+            </button>
+          ))}
+        </div>
       </div>
 
       {isLoading && <p className={styles.info}>Carregando…</p>}
@@ -152,7 +154,11 @@ export function TimelineView() {
           {/* Atrasados (prazo < hoje) */}
           {estourados.length > 0 && (
             <div className={styles.grupo}>
-              <h3 className={`${styles.semana} ${styles.semanaRed}`}>Atrasados</h3>
+              <div className={styles.semanaHeader}>
+                <span className={`material-symbols-outlined ${styles.semanaIconRed}`}>warning</span>
+                <h3 className={`${styles.semana} ${styles.semanaRed}`}>Atrasados</h3>
+                <span className={`${styles.countBadge} ${styles.countBadgeRed}`}>{estourados.length}</span>
+              </div>
               {estourados
                 .sort((a, b) => (a.prazo ?? '').localeCompare(b.prazo ?? ''))
                 .map(item => <TimelineRow key={item.id} item={item} />)}
@@ -165,7 +171,11 @@ export function TimelineView() {
           )}
           {grupos.map(g => (
             <div key={g.chave} className={styles.grupo}>
-              <h3 className={styles.semana}>{g.label}</h3>
+              <div className={styles.semanaHeader}>
+                <span className={`material-symbols-outlined ${styles.semanaIcon}`}>calendar_today</span>
+                <h3 className={styles.semana}>{g.label}</h3>
+                <span className={styles.countBadge}>{g.itens.length}</span>
+              </div>
               {g.itens.map(item => <TimelineRow key={item.id} item={item} />)}
             </div>
           ))}
@@ -173,7 +183,11 @@ export function TimelineView() {
           {/* Sem prazo */}
           {semPrazo.length > 0 && (
             <div className={styles.grupo}>
-              <h3 className={`${styles.semana} ${styles.semanaMuted}`}>Sem prazo</h3>
+              <div className={styles.semanaHeader}>
+                <span className={`material-symbols-outlined ${styles.semanaIcon}`}>calendar_today</span>
+                <h3 className={`${styles.semana} ${styles.semanaMuted}`}>Sem prazo</h3>
+                <span className={styles.countBadge}>{semPrazo.length}</span>
+              </div>
               {semPrazo.map(item => <TimelineRow key={item.id} item={item} />)}
             </div>
           )}
@@ -200,6 +214,8 @@ function TimelineRow({ item }: { item: Compromisso }) {
     void navigate(`/compromissos/${item.id}`)
   }
 
+  const temFlags = item.prazoEstourado || item.checkpointVencido || item.prazoEmRisco
+
   return (
     <div
       className={`${styles.row} ${rowBorder}`}
@@ -210,24 +226,34 @@ function TimelineRow({ item }: { item: Compromisso }) {
       onKeyDown={(e) => { if (e.key === 'Enter') abrir() }}
     >
       <div className={styles.rowMain}>
-        {item.critica && <span className={styles.estrela}>★</span>}
-        <span className={item.prazoEstourado ? `${styles.titulo} ${styles.tituloRed}` : styles.titulo}>
-          {item.titulo}
-        </span>
-        {item.prazoEstourado && (
-          <span className={styles.flagRed}>! prazo estourado</span>
-        )}
-        {!item.prazoEstourado && item.checkpointVencido && (
-          <span className={styles.flagRed}>checkpoint vencido</span>
-        )}
-        {!item.prazoEstourado && !item.checkpointVencido && item.prazoEmRisco && (
-          <span className={styles.flagAmber}>prazo em risco</span>
+        <div className={styles.rowTop}>
+          {item.critica && <span className={styles.estrela}>★</span>}
+          <span className={item.prazoEstourado ? `${styles.titulo} ${styles.tituloRed}` : styles.titulo}>
+            {item.titulo}
+          </span>
+        </div>
+        {temFlags && (
+          <div className={styles.rowFlags}>
+            {item.prazoEstourado && <span className={styles.chipRed}>prazo estourado</span>}
+            {item.checkpointVencido && <span className={styles.chipAmber}>checkpoint vencido</span>}
+            {!item.prazoEstourado && !item.checkpointVencido && item.prazoEmRisco && (
+              <span className={styles.chipAmber}>prazo em risco</span>
+            )}
+          </div>
         )}
       </div>
       <div className={styles.rowMeta}>
-        {item.dono && <span className={styles.dono}>{item.dono}</span>}
-        <span className={styles.prazoData}>{fmtDate(item.prazo)}</span>
-        <span className={`${styles.badge} ${statusClass}`}>{statusLabel}</span>
+        {item.dono
+          ? <span className={styles.dono}>{item.dono}</span>
+          : <span className={styles.donoEu}>Eu</span>
+        }
+        <span className={item.prazoEstourado ? `${styles.prazoData} ${styles.prazoRed}` : styles.prazoData}>
+          {fmtDate(item.prazo)}
+        </span>
+        <span className={`${styles.badge} ${statusClass}`}>
+          <span className={styles.badgeDot} aria-hidden="true">•</span>
+          {statusLabel}
+        </span>
       </div>
     </div>
   )

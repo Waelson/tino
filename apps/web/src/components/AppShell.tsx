@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext.js'
 import { useCapture } from '../contexts/CaptureContext.js'
+import { CaptureModal } from './CaptureModal.js'
 import { getMetricas } from '../api/metricas.js'
 import type { Secao } from './NavPrincipal.js'
 // @ts-ignore
@@ -18,13 +19,35 @@ const SECOES: { id: Secao; label: string; icon: string }[] = [
 
 interface AppShellProps {
   children: React.ReactNode
+  drawer?: React.ReactNode
 }
 
-export function AppShell({ children }: AppShellProps) {
+export function AppShell({ children, drawer }: AppShellProps) {
   const { usuario, logout } = useAuth()
-  const { openCapture } = useCapture()
+  const { isOpen, openCapture } = useCapture()
   const [searchParams, setSearchParams] = useSearchParams()
   const [drawerOpen, setDrawerOpen] = useState(false)
+
+  // Mantém conteúdo do drawer visível durante animação de saída
+  const [closing, setClosing] = useState(false)
+  const prevDrawer = useRef<React.ReactNode>(null)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    if (drawer) {
+      prevDrawer.current = drawer
+      setClosing(false)
+      if (closeTimer.current) clearTimeout(closeTimer.current)
+    } else if (prevDrawer.current) {
+      setClosing(true)
+      closeTimer.current = setTimeout(() => {
+        setClosing(false)
+        prevDrawer.current = null
+      }, 220)
+    }
+  }, [drawer])
+
+  const drawerContent = drawer ?? (closing ? prevDrawer.current : null)
 
   const secao = (searchParams.get('secao') ?? 'compromissos') as Secao
 
@@ -144,7 +167,14 @@ export function AppShell({ children }: AppShellProps) {
 
         {/* CONTENT */}
         <div className={styles.contentWrapper}>
-          <main className={styles.main}>{children}</main>
+          <main className={styles.main}>
+            {children}
+          </main>
+          {drawerContent && (
+            <div className={`${styles.drawerPanel} ${closing ? styles.drawerClosing : ''}`}>
+              {drawerContent}
+            </div>
+          )}
         </div>
 
       </div>{/* /appBody */}

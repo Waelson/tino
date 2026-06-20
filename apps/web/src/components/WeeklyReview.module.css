@@ -12,22 +12,22 @@
 }
 
 .navBtn {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  width: 28px;
-  height: 28px;
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline);
+  border-radius: var(--md-shape-xs);
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  color: var(--ink);
+  color: var(--md-on-surface);
   cursor: pointer;
   transition: background 0.12s;
 }
 
 .navBtn:hover:not(:disabled) {
-  background: var(--surface-2);
+  background: var(--md-surface-container-low);
 }
 
 .navBtn:disabled {
@@ -38,21 +38,20 @@
 .navLabel {
   font-size: 14px;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--md-on-surface);
 }
 
 .navPeriodo {
-  font-size: 12.5px;
-  color: var(--muted);
+  font-size: 13px;
+  color: var(--md-on-surface-variant);
 }
 
 /* ─── Card de IA (full-width, destaque) ───────────────────────── */
 .iaCard {
-  background: var(--surface);
-  border: 1px solid var(--line-soft);
-  border-radius: var(--r-lg);
+  background: var(--md-surface-container-lowest);
+  border-radius: var(--md-shape-md);
   padding: 20px 24px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--md-elev-1);
 }
 
 .iaHeader {
@@ -67,17 +66,17 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--faint);
+  color: var(--md-on-surface-variant);
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .iaBadge {
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 700;
-  color: var(--accent-ink);
-  background: var(--accent-soft);
+  color: var(--md-on-primary-container);
+  background: var(--md-primary-container);
   border-radius: 4px;
   padding: 2px 6px;
   text-transform: uppercase;
@@ -85,9 +84,9 @@
 }
 
 .narrativa {
-  font-size: 14.5px;
+  font-size: 14px;
   line-height: 1.7;
-  color: var(--ink);
+  color: var(--md-on-surface);
   margin: 0 0 20px;
 }
 
@@ -96,7 +95,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: var(--faint);
+  color: var(--md-on-surface-variant);
   margin: 0 0 10px;
 }
 
@@ -113,21 +112,21 @@
   display: flex;
   align-items: baseline;
   gap: 10px;
-  font-size: 13.5px;
-  color: var(--ink);
+  font-size: 14px;
+  color: var(--md-on-surface);
   line-height: 1.5;
   padding: 10px 14px;
-  background: var(--surface-2);
-  border-radius: 8px;
+  background: var(--md-surface-container-low);
+  border-radius: var(--md-shape-sm);
 }
 
 .sugestaoNum {
   flex-shrink: 0;
-  font-family: var(--font-mono);
+  font-family: 'Roboto Mono', monospace;
   font-size: 11px;
   font-weight: 700;
-  color: var(--accent-ink);
-  background: var(--accent-soft);
+  color: var(--md-on-primary-container);
+  background: var(--md-primary-container);
   border-radius: 4px;
   padding: 2px 6px;
 }
@@ -137,8 +136,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 11.5px;
-  color: var(--muted);
+  font-size: 12px;
+  color: var(--md-on-surface-variant);
   margin-bottom: 14px;
 }
 
@@ -146,7 +145,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--faint);
+  background: var(--md-on-surface-variant);
   flex-shrink: 0;
 }
 
@@ -155,7 +154,7 @@
 }
 
 .iaStatusDotStale {
-  background: var(--amber, #f59e0b);
+  background: var(--md-on-warning-container);
 }
 
 .atualizarBtn {
@@ -163,19 +162,19 @@
   align-items: center;
   gap: 6px;
   background: transparent;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 6px 14px;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--ink);
+  border: 1px solid var(--md-outline);
+  border-radius: var(--md-shape-full);
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--md-on-surface);
   cursor: pointer;
   transition: background 0.12s;
   margin-top: 16px;
 }
 
 .atualizarBtn:hover:not(:disabled) {
-  background: var(--surface-2);
+  background: var(--md-surface-container-low);
 }
 
 .atualizarBtn:disabled {
@@ -187,19 +186,20 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: var(--accent);
-  color: #fff;
+  background: var(--md-primary);
+  color: var(--md-on-primary);
   border: none;
-  border-radius: 8px;
-  padding: 9px 18px;
-  font-size: 13.5px;
-  font-weight: 600;
+  border-radius: var(--md-shape-full);
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Google Sans', sans-serif;
   cursor: pointer;
-  transition: opacity 0.14s;
+  transition: box-shadow 0.2s;
 }
 
-.gerarBtn:hover {
-  opacity: 0.88;
+.gerarBtn:hover:not(:disabled) {
+  box-shadow: var(--md-elev-1);
 }
 
 .gerarBtn:disabled {
@@ -209,7 +209,7 @@
 
 .iaError {
   font-size: 13px;
-  color: var(--muted);
+  color: var(--md-on-surface-variant);
   margin-bottom: 12px;
 }
 
@@ -221,11 +221,10 @@
 }
 
 .dadosCard {
-  background: var(--surface);
-  border: 1px solid var(--line-soft);
-  border-radius: var(--r-lg);
+  background: var(--md-surface-container-lowest);
+  border-radius: var(--md-shape-md);
   padding: 14px 16px 16px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--md-elev-1);
   min-width: 0;
 }
 
@@ -244,12 +243,12 @@
 .dadosTitulo {
   font-size: 12px;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--md-on-surface);
   flex: 1;
 }
 
 .dadosBadge {
-  font-family: var(--font-mono);
+  font-family: 'Roboto Mono', monospace;
   font-size: 12px;
   font-weight: 700;
   min-width: 22px;
@@ -259,13 +258,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--line-soft);
-  color: var(--muted);
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface-variant);
 }
 
 .dadosBadgeAlert {
-  background: var(--amber-soft);
-  color: var(--red);
+  background: var(--md-error-container);
+  color: var(--md-error);
 }
 
 /* lista de itens dentro de cada card */
@@ -286,10 +285,10 @@
   justify-content: space-between;
   gap: 6px;
   padding: 6px 8px;
-  border-radius: 6px;
-  background: var(--surface-2);
-  font-size: 13px;
-  color: var(--ink);
+  border-radius: var(--md-shape-xs);
+  background: var(--md-surface-container-low);
+  font-size: 14px;
+  color: var(--md-on-surface);
 }
 
 .itemTitulo {
@@ -300,23 +299,23 @@
 }
 
 .itemMeta {
-  font-size: 11.5px;
-  color: var(--muted);
+  font-size: 12px;
+  color: var(--md-on-surface-variant);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .itemAlerta {
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 600;
-  color: var(--red);
+  color: var(--md-error);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .empty {
-  font-size: 12.5px;
-  color: var(--faint);
+  font-size: 13px;
+  color: var(--md-on-surface-variant);
   font-style: italic;
   padding: 2px 0;
 }
@@ -331,7 +330,7 @@
 .skeleton {
   display: block;
   height: 13px;
-  background: var(--line-soft);
+  background: var(--md-outline-variant);
   border-radius: 4px;
   animation: shimmer 1.4s ease-in-out infinite;
 }

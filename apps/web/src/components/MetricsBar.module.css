@@ -2,7 +2,7 @@
 
 .bar {
   display: grid;
-  grid-template-columns: repeat(3, 1fr) 2fr;
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   margin-bottom: 16px;
 }
@@ -10,31 +10,41 @@
 .card {
   background: var(--md-surface-container-lowest);
   border-radius: var(--md-shape-md);
-  padding: 14px 18px 16px;
+  padding: 16px 20px 18px;
   box-shadow: var(--md-elev-1);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .cardGauge {
-  padding: 14px 20px 16px;
+  padding: 16px 20px 18px;
 }
 
 .cardLabel {
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--md-on-surface-variant);
 }
 
 .cardValue {
   font-family: 'Roboto Mono', monospace;
-  font-size: 28px;
-  font-weight: 500;
+  font-size: 36px;
+  font-weight: 400;
   color: var(--md-on-surface);
-  line-height: 1.2;
+  line-height: 1.1;
+}
+
+.cardValueAlerta {
+  color: var(--md-error);
+}
+
+.cardSubtitle {
+  font-size: 13px;
+  color: var(--md-on-surface-variant);
+  margin-top: 2px;
 }
 
 .skeleton {
@@ -87,9 +97,17 @@
   .bar {
     grid-template-columns: 1fr 1fr;
   }
-
   .cardGauge {
     grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .bar {
+    grid-template-columns: 1fr;
+  }
+  .cardGauge {
+    grid-column: auto;
   }
 }
 

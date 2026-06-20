@@ -1,23 +1,26 @@
-import { createContext, useContext, useRef, type ReactNode } from 'react'
+import { createContext, useContext, useState, type ReactNode } from 'react'
 
 interface CaptureContextValue {
+  isOpen: boolean
   openCapture: () => void
-  registerCapture: (fn: () => void) => void
+  closeCapture: () => void
 }
 
 const CaptureContext = createContext<CaptureContextValue>({
+  isOpen: false,
   openCapture: () => {},
-  registerCapture: () => {},
+  closeCapture: () => {},
 })
 
 export function CaptureProvider({ children }: { children: ReactNode }) {
-  const fnRef = useRef<(() => void) | null>(null)
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <CaptureContext.Provider
       value={{
-        openCapture: () => fnRef.current?.(),
-        registerCapture: (fn) => { fnRef.current = fn },
+        isOpen,
+        openCapture: () => setIsOpen(true),
+        closeCapture: () => setIsOpen(false),
       }}
     >
       {children}

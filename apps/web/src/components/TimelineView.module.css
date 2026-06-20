@@ -1,86 +1,150 @@
+/* ── TimelineView — M3 ── */
+
 .wrap {
-  background: var(--surface);
-  border: 1px solid var(--line-soft);
-  border-radius: var(--r-lg);
+  background: var(--md-surface-container-lowest);
+  border-radius: var(--md-shape-md);
+  box-shadow: var(--md-elev-1);
   padding: 16px 20px 20px;
-  box-shadow: var(--shadow-sm);
 }
 
-/* Toolbar de janela */
+/* ── Toolbar: título esquerda + botões direita ── */
 .toolbar {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
   margin-bottom: 20px;
 }
 
-.toolbarLabel {
-  font-size: 12.5px;
-  color: var(--muted);
-  margin-right: 2px;
+.toolbarTitle {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--md-on-surface);
+  letter-spacing: -.2px;
+}
+
+.toolbarBtns {
+  display: flex;
+  gap: 8px;
 }
 
 .janelaBt {
-  font-size: 12.5px;
-  font-weight: 500;
-  padding: 5px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--line-soft);
+  height: 32px;
+  padding: 0 16px;
+  border: 1px solid var(--md-outline);
+  border-radius: var(--md-shape-sm);
   background: transparent;
-  color: var(--muted);
+  color: var(--md-on-surface-variant);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
   cursor: pointer;
-  transition: all 0.12s;
+  transition: background 0.12s;
+  white-space: nowrap;
 }
-.janelaBt:hover { border-color: var(--accent); color: var(--accent); }
+.janelaBt:hover { background: rgba(25,28,28,.06); }
+.janelaBt:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
+
 .janelaOn {
-  background: var(--accent-soft);
-  border-color: var(--accent);
-  color: var(--accent-ink);
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+  border: none;
+  padding: 0 17px;
+}
+.janelaOn:hover {
+  background: color-mix(in srgb, var(--md-secondary-container) 92%, var(--md-on-secondary-container));
 }
 
-/* Grupos semanais */
+/* ── Grupos semanais ── */
 .grupo {
   margin-bottom: 20px;
 }
 
-.semana {
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 0 0 8px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--line-soft);
+.semanaHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--md-outline-variant);
 }
 
-.semanaRed  { color: var(--red); border-color: var(--red-soft); }
-.semanaMuted { color: var(--faint); }
+.semanaIcon {
+  font-size: 16px;
+  color: var(--md-on-surface-variant);
+  flex-shrink: 0;
+}
 
-/* Linhas de item */
+.semanaIconRed {
+  font-size: 16px;
+  color: var(--md-error);
+  flex-shrink: 0;
+}
+
+.semana {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--md-on-surface-variant);
+  margin: 0;
+  flex: 1;
+}
+
+.semanaRed   { color: var(--md-error); }
+.semanaMuted { opacity: 0.6; }
+
+.countBadge {
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+  border-radius: var(--md-shape-full);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Roboto Mono', monospace;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.countBadgeRed {
+  background: var(--md-error-container);
+  color: var(--md-error);
+}
+
+/* ── Linhas de item ── */
 .row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 9px 10px 9px 12px;
-  border-radius: var(--radius);
-  border-left: 3px solid transparent;
+  padding: 10px 10px 10px 12px;
+  border-radius: var(--md-shape-xs);
   cursor: pointer;
   transition: background 0.1s;
 }
-.row:hover { background: var(--surface-2); }
-.row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.row:hover { background: var(--md-surface-container-low); }
+.row:focus-visible { outline: 2px solid var(--md-primary); outline-offset: -2px; }
 
-.rowGreen { border-left-color: var(--green); }
-.rowAmber { border-left-color: var(--amber); }
+.rowGreen {}
+.rowAmber {}
 
-/* Lado esquerdo */
+/* ── Lado esquerdo ── */
 .rowMain {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.rowTop {
   display: flex;
   align-items: baseline;
   gap: 6px;
-  flex: 1;
   min-width: 0;
 }
 
@@ -91,30 +155,43 @@
 }
 
 .titulo {
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 500;
-  color: var(--ink);
+  color: var(--md-on-surface);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.tituloRed { color: var(--red); }
+.tituloRed { color: var(--md-error); }
 
-.flagRed {
-  font-size: 11.5px;
-  font-weight: 500;
-  color: var(--red);
-  flex-shrink: 0;
+/* ── Chips de flag (abaixo do título) ── */
+.rowFlags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
-.flagAmber {
-  font-size: 11.5px;
+.chipRed {
+  font-size: 11px;
   font-weight: 500;
-  color: var(--amber);
-  flex-shrink: 0;
+  padding: 2px 8px;
+  border-radius: var(--md-shape-full);
+  background: var(--md-error-container);
+  color: var(--md-error);
+  white-space: nowrap;
 }
 
-/* Lado direito */
+.chipAmber {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: var(--md-shape-full);
+  background: var(--md-warning-container);
+  color: var(--md-on-warning-container);
+  white-space: nowrap;
+}
+
+/* ── Lado direito ── */
 .rowMeta {
   display: flex;
   align-items: center;
@@ -123,48 +200,74 @@
 }
 
 .dono {
-  font-size: 12px;
-  color: var(--muted);
+  font-size: 13px;
+  color: var(--md-on-surface-variant);
+  white-space: nowrap;
+}
+
+.donoEu {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--md-primary);
+  white-space: nowrap;
 }
 
 .prazoData {
-  font-size: 12px;
-  font-family: var(--font-mono);
-  color: var(--muted);
-  min-width: 36px;
+  font-size: 13px;
+  font-family: 'Roboto Mono', monospace;
+  color: var(--md-on-surface-variant);
+  min-width: 80px;
   text-align: right;
-}
-
-/* Badge de status */
-.badge {
-  font-size: 11px;
-  font-weight: 500;
-  padding: 2px 8px;
-  border-radius: 99px;
   white-space: nowrap;
 }
-.bNao { background: var(--gray-soft);    color: var(--muted); }
-.bAnd { background: var(--green-soft);   color: var(--green); }
-.bBlo { background: var(--red-soft);     color: var(--red); }
-.bAgu { background: var(--amber-soft);   color: var(--amber); }
-.bCon { background: var(--accent-soft);  color: var(--accent-ink); }
 
-/* Info / empty */
+.prazoRed {
+  color: var(--md-error);
+  font-weight: 600;
+}
+
+/* ── Badges de status com ponto ── */
+.badge {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: var(--md-shape-full);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badgeDot {
+  font-size: 10px;
+  line-height: 1;
+}
+
+.bNao { background: var(--md-surface-container-highest); color: var(--md-on-surface-variant); }
+.bAnd { background: var(--md-primary-container);         color: var(--md-on-primary-container); }
+.bBlo { background: var(--md-error-container);           color: var(--md-error); }
+.bAgu { background: var(--md-warning-container);         color: var(--md-on-warning-container); }
+.bCon { background: var(--md-secondary-container);       color: var(--md-on-secondary-container); }
+
+/* ── Info / empty ── */
 .info {
-  font-size: 13.5px;
-  color: var(--muted);
-  padding: 16px 0;
+  font-size: 14px;
+  color: var(--md-on-surface-variant);
+  padding: 24px 0;
 }
 
 .retryBtn {
   display: inline-flex;
   margin-top: 8px;
-  padding: 6px 14px;
+  padding: 0 16px;
+  height: 36px;
+  align-items: center;
   font-size: 13px;
   font-weight: 500;
-  color: var(--accent-ink);
-  background: var(--accent-soft);
+  color: var(--md-primary);
+  background: var(--md-primary-container);
   border: none;
-  border-radius: 999px;
+  border-radius: var(--md-shape-full);
   cursor: pointer;
 }
+.retryBtn:hover { box-shadow: var(--md-elev-1); }

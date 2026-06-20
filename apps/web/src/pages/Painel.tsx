@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { Outlet, useSearchParams } from 'react-router-dom'
+import { useOutlet, useSearchParams } from 'react-router-dom'
 import { listarTriagem } from '../api/compromissos.js'
 import { AppShell } from '../components/AppShell.js'
 import { CaptureBar } from '../components/CaptureBar.js'
@@ -21,6 +21,7 @@ export function Painel() {
   const [searchParams] = useSearchParams()
   const secao = (searchParams.get('secao') ?? 'compromissos') as Secao
   const filtro = searchParams.get('filtro') ?? 'ativas'
+  const outlet = useOutlet()
 
   const { data: triagemData } = useQuery({
     queryKey: ['triagem'],
@@ -31,7 +32,7 @@ export function Painel() {
   return (
     <CaptureProvider>
       <ToastProvider>
-        <AppShell>
+        <AppShell drawer={outlet}>
           {secao === 'compromissos' && (
             <>
               <MetricsBar />
@@ -52,7 +53,6 @@ export function Painel() {
 
           {secao === 'links' && <LinksPanel />}
         </AppShell>
-        <Outlet />
       </ToastProvider>
     </CaptureProvider>
   )

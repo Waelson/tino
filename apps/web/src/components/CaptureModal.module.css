@@ -1,0 +1,32 @@
+.textarea {
+  padding: 12px 16px;
+  border: 1.5px solid var(--md-outline);
+  border-radius: var(--md-shape-xs);
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  background: transparent;
+  color: var(--md-on-surface);
+  outline: none;
+  resize: vertical;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.12s, border-width 0.05s;
+  line-height: 1.5;
+}
+
+.textarea:focus {
+  border-color: var(--md-primary);
+  border-width: 2px;
+  padding: 11px 15px;
+}
+
+.counter {
+  font-size: 12px;
+  color: var(--md-on-surface-variant);
+  text-align: right;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.sendIcon {
+  font-size: 18px;
+}

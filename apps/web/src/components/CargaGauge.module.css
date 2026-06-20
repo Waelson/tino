@@ -24,13 +24,29 @@
 
 .valor {
   font-family: 'Roboto Mono', monospace;
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 28px;
+  font-weight: 400;
   color: var(--md-on-surface);
 }
 
 .valorAlerta {
   color: var(--md-error);
+}
+
+.trilhoWrap {
+  position: relative;
+  padding-top: 16px;
+}
+
+.marcaLabel {
+  position: absolute;
+  top: 0;
+  left: 30%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-family: 'Roboto Mono', monospace;
+  color: var(--md-on-surface-variant);
+  white-space: nowrap;
 }
 
 .trilho {

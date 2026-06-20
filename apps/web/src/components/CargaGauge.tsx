@@ -18,16 +18,19 @@ export function CargaGauge({ carga, alertaCarga }: CargaGaugeProps) {
         </span>
       </div>
 
-      <div className={styles.trilho} role="meter" aria-label={`Carga comigo: ${carga}%`} aria-valuenow={carga} aria-valuemin={0} aria-valuemax={100}>
-        <div
-          className={`${styles.barra} ${alertaCarga ? styles.barraAlerta : ''}`}
-          style={{ width: `${pct}%` }}
-        />
-        <div className={styles.marca} aria-hidden="true" />
+      <div className={styles.trilhoWrap}>
+        <span className={styles.marcaLabel} aria-hidden="true">30%</span>
+        <div className={styles.trilho} role="meter" aria-label={`Carga comigo: ${carga}%`} aria-valuenow={carga} aria-valuemin={0} aria-valuemax={100}>
+          <div
+            className={`${styles.barra} ${alertaCarga ? styles.barraAlerta : ''}`}
+            style={{ width: `${pct}%` }}
+          />
+          <div className={styles.marca} aria-hidden="true" />
+        </div>
       </div>
 
       {alertaCarga && (
-        <p className={styles.legenda}>acima da marca de 30%, delegue mais</p>
+        <p className={styles.legenda}>acima de 30% — delegue mais</p>
       )}
     </div>
   )
