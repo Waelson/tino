@@ -1,3 +1,5 @@
+/* ── CargaGauge — M3 ── */
+
 .wrap {
   display: flex;
   flex-direction: column;
@@ -14,41 +16,41 @@
 
 .label {
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: var(--faint);
+  color: var(--md-on-surface-variant);
 }
 
 .valor {
-  font-family: var(--font-mono);
+  font-family: 'Roboto Mono', monospace;
   font-size: 20px;
   font-weight: 500;
-  color: var(--ink);
+  color: var(--md-on-surface);
 }
 
 .valorAlerta {
-  color: var(--red);
+  color: var(--md-error);
 }
 
 .trilho {
   position: relative;
   height: 8px;
-  background: var(--line-soft);
-  border-radius: 999px;
+  background: var(--md-surface-container-high);
+  border-radius: var(--md-shape-full);
   overflow: visible;
 }
 
 .barra {
   height: 100%;
-  background: var(--accent);
-  border-radius: 999px;
+  background: var(--md-primary);
+  border-radius: var(--md-shape-full);
   transition: width 0.4s ease;
   max-width: 100%;
 }
 
 .barraAlerta {
-  background: var(--red);
+  background: var(--md-error);
 }
 
 /* Marca fixa em 30% */
@@ -58,20 +60,20 @@
   left: 30%;
   width: 2px;
   height: 14px;
-  background: var(--ink);
+  background: var(--md-on-surface);
   border-radius: 1px;
-  opacity: 0.35;
+  opacity: 0.3;
   animation: pulse-marca 3s ease-in-out infinite;
 }
 
 @keyframes pulse-marca {
-  0%, 100% { opacity: 0.35; }
-  50%       { opacity: 0.6; }
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 0.55; }
 }
 
 .legenda {
   font-size: 11px;
-  color: var(--red);
+  color: var(--md-error);
   font-weight: 500;
 }
 

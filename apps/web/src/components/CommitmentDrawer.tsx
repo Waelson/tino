@@ -152,7 +152,7 @@ function FichaHeader({
         #{id} · capturada em {dataCap}
       </span>
       <button className={styles.closeBtn} onClick={onClose} aria-label="Fechar ficha">
-        ✕
+        <span className="material-symbols-outlined">close</span>
       </button>
     </div>
   )
@@ -387,7 +387,7 @@ function RefSection({ refs, id }: { refs: Referencia[]; id: number }) {
             onClick={() => removeMutation.mutate(r.id)}
             aria-label={`Remover referência ${r.url}`}
           >
-            ✕
+            <span className="material-symbols-outlined">close</span>
           </button>
         </div>
       ))}

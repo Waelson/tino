@@ -1,29 +1,44 @@
+/* ── SearchBar — M3 tonal search bar ── */
+
 .wrap {
   position: relative;
   display: flex;
   align-items: center;
-  margin: 0 0 0.5rem;
+  margin-bottom: 8px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  color: var(--md-on-surface-variant);
+  font-size: 20px;
+  pointer-events: none;
+  line-height: 1;
+  display: flex;
+  align-items: center;
 }
 
 .input {
   width: 100%;
-  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--surface);
-  color: var(--ink);
-  font-size: 0.875rem;
-  font-family: inherit;
+  height: 40px;
+  padding: 0 40px 0 40px;
+  background: var(--md-surface-container-high);
+  border: none;
+  border-radius: var(--md-shape-full);
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  color: var(--md-on-surface);
   outline: none;
-  transition: border-color 0.15s;
-}
-
-.input:focus {
-  border-color: var(--accent);
+  transition: outline 0.1s;
 }
 
 .input::placeholder {
-  color: var(--muted);
+  color: var(--md-on-surface-variant);
+}
+
+.input:focus {
+  outline: 2px solid var(--md-primary);
+  outline-offset: -2px;
 }
 
 /* Remove o botão nativo de limpar do input[type=search] */
@@ -33,16 +48,24 @@
 
 .limpar {
   position: absolute;
-  right: 0.5rem;
+  right: 4px;
   background: none;
   border: none;
-  color: var(--muted);
+  color: var(--md-on-surface-variant);
   cursor: pointer;
-  font-size: 0.75rem;
-  padding: 0.25rem;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--md-shape-full);
+  transition: background 0.12s;
 }
 
 .limpar:hover {
-  color: var(--ink);
+  background: rgba(25,28,28,.08);
+}
+
+.limpar .material-symbols-outlined {
+  font-size: 20px;
 }

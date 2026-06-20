@@ -39,6 +39,7 @@ export function SearchBar() {
 
   return (
     <div role="search" className={styles.wrap}>
+      <span className={`${styles.searchIcon} material-symbols-outlined`}>search</span>
       <input
         type="search"
         className={styles.input}
@@ -54,7 +55,7 @@ export function SearchBar() {
           aria-label="Limpar busca"
           onClick={limpar}
         >
-          ✕
+          <span className="material-symbols-outlined">close</span>
         </button>
       )}
     </div>

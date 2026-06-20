@@ -1,23 +1,24 @@
+/* ── TriageQueue — M3 warning tonal surface ── */
+
 .queue {
-  background: linear-gradient(180deg, #fcf4e2, var(--amber-soft));
-  border: 1px solid #efddb4;
-  border-radius: var(--r-lg);
+  background: var(--md-warning-container);
+  border-radius: var(--md-shape-md);
   padding: 16px 18px;
   margin-bottom: 22px;
-  box-shadow: var(--shadow-sm);
 }
 
 .heading {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--amber);
-  letter-spacing: 0.04em;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--md-on-warning-container);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 10px;
 }
 
 .count {
-  font-weight: 500;
+  font-weight: 400;
+  opacity: 0.8;
 }
 
 .list {
@@ -30,7 +31,7 @@
   align-items: center;
   gap: 10px;
   padding: 10px 0;
-  border-top: 1px dashed #e8d5a8;
+  border-top: 1px dashed var(--md-outline-variant);
   flex-wrap: wrap;
 }
 
@@ -43,7 +44,7 @@
   min-width: 200px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--ink);
+  color: var(--md-on-surface);
 }
 
 .btns {
@@ -52,44 +53,48 @@
   flex-wrap: wrap;
 }
 
+/* M3 outlined button */
 .btn {
-  font-size: 12.5px;
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 16px;
+  border: 1px solid var(--md-outline);
+  border-radius: var(--md-shape-sm);
+  background: var(--md-surface-container-lowest);
+  color: var(--md-on-surface);
+  font-size: 13px;
   font-weight: 500;
-  padding: 6px 12px;
-  border-radius: 999px;
-  border: 1px solid #e3d2a6;
-  background: rgba(255, 255, 255, 0.85);
-  color: var(--ink);
-  transition: background 0.12s, border-color 0.12s, transform 0.1s;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  transition: background 0.12s;
 }
 
 .btn:hover:not(:disabled) {
-  background: #fff;
-  border-color: #c9b27c;
-  transform: translateY(-1px);
+  background: var(--md-surface-container-low);
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.38;
   cursor: not-allowed;
-  transform: none;
 }
 
 .btn:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--md-primary);
   outline-offset: 2px;
 }
 
 .btnDescartar {
-  color: var(--red);
-  border-color: #efc9c9;
+  border-color: var(--md-error);
+  color: var(--md-error);
+  background: transparent;
 }
 
 .btnDescartar:hover:not(:disabled) {
-  background: var(--red-soft);
+  background: var(--md-error-container);
 }
 
-/* Ação inline (adiar) */
+/* ── Ação inline (adiar) ── */
 .acaoInline {
   width: 100%;
   padding: 10px 0 4px;
@@ -100,8 +105,8 @@
 
 .acaoLabel {
   font-size: 11px;
-  font-weight: 600;
-  color: var(--faint);
+  font-weight: 500;
+  color: var(--md-on-surface-variant);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -115,58 +120,66 @@
 
 .dateInput {
   padding: 7px 12px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
+  border: 1px solid var(--md-outline);
+  border-radius: var(--md-shape-xs);
   font-size: 13.5px;
-  background: var(--surface);
+  font-family: 'Roboto', sans-serif;
+  background: var(--md-surface-container-lowest);
+  color: var(--md-on-surface);
+  outline: none;
 }
 
 .dateInput:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-glow);
+  border: 2px solid var(--md-primary);
 }
 
 .acaoSubmit {
-  background: var(--accent);
-  color: #fff;
+  background: var(--md-primary);
+  color: var(--md-on-primary);
   border: none;
-  border-radius: 999px;
-  padding: 7px 16px;
+  border-radius: var(--md-shape-full);
+  padding: 0 16px;
+  height: 32px;
   font-size: 13px;
-  font-weight: 600;
-  transition: background 0.14s;
+  font-weight: 500;
+  font-family: 'Google Sans', sans-serif;
+  cursor: pointer;
+  transition: box-shadow 0.14s;
 }
 
 .acaoSubmit:hover:not(:disabled) {
-  background: var(--accent-ink);
+  box-shadow: var(--md-elev-1);
 }
 
 .acaoSubmit:disabled {
-  opacity: 0.45;
+  background: rgba(25,28,28,.12);
+  color: rgba(25,28,28,.38);
   cursor: not-allowed;
 }
 
 .acaoSubmit:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--md-primary);
   outline-offset: 2px;
 }
 
 .acaoCancel {
   background: transparent;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 7px 14px;
+  border: 1px solid var(--md-outline);
+  border-radius: var(--md-shape-full);
+  padding: 0 14px;
+  height: 32px;
   font-size: 13px;
-  color: var(--muted);
+  font-family: 'Roboto', sans-serif;
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
   transition: background 0.14s;
 }
 
 .acaoCancel:hover {
-  background: var(--surface-2);
+  background: rgba(25,28,28,.08);
 }
 
 .acaoCancel:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--md-primary);
   outline-offset: 2px;
 }

@@ -1,3 +1,5 @@
+/* ── CaptureBar — M3 ── */
+
 .capture {
   display: flex;
   gap: 10px;
@@ -14,72 +16,76 @@
 
 .input {
   width: 100%;
-  padding: 13px 18px;
-  border-radius: 999px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-sm);
+  padding: 13px 20px;
+  border-radius: var(--md-shape-full);
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
   font-size: 14px;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  font-family: 'Roboto', sans-serif;
+  color: var(--md-on-surface);
+  outline: none;
+  transition: border-color 0.15s, border-width 0.05s;
+}
+
+.input::placeholder {
+  color: var(--md-on-surface-variant);
 }
 
 .input:hover {
-  border-color: #cbd6d1;
+  border-color: var(--md-outline);
 }
 
 .input:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-glow);
+  border-color: var(--md-primary);
+  border-width: 2px;
 }
 
 .input[aria-invalid='true'] {
-  border-color: var(--red);
+  border-color: var(--md-error);
 }
 
 .input:disabled {
-  opacity: 0.6;
+  opacity: 0.38;
   cursor: not-allowed;
 }
 
 .erro {
   font-size: 12px;
-  color: var(--red);
-  padding: 0 18px;
+  color: var(--md-error);
+  padding: 0 20px;
 }
 
 .btn {
-  background: var(--accent);
-  color: #fff;
+  background: var(--md-primary);
+  color: var(--md-on-primary);
   border: none;
-  border-radius: 999px;
+  border-radius: var(--md-shape-full);
   padding: 0 24px;
   height: 48px;
   font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  box-shadow: 0 6px 16px -6px var(--accent-glow), var(--shadow-sm);
-  transition: background 0.15s, transform 0.12s;
+  font-weight: 500;
+  font-family: 'Google Sans', sans-serif;
+  letter-spacing: .1px;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
   flex-shrink: 0;
 }
 
 .btn:hover:not(:disabled) {
-  background: var(--accent-ink);
-  transform: translateY(-1px);
+  box-shadow: var(--md-elev-1);
 }
 
 .btn:active:not(:disabled) {
-  transform: scale(0.98);
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
   box-shadow: none;
 }
 
+.btn:disabled {
+  background: rgba(25,28,28,.12);
+  color: rgba(25,28,28,.38);
+  cursor: not-allowed;
+}
+
 .btn:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--md-primary);
   outline-offset: 2px;
 }
