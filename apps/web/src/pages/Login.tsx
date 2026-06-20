@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { client } from '../api/client.js'
@@ -47,37 +46,44 @@ export function Login() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <div className={styles.logo}>Radar</div>
+        <div className={styles.logoArea}>
+          <div className={styles.logoMark}>
+            <span className="material-symbols-outlined">radar</span>
+          </div>
+          <span className={styles.logoText}>Radar</span>
+        </div>
         <div className={styles.subtitle}>Entre na sua conta</div>
 
         <form className={styles.form} onSubmit={(e) => { void handleSubmit(e) }}>
           {erro && <div className={styles.globalError}>{erro}</div>}
 
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="email">E-mail</label>
             <input
               id="email"
               type="email"
               className={styles.input}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder=" "
               required
               autoComplete="email"
               autoFocus
             />
+            <label className={styles.label} htmlFor="email">E-mail</label>
           </div>
 
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="senha">Senha</label>
             <input
               id="senha"
               type="password"
               className={styles.input}
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
+              placeholder=" "
               required
               autoComplete="current-password"
             />
+            <label className={styles.label} htmlFor="senha">Senha</label>
           </div>
 
           <button

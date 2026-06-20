@@ -4,6 +4,7 @@ import { client } from '../api/client.js'
 import { useAuth } from '../contexts/AuthContext.js'
 import type { ApiError, AuthResponse } from '../types/api.js'
 import { isApiError } from '../types/api.js'
+// @ts-ignore
 import styles from './Registro.module.css'
 
 export function Registro() {
@@ -57,28 +58,33 @@ export function Registro() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <div className={styles.logo}>Radar</div>
+        <div className={styles.logoArea}>
+          <div className={styles.logoMark}>
+            <span className="material-symbols-outlined">radar</span>
+          </div>
+          <span className={styles.logoText}>Radar</span>
+        </div>
         <div className={styles.subtitle}>Crie sua conta</div>
 
         <form className={styles.form} onSubmit={(e) => { void handleSubmit(e) }}>
           {erros.global && <div className={styles.globalError}>{erros.global}</div>}
 
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="nome">Nome</label>
             <input
               id="nome"
               type="text"
               className={styles.input}
               value={nome}
               onChange={(e) => setNome(e.target.value)}
+              placeholder=" "
               required
               autoComplete="name"
               autoFocus
             />
+            <label className={styles.label} htmlFor="nome">Nome</label>
           </div>
 
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="email">E-mail</label>
             <input
               id="email"
               type="email"
@@ -88,14 +94,15 @@ export function Registro() {
                 setEmail(e.target.value)
                 setErros((prev) => ({ ...prev, email: undefined }))
               }}
+              placeholder=" "
               required
               autoComplete="email"
             />
+            <label className={styles.label} htmlFor="email">E-mail</label>
             {erros.email && <span className={styles.fieldError}>{erros.email}</span>}
           </div>
 
           <div className={styles.field}>
-            <label className={styles.label} htmlFor="senha">Senha</label>
             <input
               id="senha"
               type="password"
@@ -105,10 +112,12 @@ export function Registro() {
                 setSenha(e.target.value)
                 setErros((prev) => ({ ...prev, senha: undefined }))
               }}
+              placeholder=" "
               required
               autoComplete="new-password"
               minLength={8}
             />
+            <label className={styles.label} htmlFor="senha">Senha</label>
             {erros.senha && <span className={styles.fieldError}>{erros.senha}</span>}
           </div>
 
