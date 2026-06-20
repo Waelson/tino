@@ -104,13 +104,13 @@ export function AppShell({ children, drawer }: AppShellProps) {
 
         <SearchBar />
 
-        <button
-          className={styles.avatarBtn}
-          aria-label={`Conta de ${usuario?.nome ?? 'usuário'}`}
-          title={usuario?.email ?? ''}
-        >
-          {initials}
-        </button>
+        <div className={styles.topbarUser}>
+          <div className={styles.topbarAvatar}>{initials}</div>
+          <div className={styles.topbarUserInfo}>
+            <div className={styles.topbarUserName}>{usuario?.nome}</div>
+            <div className={styles.topbarUserEmail}>{usuario?.email}</div>
+          </div>
+        </div>
       </header>
 
       {/* ── APP BODY ── */}
@@ -154,13 +154,6 @@ export function AppShell({ children, drawer }: AppShellProps) {
             <span className={styles.navItemLabel}>Sair</span>
           </button>
 
-          <div className={styles.navFooter}>
-            <div className={styles.navAvatar}>{initials}</div>
-            <div className={styles.navUserInfo}>
-              <div className={styles.navUserName}>{usuario?.nome}</div>
-              <div className={styles.navUserEmail}>{usuario?.email}</div>
-            </div>
-          </div>
         </nav>
 
         {/* CONTENT */}

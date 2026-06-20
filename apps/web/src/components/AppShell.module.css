@@ -58,21 +58,52 @@
 
 .topbarSpacer { flex: 1; }
 
-.avatarBtn {
-  width: 40px; height: 40px;
+.topbarUser {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  padding-left: 16px;
+  flex-shrink: 0;
+}
+
+.topbarAvatar {
+  width: 36px; height: 36px;
   border-radius: 50%;
-  border: none;
-  background: var(--md-primary-container);
-  color: var(--md-on-primary-container);
+  background: var(--md-primary);
+  color: var(--md-on-primary);
   font-family: 'Google Sans', sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 4px;
   flex-shrink: 0;
+}
+
+.topbarUserInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbarUserName {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--md-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.topbarUserEmail {
+  font-size: 11px;
+  color: var(--md-on-surface-variant);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
 }
 
 /* ── SCRIM (mobile) ── */
@@ -376,7 +407,8 @@
   .navItemLabel,
   .navSectionLabel,
   .navDivider,
-  .navFooter { display: none; }
+  .navFooter,
+  .topbarUserInfo { display: none; }
   .navBadge {
     position: absolute;
     top: 4px; right: 4px;
