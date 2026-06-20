@@ -363,3 +363,12 @@
   cursor: pointer;
 }
 .retryBtn:hover { box-shadow: var(--md-elev-1); }
+
+@media (max-width: 768px) {
+  .formRow {
+    flex-direction: column;
+  }
+  .inputUrl {
+    flex: 1;
+  }
+}

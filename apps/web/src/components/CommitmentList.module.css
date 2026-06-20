@@ -216,6 +216,45 @@
   .hideMobile { display: none; }
 }
 
+@media (max-width: 768px) {
+  /* Converte tabela em cards */
+  .table       { display: block; }
+  .table thead { display: none; }
+  .table tbody { display: block; }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+    padding: 12px 4px;
+    border-bottom: 1px solid var(--md-outline-variant);
+    border-radius: 0;
+  }
+  .row:last-child { border-bottom: none; }
+  .row:hover td  { background: transparent; }
+  .row:hover     { background: var(--md-surface-container-low); }
+
+  .row td {
+    display: block;
+    padding: 0;
+    border: none;
+    vertical-align: unset;
+  }
+
+  /* Título ocupa linha inteira */
+  .tdTitulo {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 4px;
+  }
+
+  /* Dono, Prazo e Status na mesma linha abaixo */
+  .tdDono   { flex: 0 0 auto; font-size: 13px; }
+  .tdPrazo  { flex: 0 0 auto; font-size: 13px; }
+  .tdStatus { flex: 1; text-align: right; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .skeleton { animation: none; }
 }

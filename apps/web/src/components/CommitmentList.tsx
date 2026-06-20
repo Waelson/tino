@@ -169,7 +169,7 @@ function CommitmentRow({ item, onFiltrarDono }: { item: Compromisso; onFiltrarDo
           </span>
         )}
       </td>
-      <td>
+      <td className={styles.tdDono}>
         {item.dono ? (
           <span
             className={`${item.comigo ? styles.donoEu : ''} ${styles.donoLink}`}
@@ -188,7 +188,7 @@ function CommitmentRow({ item, onFiltrarDono }: { item: Compromisso; onFiltrarDo
       <td className={styles.hideMobile}>
         <span className={styles.muted}>{TIPO_LABELS[item.tipo ?? ''] ?? '—'}</span>
       </td>
-      <td>
+      <td className={styles.tdPrazo}>
         <span className={`${styles.mono}${item.prazoEstourado ? ` ${styles.late}` : ''}`}>
           {fmtDate(item.prazo)}
         </span>
@@ -198,7 +198,7 @@ function CommitmentRow({ item, onFiltrarDono }: { item: Compromisso; onFiltrarDo
           {fmtDate(item.checkpoint)}
         </span>
       </td>
-      <td>
+      <td className={styles.tdStatus}>
         <span className={`${styles.badge} ${statusClass}`}>{statusLabel}</span>
       </td>
     </tr>
