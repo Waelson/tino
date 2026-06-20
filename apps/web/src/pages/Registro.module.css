@@ -26,17 +26,11 @@
   margin-bottom: 8px;
 }
 
-.logoMark {
-  width: 36px;
-  height: 36px;
-  background: var(--md-primary);
-  border-radius: var(--md-shape-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+.logoImg {
+  height: 100px;
+  width: auto;
+  display: block;
 }
-.logoIcon { color: white; font-size: 22px; }
 
 .logoText {
   font-family: 'Google Sans', sans-serif;
@@ -48,8 +42,10 @@
 
 .subtitle {
   font-size: 14px;
+  font-weight: 700;
   color: var(--md-on-surface-variant);
   margin-bottom: 28px;
+  text-align: center;
 }
 
 /* ── Form ── */

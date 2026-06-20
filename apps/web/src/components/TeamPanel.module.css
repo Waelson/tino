@@ -41,6 +41,21 @@
   padding: 2px 10px;
 }
 
+/* ── Legenda dos dots ── */
+.legenda {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.legendaTexto {
+  font-size: 12px;
+  color: var(--md-on-surface-variant);
+  margin-right: 16px;
+}
+
 /* ── Tabela ── */
 .table {
   width: 100%;

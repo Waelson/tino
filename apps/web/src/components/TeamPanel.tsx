@@ -77,6 +77,21 @@ export function TeamPanel() {
         <span className={styles.countBadge}>{data.membros.length}</span>
       </div>
 
+      <div className={styles.legenda}>
+        <span className={`${styles.dot} ${styles.dotGreen}`} aria-hidden="true">
+          <span className="material-symbols-outlined">check</span>
+        </span>
+        <span className={styles.legendaTexto}>Tudo em dia</span>
+        <span className={`${styles.dot} ${styles.dotAmber}`} aria-hidden="true">
+          <span className="material-symbols-outlined">warning</span>
+        </span>
+        <span className={styles.legendaTexto}>Bloqueado ou prazo em risco</span>
+        <span className={`${styles.dot} ${styles.dotRed}`} aria-hidden="true">
+          <span className="material-symbols-outlined">priority_high</span>
+        </span>
+        <span className={styles.legendaTexto}>Prazo ou checkpoint estourado</span>
+      </div>
+
       <div className={styles.tableCard}>
       <table className={styles.table}>
         <thead>

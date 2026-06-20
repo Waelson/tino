@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import horizontalLogo from '../assets/leadtrack_horizontal_logo.svg'
 import { Link, useNavigate } from 'react-router-dom'
 import { client } from '../api/client.js'
 import { useAuth } from '../contexts/AuthContext.js'
@@ -59,10 +60,7 @@ export function Registro() {
     <div className={styles.page}>
       <div className={styles.card}>
         <div className={styles.logoArea}>
-          <div className={styles.logoMark}>
-            <span className={`material-symbols-outlined ${styles.logoIcon}`}>radar</span>
-          </div>
-          <span className={styles.logoText}>Radar</span>
+          <img src={horizontalLogo} alt="LeadTrack" className={styles.logoImg} />
         </div>
         <div className={styles.subtitle}>Crie sua conta</div>
 

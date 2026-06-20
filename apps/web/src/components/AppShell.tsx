@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import leadtrackIcon from '../assets/leadtrack_icon.svg'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext.js'
@@ -97,9 +98,7 @@ export function AppShell({ children, drawer }: AppShellProps) {
         </button>
 
         <div className={styles.topbarLogo}>
-          <div className={styles.logoMark}>
-            <span className={`material-symbols-outlined ${styles.logoIcon}`}>radar</span>
-          </div>
+          <img src={leadtrackIcon} alt="Radar" className={styles.logoImg} />
         </div>
 
         <SearchBar />

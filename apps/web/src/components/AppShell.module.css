@@ -38,15 +38,11 @@
   flex-shrink: 0;
 }
 
-.logoMark {
-  width: 32px; height: 32px;
-  background: var(--md-primary);
-  border-radius: var(--md-shape-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.logoImg {
+  height: 56px;
+  width: auto;
+  display: block;
 }
-.logoIcon { color: white; font-size: 20px; }
 
 .topbarTitle {
   font-family: 'Google Sans', sans-serif;
