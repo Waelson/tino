@@ -462,9 +462,8 @@
   .drawerPanel { flex-basis: 380px; }
 }
 
-/* Mobile: drawer ocupa tela toda, main some */
+/* Mobile */
 @media (max-width: 768px) {
-  .main { display: none; }
   .drawerPanel {
     flex: 1;
     border-left: none;
@@ -513,7 +512,5 @@
     padding: 0 6px;
   }
   .scrim { display: block; }
-  .bottomNav { display: flex; }
-  .fabMobile { display: flex; }
-  .main { padding: 12px 16px 140px; }
+  .main { padding: 12px 16px 24px; }
 }
