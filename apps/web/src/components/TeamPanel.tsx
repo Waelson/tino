@@ -4,6 +4,14 @@ import { getEquipe } from '../api/compromissos.js'
 // @ts-ignore
 import styles from './TeamPanel.module.css'
 
+function NumBadge({ value, alerta }: { value: number; alerta?: boolean }) {
+  return (
+    <span className={`${styles.numBadge} ${alerta && value > 0 ? styles.numAlerta : styles.numNeutral}`}>
+      {value}
+    </span>
+  )
+}
+
 export function TeamPanel() {
   const [, setSearchParams] = useSearchParams()
 
@@ -32,6 +40,10 @@ export function TeamPanel() {
   if (!data || data.membros.length === 0) {
     return (
       <section className={styles.wrap} aria-label="Painel de equipe">
+        <div className={styles.sectionHeader}>
+          <span className={`material-symbols-outlined ${styles.sectionIcon}`}>groups</span>
+          <span className={styles.sectionTitle}>Equipe</span>
+        </div>
         <div className={styles.empty}>Nenhuma delegação ativa no momento.</div>
       </section>
     )
@@ -39,13 +51,19 @@ export function TeamPanel() {
 
   return (
     <section className={styles.wrap} aria-label="Painel de equipe">
+      <div className={styles.sectionHeader}>
+        <span className={`material-symbols-outlined ${styles.sectionIcon}`}>groups</span>
+        <span className={styles.sectionTitle}>Equipe</span>
+        <span className={styles.countBadge}>{data.membros.length}</span>
+      </div>
+
       <table className={styles.table}>
         <thead>
           <tr>
             <th>Dono</th>
             <th>Ativos</th>
-            <th className={styles.hideMobile}>Checkpoint vencido</th>
-            <th className={styles.hideMobile}>Prazo estourado</th>
+            <th className={styles.hideMobile}>CK Vencido</th>
+            <th className={styles.hideMobile}>Prazo Estourado</th>
             <th>Bloqueados</th>
           </tr>
         </thead>
@@ -61,21 +79,15 @@ export function TeamPanel() {
               onKeyDown={(e) => { if (e.key === 'Enter') verDono(m.dono) }}
             >
               <td className={styles.nome}>{m.dono}</td>
-              <td className={styles.num}>{m.ativos}</td>
+              <td><NumBadge value={m.ativos} /></td>
               <td className={styles.hideMobile}>
-                {m.checkpointsVencidos > 0
-                  ? <span className={styles.alerta}>{m.checkpointsVencidos}</span>
-                  : <span className={styles.ok}>—</span>}
+                <NumBadge value={m.checkpointsVencidos} alerta />
               </td>
               <td className={styles.hideMobile}>
-                {m.prazosEstourados > 0
-                  ? <span className={styles.alerta}>{m.prazosEstourados}</span>
-                  : <span className={styles.ok}>—</span>}
+                <NumBadge value={m.prazosEstourados} alerta />
               </td>
               <td>
-                {m.bloqueados > 0
-                  ? <span className={styles.alerta}>{m.bloqueados}</span>
-                  : <span className={styles.ok}>—</span>}
+                <NumBadge value={m.bloqueados} alerta />
               </td>
             </tr>
           ))}
@@ -88,6 +100,10 @@ export function TeamPanel() {
 function SkeletonRows() {
   return (
     <section className={styles.wrap} aria-label="Painel de equipe">
+      <div className={styles.sectionHeader}>
+        <span className={`material-symbols-outlined ${styles.sectionIcon}`}>groups</span>
+        <span className={styles.sectionTitle}>Equipe</span>
+      </div>
       <table className={styles.table}>
         <tbody>
           {[1, 2, 3].map((i) => (
