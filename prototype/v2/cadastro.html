@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radar — Criar conta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  <style>
+    :root {
+      --md-primary: #006B5E;
+      --md-on-primary: #FFFFFF;
+      --md-primary-container: #9EF2E4;
+      --md-on-primary-container: #00201C;
+      --md-secondary: #4A635F;
+      --md-on-secondary: #FFFFFF;
+      --md-secondary-container: #CCE8E2;
+      --md-error: #BA1A1A;
+      --md-error-container: #FFDAD6;
+      --md-on-error-container: #410002;
+      --md-background: #FAFDFC;
+      --md-on-background: #191C1C;
+      --md-surface: #FAFDFC;
+      --md-on-surface: #191C1C;
+      --md-surface-variant: #DAE5E2;
+      --md-on-surface-variant: #3F4948;
+      --md-outline: #6F7979;
+      --md-outline-variant: #BEC9C7;
+      --md-surface-container-lowest: #FFFFFF;
+      --md-surface-container-low: #F3F6F5;
+      --md-surface-container: #EDF0EF;
+      --md-surface-container-high: #E7EAEA;
+      --md-inverse-primary: #82D5C7;
+      --md-elev-1: 0px 1px 2px rgba(0,0,0,.3), 0px 1px 3px 1px rgba(0,0,0,.15);
+      --md-shape-xs: 4px;
+      --md-shape-sm: 8px;
+      --md-shape-md: 12px;
+      --md-shape-lg: 16px;
+      --md-shape-xl: 28px;
+      --md-shape-full: 50px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--md-surface-container-low);
+      color: var(--md-on-surface);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      line-height: 1;
+      vertical-align: middle;
+    }
+
+    .auth-page {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      min-height: 100vh;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--md-shape-md);
+      background: var(--md-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-logo .material-symbols-outlined {
+      color: var(--md-on-primary);
+      font-size: 28px;
+    }
+    .brand-name {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--md-on-surface);
+      letter-spacing: -0.5px;
+    }
+
+    .auth-card {
+      background: var(--md-surface-container-lowest);
+      border-radius: var(--md-shape-xl);
+      padding: 40px 40px 32px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: var(--md-elev-1);
+    }
+
+    .auth-card-header { margin-bottom: 28px; }
+    .auth-card-title {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--md-on-surface);
+      margin-bottom: 8px;
+    }
+    .auth-card-subtitle {
+      font-size: 14px;
+      color: var(--md-on-surface-variant);
+      line-height: 1.5;
+    }
+
+    /* ── Step indicator ── */
+    .step-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 28px;
+    }
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+    .step-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--md-surface-container-high);
+      color: var(--md-on-surface-variant);
+      font-size: 11px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all .3s;
+    }
+    .step-circle.active {
+      background: var(--md-primary);
+      color: var(--md-on-primary);
+    }
+    .step-circle.done {
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+    }
+    .step-line {
+      flex: 1;
+      height: 2px;
+      background: var(--md-outline-variant);
+      margin: 0 4px;
+      transition: background .3s;
+    }
+    .step-line.done { background: var(--md-primary); }
+    .step-label {
+      font-size: 11px;
+      color: var(--md-on-surface-variant);
+      font-weight: 500;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+    .step-label.active { color: var(--md-primary); }
+
+    /* ── Text Field ── */
+    .text-field {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .text-field-input {
+      width: 100%;
+      height: 56px;
+      padding: 16px 48px 16px 16px;
+      border: 1px solid var(--md-outline);
+      border-radius: var(--md-shape-xs);
+      background: transparent;
+      font-size: 16px;
+      font-family: 'Roboto', sans-serif;
+      color: var(--md-on-surface);
+      outline: none;
+      transition: border-color .2s;
+    }
+    .text-field-input.no-icon { padding-right: 16px; }
+    .text-field-input:hover { border-color: var(--md-on-surface); }
+    .text-field-input:focus { border: 2px solid var(--md-primary); }
+    .text-field-input.error { border-color: var(--md-error) !important; }
+
+    .text-field-label {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: var(--md-on-surface-variant);
+      pointer-events: none;
+      transition: all .2s cubic-bezier(.4,0,.2,1);
+      background: var(--md-surface-container-lowest);
+      padding: 0 4px;
+    }
+    .text-field-input:focus ~ .text-field-label,
+    .text-field-input:not(:placeholder-shown) ~ .text-field-label {
+      top: 0;
+      font-size: 12px;
+      color: var(--md-primary);
+      font-weight: 500;
+    }
+    .text-field-input.error ~ .text-field-label { color: var(--md-error); }
+
+    .text-field-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--md-on-surface-variant);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: var(--md-shape-full);
+      user-select: none;
+    }
+    .text-field-icon:hover { background: rgba(0,0,0,.08); }
+
+    .text-field-helper {
+      font-size: 12px;
+      color: var(--md-on-surface-variant);
+      padding: 4px 16px 0;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .text-field-helper.error { color: var(--md-error); }
+    .text-field-helper .material-symbols-outlined { font-size: 14px; }
+
+    /* ── Password strength ── */
+    .pw-strength {
+      margin-top: 8px;
+      display: none;
+    }
+    .pw-strength.visible { display: block; }
+    .pw-bars {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+    .pw-bar {
+      flex: 1;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--md-outline-variant);
+      transition: background .3s;
+    }
+    .pw-bar.fraco { background: var(--md-error); }
+    .pw-bar.medio { background: #EF8500; }
+    .pw-bar.forte { background: #2E7D32; }
+    .pw-label {
+      font-size: 11px;
+      color: var(--md-on-surface-variant);
+    }
+
+    /* ── Form view ── */
+    .form-view { display: none; }
+    .form-view.active { display: block; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      border-radius: var(--md-shape-full);
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: .1px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow .2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: currentColor;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .btn:hover::after { opacity: .08; }
+    .btn:active::after { opacity: .12; }
+    .btn-filled {
+      background: var(--md-primary);
+      color: var(--md-on-primary);
+      padding: 10px 24px;
+      height: 40px;
+    }
+    .btn-filled:hover { box-shadow: var(--md-elev-1); }
+    .btn-text {
+      background: transparent;
+      color: var(--md-primary);
+      padding: 10px 12px;
+      height: 40px;
+    }
+    .btn-tonal {
+      background: var(--md-secondary-container);
+      color: var(--md-on-primary-container);
+      padding: 10px 24px;
+      height: 40px;
+    }
+    .btn-lg { height: 48px; font-size: 15px; }
+
+    .auth-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    /* ── Success view ── */
+    .success-view {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 16px 0;
+    }
+    .success-view.active { display: flex; }
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--md-primary-container);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .success-icon .material-symbols-outlined {
+      font-size: 36px;
+      color: var(--md-on-primary-container);
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .success-title {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+    .success-subtitle {
+      font-size: 14px;
+      color: var(--md-on-surface-variant);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    /* ── Spinner ── */
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,.4);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: none;
+    }
+    .btn[aria-busy="true"] .spinner { display: block; }
+    .btn[aria-busy="true"] .btn-label { display: none; }
+    .btn[aria-busy="true"] { pointer-events: none; opacity: .8; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 520px) {
+      .auth-card { padding: 32px 24px 24px; border-radius: var(--md-shape-lg); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="auth-page">
+
+  <div class="brand">
+    <div class="brand-logo">
+      <span class="material-symbols-outlined">radar</span>
+    </div>
+    <span class="brand-name">Radar</span>
+  </div>
+
+  <div class="auth-card" role="main">
+
+    <div class="auth-card-header">
+      <h1 class="auth-card-title">Criar sua conta</h1>
+      <p class="auth-card-subtitle">Gerencie seus compromissos como líder técnico</p>
+    </div>
+
+    <!-- Step indicator -->
+    <div class="step-indicator" id="stepIndicator">
+      <div class="step">
+        <div class="step-circle active" id="step1Circle">1</div>
+        <span class="step-label active" id="step1Label">Perfil</span>
+      </div>
+      <div class="step-line" id="stepLine1"></div>
+      <div class="step">
+        <div class="step-circle" id="step2Circle">2</div>
+        <span class="step-label" id="step2Label">Acesso</span>
+      </div>
+    </div>
+
+    <!-- Step 1: Nome + Email -->
+    <div class="form-view active" id="step1">
+      <div class="text-field">
+        <input class="text-field-input no-icon" type="text" id="nome" name="nome"
+          autocomplete="name" placeholder=" " aria-label="Nome completo" required>
+        <label class="text-field-label" for="nome">Nome completo</label>
+        <div class="text-field-helper" id="nomeHelper"></div>
+      </div>
+
+      <div class="text-field">
+        <input class="text-field-input no-icon" type="email" id="email" name="email"
+          autocomplete="email" placeholder=" " aria-label="E-mail" required>
+        <label class="text-field-label" for="email">E-mail corporativo</label>
+        <div class="text-field-helper" id="emailHelper"></div>
+      </div>
+
+      <div class="auth-actions">
+        <button type="button" class="btn btn-text" onclick="window.location.href='login.html'">
+          Já tenho conta
+        </button>
+        <button type="button" class="btn btn-filled btn-lg" id="btnProximo" onclick="goToStep2()">
+          Próximo
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2: Senha -->
+    <div class="form-view" id="step2">
+      <div class="text-field">
+        <input class="text-field-input" type="password" id="senha" name="senha"
+          autocomplete="new-password" placeholder=" " aria-label="Senha" required>
+        <label class="text-field-label" for="senha">Senha</label>
+        <span class="text-field-icon material-symbols-outlined" id="toggleSenha"
+          role="button" aria-label="Mostrar senha" tabindex="0">visibility</span>
+        <div class="pw-strength" id="pwStrength">
+          <div class="pw-bars">
+            <div class="pw-bar" id="bar1"></div>
+            <div class="pw-bar" id="bar2"></div>
+            <div class="pw-bar" id="bar3"></div>
+          </div>
+          <span class="pw-label" id="pwLabel">Muito fraca</span>
+        </div>
+      </div>
+
+      <div class="text-field">
+        <input class="text-field-input" type="password" id="confirmarSenha"
+          autocomplete="new-password" placeholder=" " aria-label="Confirmar senha" required>
+        <label class="text-field-label" for="confirmarSenha">Confirmar senha</label>
+        <span class="text-field-icon material-symbols-outlined" id="toggleConfirmar"
+          role="button" aria-label="Mostrar senha" tabindex="0">visibility</span>
+        <div class="text-field-helper" id="confirmarHelper"></div>
+      </div>
+
+      <div class="auth-actions">
+        <button type="button" class="btn btn-text" onclick="goToStep1()">
+          <span class="material-symbols-outlined" style="font-size:18px">arrow_back</span>
+          Voltar
+        </button>
+        <button type="button" class="btn btn-filled btn-lg" id="btnCriar" onclick="criarConta()">
+          <div class="spinner" aria-hidden="true"></div>
+          <span class="btn-label">Criar conta</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Success -->
+    <div class="success-view" id="successView">
+      <div class="success-icon">
+        <span class="material-symbols-outlined">check_circle</span>
+      </div>
+      <h2 class="success-title">Conta criada!</h2>
+      <p class="success-subtitle">
+        Bem-vindo ao Radar.<br>
+        Você está pronto para capturar e controlar seus compromissos.
+      </p>
+      <button type="button" class="btn btn-filled btn-lg" style="width:100%;max-width:260px"
+        onclick="window.location.href='painel.html'">
+        Ir para o Radar
+      </button>
+    </div>
+
+  </div>
+
+  <div style="margin-top:24px; font-size:12px; color:var(--md-on-surface-variant); text-align:center; line-height:1.6">
+    <a href="#" style="color:var(--md-primary);text-decoration:none;font-weight:500">Privacidade</a>
+    &nbsp;·&nbsp;
+    <a href="#" style="color:var(--md-primary);text-decoration:none;font-weight:500">Termos</a>
+    &nbsp;·&nbsp;
+    <a href="#" style="color:var(--md-primary);text-decoration:none;font-weight:500">Ajuda</a>
+  </div>
+
+</div>
+
+<script>
+  let currentStep = 1;
+
+  function showHelper(id, msg, isError) {
+    const el = document.getElementById(id);
+    el.innerHTML = isError
+      ? `<span class="material-symbols-outlined">error</span>${msg}`
+      : msg;
+    el.className = 'text-field-helper' + (isError ? ' error' : '');
+  }
+  function clearHelper(id) {
+    const el = document.getElementById(id);
+    el.textContent = '';
+    el.className = 'text-field-helper';
+  }
+
+  function goToStep2() {
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    let valid = true;
+
+    if (!nome || nome.length < 2) {
+      document.getElementById('nome').classList.add('error');
+      showHelper('nomeHelper', 'Digite seu nome completo.', true);
+      valid = false;
+    } else {
+      document.getElementById('nome').classList.remove('error');
+      clearHelper('nomeHelper');
+    }
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      document.getElementById('email').classList.add('error');
+      showHelper('emailHelper', 'Digite um e-mail válido.', true);
+      valid = false;
+    } else {
+      document.getElementById('email').classList.remove('error');
+      clearHelper('emailHelper');
+    }
+
+    if (!valid) return;
+
+    // Transition to step 2
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
+
+    document.getElementById('step1Circle').classList.remove('active');
+    document.getElementById('step1Circle').classList.add('done');
+    document.getElementById('step1Circle').textContent = '';
+    document.getElementById('step1Circle').innerHTML = '<span class="material-symbols-outlined" style="font-size:14px;font-variation-settings:\'FILL\' 1">check</span>';
+    document.getElementById('stepLine1').classList.add('done');
+    document.getElementById('step2Circle').classList.add('active');
+    document.getElementById('step2Label').classList.add('active');
+
+    currentStep = 2;
+    document.getElementById('senha').focus();
+  }
+
+  function goToStep1() {
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step1').classList.add('active');
+
+    document.getElementById('step1Circle').className = 'step-circle active';
+    document.getElementById('step1Circle').textContent = '1';
+    document.getElementById('stepLine1').classList.remove('done');
+    document.getElementById('step2Circle').className = 'step-circle';
+    document.getElementById('step2Label').classList.remove('active');
+
+    currentStep = 1;
+  }
+
+  // Password strength
+  const senhaInput = document.getElementById('senha');
+  senhaInput.addEventListener('input', () => {
+    const pw = senhaInput.value;
+    const strength = document.getElementById('pwStrength');
+    const bars = [document.getElementById('bar1'), document.getElementById('bar2'), document.getElementById('bar3')];
+    const label = document.getElementById('pwLabel');
+
+    if (!pw) { strength.classList.remove('visible'); return; }
+    strength.classList.add('visible');
+
+    let score = 0;
+    if (pw.length >= 8) score++;
+    if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) score++;
+    if (/[0-9]/.test(pw) || /[^A-Za-z0-9]/.test(pw)) score++;
+
+    bars.forEach(b => b.className = 'pw-bar');
+    if (score === 1) {
+      bars[0].classList.add('fraco');
+      label.textContent = 'Fraca'; label.style.color = 'var(--md-error)';
+    } else if (score === 2) {
+      bars[0].classList.add('medio'); bars[1].classList.add('medio');
+      label.textContent = 'Razoável'; label.style.color = '#EF8500';
+    } else if (score === 3) {
+      bars.forEach(b => b.classList.add('forte'));
+      label.textContent = 'Forte'; label.style.color = '#2E7D32';
+    }
+  });
+
+  // Toggle password visibility
+  function makeToggle(toggleId, inputId) {
+    const toggle = document.getElementById(toggleId);
+    const input = document.getElementById(inputId);
+    toggle.addEventListener('click', () => {
+      const show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      toggle.textContent = show ? 'visibility_off' : 'visibility';
+    });
+    toggle.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle.click(); }
+    });
+  }
+  makeToggle('toggleSenha', 'senha');
+  makeToggle('toggleConfirmar', 'confirmarSenha');
+
+  function criarConta() {
+    const senha = document.getElementById('senha').value;
+    const confirmar = document.getElementById('confirmarSenha').value;
+    let valid = true;
+
+    if (!senha || senha.length < 6) {
+      document.getElementById('senha').classList.add('error');
+      valid = false;
+    } else {
+      document.getElementById('senha').classList.remove('error');
+    }
+
+    if (senha !== confirmar) {
+      document.getElementById('confirmarSenha').classList.add('error');
+      showHelper('confirmarHelper', 'As senhas não coincidem.', true);
+      valid = false;
+    } else {
+      document.getElementById('confirmarSenha').classList.remove('error');
+      clearHelper('confirmarHelper');
+    }
+
+    if (!valid) return;
+
+    const btn = document.getElementById('btnCriar');
+    btn.setAttribute('aria-busy', 'true');
+    setTimeout(() => {
+      btn.setAttribute('aria-busy', 'false');
+      // Show success
+      document.getElementById('step2').classList.remove('active');
+      document.getElementById('stepIndicator').style.display = 'none';
+      document.getElementById('successView').classList.add('active');
+      document.querySelector('.auth-card-header').style.display = 'none';
+    }, 1500);
+  }
+
+  // Clear error on input
+  document.querySelectorAll('.text-field-input').forEach(input => {
+    input.addEventListener('input', () => input.classList.remove('error'));
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,2960 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radar — Painel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Google+Sans:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  <style>
+    :root {
+      --md-primary: #006B5E;
+      --md-on-primary: #FFFFFF;
+      --md-primary-container: #9EF2E4;
+      --md-on-primary-container: #00201C;
+      --md-secondary: #4A635F;
+      --md-on-secondary: #FFFFFF;
+      --md-secondary-container: #CCE8E2;
+      --md-on-secondary-container: #051F1C;
+      --md-tertiary: #456179;
+      --md-on-tertiary: #FFFFFF;
+      --md-tertiary-container: #CCE5FF;
+      --md-on-tertiary-container: #001E31;
+      --md-error: #BA1A1A;
+      --md-on-error: #FFFFFF;
+      --md-error-container: #FFDAD6;
+      --md-on-error-container: #410002;
+      --md-surface: #FAFDFC;
+      --md-on-surface: #191C1C;
+      --md-surface-variant: #DAE5E2;
+      --md-on-surface-variant: #3F4948;
+      --md-outline: #6F7979;
+      --md-outline-variant: #BEC9C7;
+      --md-surface-container-lowest: #FFFFFF;
+      --md-surface-container-low: #F3F6F5;
+      --md-surface-container: #EDF0EF;
+      --md-surface-container-high: #E7EAEA;
+      --md-surface-container-highest: #E1E3E3;
+      --md-inverse-surface: #2D3131;
+      --md-inverse-on-surface: #EFF1F0;
+      --md-inverse-primary: #82D5C7;
+      --md-warning-container: #FFDDB3;
+      --md-on-warning-container: #271900;
+      --md-elev-1: 0px 1px 2px rgba(0,0,0,.3), 0px 1px 3px 1px rgba(0,0,0,.15);
+      --md-elev-2: 0px 1px 2px rgba(0,0,0,.3), 0px 2px 6px 2px rgba(0,0,0,.15);
+      --md-elev-3: 0px 4px 8px 3px rgba(0,0,0,.15), 0px 1px 3px rgba(0,0,0,.3);
+      --md-shape-xs: 4px;
+      --md-shape-sm: 8px;
+      --md-shape-md: 12px;
+      --md-shape-lg: 16px;
+      --md-shape-xl: 28px;
+      --md-shape-full: 50px;
+      --nav-width: 240px;
+      --topbar-height: 64px;
+      --bottom-nav-height: 80px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--md-surface-container-low);
+      color: var(--md-on-surface);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      line-height: 1;
+      user-select: none;
+    }
+    .icon-filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+    /* ── SCRIM ── */
+    .scrim {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.4);
+      z-index: 100;
+      cursor: pointer;
+    }
+    .scrim.visible { display: block; }
+
+    /* ── TOP APP BAR ── */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--topbar-height);
+      background: var(--md-surface-container-low);
+      display: flex;
+      align-items: center;
+      padding: 0 4px 0 4px;
+      gap: 4px;
+      z-index: 200;
+      border-bottom: 1px solid var(--md-outline-variant);
+    }
+
+    .icon-btn {
+      width: 48px; height: 48px;
+      border-radius: var(--md-shape-full);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--md-on-surface-variant);
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .icon-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--md-on-surface);
+      opacity: 0;
+      border-radius: inherit;
+      transition: opacity .2s;
+    }
+    .icon-btn:hover::after { opacity: .08; }
+    .icon-btn:active::after { opacity: .12; }
+
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+    .topbar-logo-mark {
+      width: 32px; height: 32px;
+      background: var(--md-primary);
+      border-radius: var(--md-shape-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .topbar-logo-mark .material-symbols-outlined { color: white; font-size: 20px; }
+    .topbar-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--md-on-surface);
+      letter-spacing: -.3px;
+    }
+
+    .search-bar {
+      flex: 1;
+      max-width: 720px;
+      height: 48px;
+      background: var(--md-surface-container-high);
+      border-radius: var(--md-shape-full);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+      cursor: text;
+      transition: background .2s, box-shadow .2s;
+    }
+    .search-bar:focus-within {
+      background: var(--md-surface-container-lowest);
+      box-shadow: var(--md-elev-2);
+    }
+    .search-bar .material-symbols-outlined { color: var(--md-on-surface-variant); flex-shrink: 0; }
+    .search-bar input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 16px;
+      font-family: 'Roboto', sans-serif;
+      color: var(--md-on-surface);
+      outline: none;
+    }
+    .search-bar input::placeholder { color: var(--md-on-surface-variant); }
+
+    .avatar-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+      font-family: 'Google Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 4px;
+      flex-shrink: 0;
+    }
+
+    /* ── APP BODY ── */
+    .app-body {
+      display: flex;
+      flex: 1;
+      margin-top: var(--topbar-height);
+      height: calc(100vh - var(--topbar-height));
+      overflow: hidden;
+    }
+
+    /* ── NAV DRAWER ── */
+    .nav-drawer {
+      width: var(--nav-width);
+      flex-shrink: 0;
+      background: var(--md-surface-container-low);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 12px 0 16px;
+      border-right: none;
+      transition: width .25s cubic-bezier(.4,0,.2,1);
+    }
+
+    .fab-extended {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+      border: none;
+      border-radius: var(--md-shape-lg);
+      padding: 0 20px 0 16px;
+      height: 56px;
+      font-family: 'Google Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: .1px;
+      cursor: pointer;
+      margin: 4px 12px 20px;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow .2s;
+    }
+    .fab-extended::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--md-on-primary-container);
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .fab-extended:hover { box-shadow: var(--md-elev-2); }
+    .fab-extended:hover::after { opacity: .08; }
+    .fab-extended:active::after { opacity: .12; }
+    .fab-extended .material-symbols-outlined { font-size: 24px; }
+
+    .nav-section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      padding: 8px 28px 4px;
+      margin-top: 4px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 16px 0 28px;
+      height: 56px;
+      border-radius: 0 var(--md-shape-full) var(--md-shape-full) 0;
+      margin-right: 12px;
+      cursor: pointer;
+      color: var(--md-on-surface-variant);
+      font-size: 14px;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+      transition: background .15s;
+      user-select: none;
+    }
+    .nav-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: currentColor;
+      opacity: 0;
+      transition: opacity .15s;
+      border-radius: inherit;
+    }
+    .nav-item:hover::after { opacity: .08; }
+    .nav-item.active {
+      background: var(--md-secondary-container);
+      color: var(--md-on-secondary-container);
+      font-weight: 700;
+    }
+    .nav-item .material-symbols-outlined { font-size: 20px; flex-shrink: 0; }
+    .nav-item-label { flex: 1; }
+    .nav-badge {
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: var(--md-shape-full);
+      background: var(--md-error);
+      color: var(--md-on-error);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nav-badge.warn { background: #E65100; }
+    .nav-badge.neutral { background: var(--md-surface-container-highest); color: var(--md-on-surface); }
+
+    .nav-divider {
+      height: 1px;
+      background: var(--md-outline-variant);
+      margin: 12px 16px;
+    }
+
+    .nav-footer {
+      margin-top: auto;
+      padding: 12px 16px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid var(--md-outline-variant);
+    }
+    .nav-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--md-primary);
+      color: var(--md-on-primary);
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-user-name { font-size: 13px; font-weight: 500; color: var(--md-on-surface); }
+    .nav-user-email { font-size: 11px; color: var(--md-on-surface-variant); }
+
+    /* ── MAIN + SHEET WRAPPER ── */
+    .content-wrapper {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px 120px;
+    }
+
+    /* ── METRICS ── */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .metric-card {
+      background: var(--md-surface-container-lowest);
+      border-radius: var(--md-shape-lg);
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: box-shadow .2s;
+      cursor: default;
+    }
+    .metric-card:hover { box-shadow: var(--md-elev-1); }
+    .metric-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+    }
+    .metric-value {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 32px;
+      font-weight: 400;
+      color: var(--md-on-surface);
+      line-height: 1.1;
+      margin-top: 4px;
+    }
+    .metric-value.warn { color: #E65100; }
+    .metric-value.error { color: var(--md-error); }
+    .metric-hint { font-size: 11px; color: var(--md-on-surface-variant); margin-top: 4px; }
+
+    /* CargaGauge */
+    .carga-gauge { margin-top: 10px; position: relative; }
+    .gauge-track {
+      height: 8px;
+      background: var(--md-surface-container-high);
+      border-radius: 4px;
+      overflow: visible;
+      position: relative;
+    }
+    .gauge-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--md-primary);
+      transition: width .6s cubic-bezier(.4,0,.2,1);
+      max-width: 100%;
+    }
+    .gauge-fill.alert { background: var(--md-error); }
+    .gauge-mark {
+      position: absolute;
+      left: 30%;
+      top: -4px;
+      bottom: -4px;
+      width: 2px;
+      background: var(--md-on-surface);
+      opacity: .4;
+      border-radius: 1px;
+    }
+    .gauge-mark::after {
+      content: '30%';
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      font-family: 'Roboto Mono', monospace;
+      color: var(--md-on-surface-variant);
+      white-space: nowrap;
+    }
+
+    /* ── TRIAGE SECTION ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--md-on-surface);
+    }
+    .section-count {
+      height: 20px;
+      min-width: 20px;
+      padding: 0 6px;
+      border-radius: var(--md-shape-full);
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .triage-section {
+      background: var(--md-surface-container-lowest);
+      border-radius: var(--md-shape-lg);
+      padding: 20px;
+      margin-bottom: 24px;
+      border: 2px solid var(--md-primary-container);
+    }
+
+    .triage-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--md-outline-variant);
+    }
+    .triage-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .triage-item:first-child { padding-top: 0; }
+    .triage-item-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--md-surface-container);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .triage-item-icon .material-symbols-outlined { font-size: 18px; color: var(--md-on-surface-variant); }
+    .triage-item-body { flex: 1; min-width: 0; }
+    .triage-item-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .triage-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* Assist chips for triage */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: var(--md-shape-sm);
+      border: 1px solid var(--md-outline);
+      background: transparent;
+      font-family: 'Roboto', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background .15s;
+      white-space: nowrap;
+    }
+    .chip .material-symbols-outlined { font-size: 16px; }
+    .chip::after { content:''; position:absolute; inset:0; background:currentColor; opacity:0; transition:opacity .15s; }
+    .chip:hover::after { opacity:.08; }
+    .chip:active::after { opacity:.12; }
+    .chip.chip-primary { background: var(--md-primary-container); border-color: transparent; color: var(--md-on-primary-container); }
+    .chip.chip-error { background: var(--md-error-container); border-color: transparent; color: var(--md-on-error-container); }
+
+    /* ── FILTER CHIPS ROW ── */
+    .filter-chips-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .filter-chips-row::-webkit-scrollbar { height: 0; }
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: var(--md-shape-sm);
+      border: 1px solid var(--md-outline);
+      background: transparent;
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--md-on-surface-variant);
+      cursor: pointer;
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+      transition: background .15s, color .15s, border-color .15s;
+    }
+    .filter-chip::after { content:''; position:absolute; inset:0; background:currentColor; opacity:0; transition:opacity .15s; }
+    .filter-chip:hover::after { opacity:.08; }
+    .filter-chip.selected {
+      background: var(--md-secondary-container);
+      border-color: transparent;
+      color: var(--md-on-secondary-container);
+      font-weight: 500;
+    }
+    .filter-chip .material-symbols-outlined { font-size: 16px; }
+
+    /* ── COMMITMENT LIST ── */
+    .list-header-row {
+      display: grid;
+      grid-template-columns: 1fr 140px 100px 110px 120px;
+      gap: 12px;
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      border-bottom: 1px solid var(--md-outline-variant);
+      margin-bottom: 4px;
+    }
+
+    .commitment-row {
+      display: grid;
+      grid-template-columns: 1fr 140px 100px 110px 120px;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--md-shape-md);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background .15s;
+      align-items: center;
+      border-bottom: 1px solid var(--md-outline-variant);
+    }
+    .commitment-row:last-child { border-bottom: none; }
+    .commitment-row::after { content:''; position:absolute; inset:0; background:var(--md-on-surface); opacity:0; transition:opacity .15s; border-radius:inherit; }
+    .commitment-row:hover { background: var(--md-surface-container-lowest); }
+    .commitment-row:hover::after { opacity:.04; }
+    .commitment-row.active-row { background: var(--md-secondary-container); }
+
+    .row-title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+    .row-title-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .row-flags { display: flex; gap: 4px; flex-wrap: wrap; }
+
+    /* Status badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: var(--md-shape-sm);
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .badge-nao_iniciada { background: var(--md-surface-container-high); color: var(--md-on-surface-variant); }
+    .badge-nao_iniciada .badge-dot { background: var(--md-on-surface-variant); }
+    .badge-em_andamento { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+    .badge-em_andamento .badge-dot { background: var(--md-primary); }
+    .badge-bloqueada { background: var(--md-error-container); color: var(--md-on-error-container); }
+    .badge-bloqueada .badge-dot { background: var(--md-error); }
+    .badge-aguardando { background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); }
+    .badge-aguardando .badge-dot { background: var(--md-tertiary); }
+    .badge-concluida { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+    .badge-concluida .badge-dot { background: var(--md-secondary); }
+    .badge-prazo { background: var(--md-error-container); color: var(--md-on-error-container); }
+    .badge-checkpoint { background: var(--md-warning-container); color: var(--md-on-warning-container); }
+
+    .row-owner { font-size: 13px; color: var(--md-on-surface-variant); }
+    .row-owner.me { font-weight: 600; color: var(--md-primary); }
+    .row-type { font-size: 12px; color: var(--md-on-surface-variant); text-transform: capitalize; }
+    .row-date {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 12px;
+      color: var(--md-on-surface-variant);
+    }
+    .row-date.overdue { color: var(--md-error); font-weight: 500; }
+
+    /* Empty state */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 64px 24px;
+      text-align: center;
+    }
+    .empty-state .material-symbols-outlined {
+      font-size: 64px;
+      color: var(--md-outline);
+      margin-bottom: 16px;
+    }
+    .empty-title { font-family: 'Google Sans', sans-serif; font-size: 18px; font-weight: 400; color: var(--md-on-surface); margin-bottom: 8px; }
+    .empty-subtitle { font-size: 14px; color: var(--md-on-surface-variant); }
+
+    /* ── SIDE SHEET ── */
+    .side-sheet {
+      width: 0;
+      flex-shrink: 0;
+      background: var(--md-surface-container-lowest);
+      border-left: 1px solid var(--md-outline-variant);
+      overflow: hidden;
+      transition: width .25s cubic-bezier(.4,0,.2,1);
+      display: flex;
+      flex-direction: column;
+    }
+    .side-sheet.open { width: 400px; }
+    .side-sheet-inner {
+      width: 400px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sheet-topbar {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      padding: 0 8px 0 16px;
+      gap: 8px;
+      border-bottom: 1px solid var(--md-outline-variant);
+      flex-shrink: 0;
+    }
+    .sheet-id {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 11px;
+      color: var(--md-on-surface-variant);
+      flex: 1;
+    }
+    .sheet-body { flex: 1; overflow-y: auto; padding: 20px 20px 0; }
+    .sheet-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--md-outline-variant);
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    /* ── SHEET FORM FIELDS ── */
+    .field-group { margin-bottom: 20px; }
+    .field-label-sm {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      margin-bottom: 6px;
+    }
+    .field-value-editable {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid var(--md-outline-variant);
+      padding: 6px 0;
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      color: var(--md-on-surface);
+      background: transparent;
+      outline: none;
+      transition: border-color .2s;
+      resize: none;
+    }
+    .field-value-editable:focus { border-bottom: 2px solid var(--md-primary); }
+    .field-value-editable.title { font-size: 16px; font-weight: 500; }
+
+    .field-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+
+    .save-indicator {
+      font-size: 11px;
+      color: var(--md-on-surface-variant);
+      display: none;
+      align-items: center;
+      gap: 4px;
+    }
+    .save-indicator.visible { display: flex; }
+    .save-indicator .material-symbols-outlined { font-size: 14px; }
+    .save-indicator.success { color: #2E7D32; }
+
+    /* Select field */
+    .field-select {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid var(--md-outline-variant);
+      padding: 6px 0;
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      color: var(--md-on-surface);
+      background: transparent;
+      outline: none;
+      cursor: pointer;
+    }
+    .field-select:focus { border-bottom: 2px solid var(--md-primary); }
+
+    /* ── LOG SECTION ── */
+    .log-section { margin-top: 8px; }
+    .log-add-form { display: flex; gap: 8px; margin-bottom: 16px; }
+    .log-add-form textarea {
+      flex: 1;
+      border: 1px solid var(--md-outline);
+      border-radius: var(--md-shape-sm);
+      padding: 10px 12px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 13px;
+      color: var(--md-on-surface);
+      background: transparent;
+      outline: none;
+      resize: none;
+      min-height: 60px;
+      transition: border-color .2s;
+    }
+    .log-add-form textarea:focus { border-color: var(--md-primary); border-width: 2px; }
+
+    .log-timeline { display: flex; flex-direction: column; gap: 0; }
+    .log-entry {
+      display: flex;
+      gap: 12px;
+      padding: 10px 0;
+      border-left: 2px solid var(--md-outline-variant);
+      padding-left: 16px;
+      margin-left: 10px;
+      position: relative;
+    }
+    .log-entry::before {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: 16px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--md-outline-variant);
+      border: 2px solid var(--md-surface-container-lowest);
+    }
+    .log-entry.sistema::before { background: var(--md-primary); }
+    .log-entry-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .log-entry-date {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 11px;
+      color: var(--md-on-surface-variant);
+    }
+    .log-entry-origin {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      color: var(--md-primary);
+    }
+    .log-entry.sistema .log-entry-origin { color: var(--md-on-surface-variant); }
+    .log-entry-text { font-size: 13px; color: var(--md-on-surface); line-height: 1.5; }
+
+    /* ── REFS SECTION ── */
+    .ref-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+    .ref-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: var(--md-surface-container);
+      border-radius: var(--md-shape-sm);
+      font-size: 13px;
+    }
+    .ref-item a { color: var(--md-primary); text-decoration: none; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ref-item a:hover { text-decoration: underline; }
+    .ref-desc { font-size: 11px; color: var(--md-on-surface-variant); }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      border-radius: var(--md-shape-full);
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow .2s;
+      white-space: nowrap;
+    }
+    .btn::after { content:''; position:absolute; inset:0; background:currentColor; opacity:0; transition:opacity .15s; }
+    .btn:hover::after { opacity:.08; }
+    .btn:active::after { opacity:.12; }
+    .btn-filled { background: var(--md-primary); color: var(--md-on-primary); padding: 10px 24px; height: 40px; }
+    .btn-filled:hover { box-shadow: var(--md-elev-1); }
+    .btn-outlined { background: transparent; color: var(--md-primary); border: 1px solid var(--md-outline); padding: 10px 24px; height: 40px; }
+    .btn-text { background: transparent; color: var(--md-primary); padding: 10px 12px; height: 40px; }
+    .btn-text-error { background: transparent; color: var(--md-error); padding: 10px 12px; height: 40px; }
+    .btn-sm { height: 32px; font-size: 13px; padding: 0 14px; }
+    .btn-icon { width: 40px; height: 40px; padding: 0; border-radius: var(--md-shape-full); }
+
+    /* ── DIALOG ── */
+    .dialog-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .dialog-backdrop.open { display: flex; }
+    .dialog {
+      background: var(--md-surface-container-lowest);
+      border-radius: var(--md-shape-xl);
+      padding: 24px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: var(--md-elev-3);
+      animation: dialogIn .2s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes dialogIn { from { opacity:0; transform:scale(.95); } to { opacity:1; transform:scale(1); } }
+    .dialog-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 400;
+      margin-bottom: 16px;
+      color: var(--md-on-surface);
+    }
+    .dialog-body { margin-bottom: 24px; }
+    .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+    /* Dialog text field */
+    .d-field { position: relative; margin-bottom: 20px; }
+    .d-field input, .d-field select {
+      width: 100%;
+      height: 56px;
+      padding: 16px 16px 4px;
+      border: 1px solid var(--md-outline);
+      border-radius: var(--md-shape-xs);
+      background: transparent;
+      font-size: 16px;
+      font-family: 'Roboto', sans-serif;
+      color: var(--md-on-surface);
+      outline: none;
+      appearance: none;
+      transition: border-color .2s;
+    }
+    .d-field input:focus, .d-field select:focus { border: 2px solid var(--md-primary); }
+    .d-field input.error, .d-field select.error { border-color: var(--md-error) !important; }
+    .d-field label {
+      position: absolute;
+      left: 12px;
+      top: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--md-primary);
+      pointer-events: none;
+      background: var(--md-surface-container-lowest);
+      padding: 0 4px;
+    }
+    .d-field label.error { color: var(--md-error); }
+    .d-field .helper { font-size: 12px; color: var(--md-error); padding: 4px 16px 0; display: none; }
+    .d-field .helper.visible { display: block; }
+
+    /* ── CAPTURE DIALOG ── */
+    .capture-dialog-content { display: flex; align-items: flex-start; gap: 12px; }
+    .capture-dialog-content textarea {
+      flex: 1;
+      border: none;
+      border-bottom: 2px solid var(--md-primary);
+      padding: 8px 0;
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+      color: var(--md-on-surface);
+      background: transparent;
+      outline: none;
+      resize: none;
+      min-height: 64px;
+    }
+
+    /* ── FAB MOBILE ── */
+    .fab-mobile {
+      position: fixed;
+      bottom: calc(var(--bottom-nav-height) + 16px);
+      right: 16px;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      background: var(--md-primary-container);
+      color: var(--md-on-primary-container);
+      border: none;
+      border-radius: var(--md-shape-lg);
+      padding: 0 20px 0 16px;
+      height: 56px;
+      font-family: 'Google Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: var(--md-elev-2);
+      z-index: 50;
+    }
+
+    /* ── BOTTOM NAV ── */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: var(--bottom-nav-height);
+      background: var(--md-surface-container-low);
+      border-top: 1px solid var(--md-outline-variant);
+      z-index: 100;
+      align-items: center;
+      justify-content: space-around;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 12px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--md-on-surface-variant);
+      flex: 1;
+      position: relative;
+    }
+    .bottom-nav-indicator {
+      width: 64px; height: 32px;
+      border-radius: var(--md-shape-full);
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .15s;
+      position: relative;
+    }
+    .bottom-nav-item.active .bottom-nav-indicator { background: var(--md-secondary-container); }
+    .bottom-nav-item.active { color: var(--md-on-surface); }
+    .bottom-nav-item .material-symbols-outlined { font-size: 22px; }
+    .bottom-nav-label { font-size: 11px; font-weight: 500; }
+
+    /* ── SNACKBAR ── */
+    .snackbar {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--md-inverse-surface);
+      color: var(--md-inverse-on-surface);
+      border-radius: var(--md-shape-xs);
+      padding: 14px 16px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 280px;
+      max-width: 560px;
+      box-shadow: var(--md-elev-3);
+      z-index: 500;
+      opacity: 0;
+      transition: transform .3s cubic-bezier(.4,0,.2,1), opacity .3s;
+    }
+    .snackbar.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    .snackbar-action {
+      background: transparent;
+      border: none;
+      color: var(--md-inverse-primary);
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 0;
+      white-space: nowrap;
+    }
+
+    /* ── SKELETON ── */
+    .skeleton {
+      background: linear-gradient(90deg, var(--md-surface-container-high) 25%, var(--md-surface-container) 50%, var(--md-surface-container-high) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: var(--md-shape-xs);
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1280px) {
+      .nav-drawer { width: 72px; padding: 12px 0 16px; }
+      .fab-extended { padding: 0; width: 56px; height: 56px; border-radius: var(--md-shape-lg); justify-content: center; margin: 4px auto 20px; }
+      .fab-extended span.label { display: none; }
+      .nav-item { padding: 0; justify-content: center; margin-right: 0; width: 56px; margin: 0 auto 2px; border-radius: var(--md-shape-full); }
+      .nav-item-label, .nav-section-label, .nav-divider, .nav-footer { display: none; }
+      .nav-item .nav-badge { position: absolute; top: 4px; right: 4px; width: 16px; height: 16px; min-width: 0; font-size: 9px; padding: 0; }
+      .metrics-grid { grid-template-columns: repeat(2,1fr); }
+      .side-sheet.open { width: 360px; }
+      .side-sheet-inner { width: 360px; }
+      .list-header-row { grid-template-columns: 1fr 120px 90px 110px; }
+      .commitment-row { grid-template-columns: 1fr 120px 90px 110px; }
+      .row-type { display: none; }
+    }
+    @media (max-width: 768px) {
+      .nav-drawer { display: none; }
+      .main-content { padding: 12px 16px 140px; }
+      .fab-mobile { display: flex; }
+      .bottom-nav { display: flex; }
+      .search-bar { display: none; }
+      .topbar-title { display: block; }
+      .metrics-grid { grid-template-columns: repeat(2,1fr); gap: 8px; }
+      .metric-card { padding: 12px 14px; }
+      .metric-value { font-size: 26px; }
+      .list-header-row { display: none; }
+      .commitment-row { grid-template-columns: 1fr auto; gap: 8px; }
+      .row-owner, .row-type, .row-date { display: none; }
+      .commitment-row > *:nth-child(3),
+      .commitment-row > *:nth-child(4) { display: none; }
+      .side-sheet { position: fixed; inset: 0; width: 100% !important; z-index: 150; border-left: none; }
+      .side-sheet.open { width: 100% !important; }
+    }
+    @media (min-width: 769px) {
+      .topbar-title { display: none; }
+    }
+
+    /* ── UTILS ── */
+    .divider { height: 1px; background: var(--md-outline-variant); margin: 16px 0; }
+    .text-xs { font-size: 11px; }
+    .text-muted { color: var(--md-on-surface-variant); }
+    .mt-2 { margin-top: 8px; }
+    .hidden { display: none !important; }
+    .full-width { width: 100%; }
+
+    /* ── EQUIPE ── */
+    .equipe-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .equipe-table th {
+      padding: 10px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      color: var(--md-on-surface-variant);
+      border-bottom: 1px solid var(--md-outline-variant);
+    }
+    .equipe-table td {
+      padding: 14px 16px;
+      font-size: 14px;
+      color: var(--md-on-surface);
+      border-bottom: 1px solid var(--md-outline-variant);
+    }
+    .equipe-table tbody tr:last-child td { border-bottom: none; }
+    .equipe-table tbody tr { cursor: pointer; transition: background .15s; }
+    .equipe-table tbody tr:hover td { background: var(--md-surface-container-low); }
+    .cell-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 24px;
+      padding: 0 8px;
+      border-radius: var(--md-shape-full);
+      font-size: 12px;
+      font-weight: 700;
+      font-family: 'Roboto Mono', monospace;
+    }
+    .cell-badge-alert { background: var(--md-error-container); color: var(--md-on-error-container); }
+    .cell-badge-neutral { background: var(--md-surface-container-high); color: var(--md-on-surface-variant); }
+
+    /* ── REVISÃO ── */
+    .revisao-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .revisao-card {
+      background: var(--md-surface-container-lowest);
+      border-radius: var(--md-shape-lg);
+      overflow: hidden;
+    }
+    .revisao-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--md-outline-variant);
+      gap: 8px;
+    }
+    .revisao-nav-btn {
+      width: 36px; height: 36px;
+      border-radius: var(--md-shape-full);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--md-on-surface-variant);
+      flex-shrink: 0;
+    }
+    .revisao-nav-btn:disabled { opacity: .3; cursor: default; }
+    .revisao-nav-btn:not(:disabled):hover { background: var(--md-surface-container); }
+    .revisao-week-label {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--md-on-surface);
+    }
+    .revisao-card-body { padding: 20px; }
+    .revisao-group { margin-bottom: 18px; }
+    .revisao-group:last-child { margin-bottom: 0; }
+    .revisao-group-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .revisao-group-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--md-on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+    .revisao-item {
+      padding: 10px 12px;
+      background: var(--md-surface-container);
+      border-radius: var(--md-shape-sm);
+      font-size: 13px;
+      color: var(--md-on-surface);
+      margin-bottom: 6px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .revisao-item-days {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 11px;
+      color: var(--md-error);
+      white-space: nowrap;
+      padding-top: 1px;
+      flex-shrink: 0;
+    }
+    .ia-narrativa {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--md-on-surface);
+      margin-bottom: 16px;
+    }
+    .ia-sugestoes { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .ia-sugestao-item {
+      display: flex;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--md-on-surface);
+      line-height: 1.5;
+      padding: 10px 12px;
+      background: var(--md-surface-container);
+      border-radius: var(--md-shape-sm);
+    }
+    .ia-sugestao-num {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--md-primary);
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .timeline-toolbar-label {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--md-on-surface);
+      flex: 1;
+    }
+    .timeline-group { margin-bottom: 24px; }
+    .timeline-group-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      margin-bottom: 4px;
+      border-bottom: 1px solid var(--md-outline-variant);
+    }
+    .timeline-group-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--md-on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      flex: 1;
+    }
+    .timeline-group-header.atrasados .timeline-group-label { color: var(--md-error); }
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 1fr 120px 110px 150px;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--md-shape-sm);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background .15s;
+      align-items: center;
+      border-bottom: 1px solid var(--md-surface-container);
+    }
+    .timeline-row:last-child { border-bottom: none; }
+    .timeline-row:hover { background: var(--md-surface-container-lowest); }
+    .timeline-row::after { content:''; position:absolute; inset:0; background:var(--md-on-surface); opacity:0; transition:opacity .15s; border-radius:inherit; }
+    .timeline-row:hover::after { opacity:.04; }
+    .timeline-row-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--md-on-surface);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+    .timeline-row-title > span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── LINKS ── */
+    .links-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .links-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--md-on-surface);
+    }
+    .links-cat-chips {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .links-cat-chips::-webkit-scrollbar { height: 0; }
+    .link-form-wrap {
+      background: var(--md-surface-container-lowest);
+      border-radius: var(--md-shape-lg);
+      border: 1px solid var(--md-primary-container);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .link-form-row {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .link-form-row2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .link-input {
+      width: 100%;
+      height: 40px;
+      padding: 0 12px;
+      border: 1px solid var(--md-outline);
+      border-radius: var(--md-shape-xs);
+      background: transparent;
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      color: var(--md-on-surface);
+      outline: none;
+      transition: border-color .2s;
+    }
+    .link-input:focus { border-color: var(--md-primary); border-width: 2px; }
+    .link-input::placeholder { color: var(--md-on-surface-variant); }
+    .link-form-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    .link-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--md-shape-md);
+      border-bottom: 1px solid var(--md-outline-variant);
+      transition: background .15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .link-row:last-of-type { border-bottom: none; }
+    .link-row:hover { background: var(--md-surface-container-lowest); }
+    .link-row::after { content:''; position:absolute; inset:0; background:var(--md-on-surface); opacity:0; transition:opacity .15s; border-radius:inherit; }
+    .link-row:hover::after { opacity:.04; }
+    .link-row-main { flex: 1; min-width: 0; cursor: pointer; }
+    .link-row-nome {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--md-primary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .link-row-desc {
+      font-size: 12px;
+      color: var(--md-on-surface-variant);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+    .link-row-meta { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .link-cliques {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 11px;
+      color: var(--md-on-surface-variant);
+      min-width: 32px;
+      text-align: right;
+    }
+    .link-badge {
+      padding: 2px 8px;
+      border-radius: var(--md-shape-full);
+      background: var(--md-surface-container-high);
+      color: var(--md-on-surface-variant);
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    /* Responsive — new sections */
+    @media (max-width: 1024px) {
+      .revisao-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .timeline-row { grid-template-columns: 1fr auto; }
+      .timeline-row > *:nth-child(2),
+      .timeline-row > *:nth-child(3) { display: none; }
+      .equipe-table th:nth-child(n+3),
+      .equipe-table td:nth-child(n+3) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── TOP APP BAR ── -->
+<header class="topbar">
+  <button class="icon-btn" id="menuBtn" aria-label="Menu">
+    <span class="material-symbols-outlined">menu</span>
+  </button>
+  <div class="topbar-logo">
+    <div class="topbar-logo-mark">
+      <span class="material-symbols-outlined">radar</span>
+    </div>
+    <span class="topbar-title">Radar</span>
+  </div>
+  <div class="search-bar" role="search">
+    <span class="material-symbols-outlined">search</span>
+    <input type="text" placeholder="Buscar compromissos..." aria-label="Buscar">
+  </div>
+  <button class="icon-btn" aria-label="Notificações">
+    <span class="material-symbols-outlined">notifications_none</span>
+  </button>
+  <button class="icon-btn" aria-label="Ajuda">
+    <span class="material-symbols-outlined">help_outline</span>
+  </button>
+  <button class="avatar-btn" id="avatarBtn" aria-label="Conta">WS</button>
+</header>
+
+<!-- ── SCRIM (mobile nav overlay) ── -->
+<div class="scrim" id="navScrim" aria-hidden="true"></div>
+
+<!-- ── APP BODY ── -->
+<div class="app-body">
+
+  <!-- NAV DRAWER -->
+  <nav class="nav-drawer" id="navDrawer" aria-label="Navegação">
+
+    <button class="fab-extended" id="fabCapturar" onclick="openCapture()">
+      <span class="material-symbols-outlined">add</span>
+      <span class="label">Capturar</span>
+    </button>
+
+    <div class="nav-section-label">Painel</div>
+
+    <div class="nav-item active" data-section="compromissos" onclick="setSection('compromissos')">
+      <span class="material-symbols-outlined">inbox</span>
+      <span class="nav-item-label">Compromissos</span>
+      <span class="nav-badge" id="badgeAtencao">3</span>
+    </div>
+    <div class="nav-item" data-section="equipe" onclick="setSection('equipe')">
+      <span class="material-symbols-outlined">groups</span>
+      <span class="nav-item-label">Equipe</span>
+    </div>
+    <div class="nav-item" data-section="revisao" onclick="setSection('revisao')">
+      <span class="material-symbols-outlined">rate_review</span>
+      <span class="nav-item-label">Revisão</span>
+    </div>
+    <div class="nav-item" data-section="timeline" onclick="setSection('timeline')">
+      <span class="material-symbols-outlined">timeline</span>
+      <span class="nav-item-label">Timeline</span>
+    </div>
+    <div class="nav-item" data-section="links" onclick="setSection('links')">
+      <span class="material-symbols-outlined">link</span>
+      <span class="nav-item-label">Links</span>
+    </div>
+
+    <div class="nav-divider"></div>
+    <div class="nav-section-label">Conta</div>
+    <div class="nav-item" onclick="window.location.href='login.html'">
+      <span class="material-symbols-outlined">logout</span>
+      <span class="nav-item-label">Sair</span>
+    </div>
+
+    <div class="nav-footer">
+      <div class="nav-avatar">WS</div>
+      <div>
+        <div class="nav-user-name">Waelson Silva</div>
+        <div class="nav-user-email">waelson@empresa.com</div>
+      </div>
+    </div>
+
+  </nav>
+
+  <!-- CONTENT WRAPPER -->
+  <div class="content-wrapper">
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content" id="mainContent">
+
+      <!-- METRICS -->
+      <div id="metricsSection" class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">Ativos</div>
+          <div class="metric-value" id="metricAtivos">7</div>
+          <div class="metric-hint">compromissos em aberto</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Checkpoints</div>
+          <div class="metric-value warn" id="metricCheckpoints">3</div>
+          <div class="metric-hint">vencidos aguardando</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Prazos</div>
+          <div class="metric-value error" id="metricPrazos">1</div>
+          <div class="metric-hint">estourado(s)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Carga comigo</div>
+          <div class="metric-value error" id="metricCarga">43%</div>
+          <div class="carga-gauge">
+            <div class="gauge-track">
+              <div class="gauge-fill alert" id="gaugeFill" style="width:42.8%"></div>
+              <div class="gauge-mark"></div>
+            </div>
+          </div>
+          <div class="metric-hint" id="cargaHint" style="color:var(--md-error)">acima de 30% — delegue mais</div>
+        </div>
+      </div>
+
+      <!-- TRIAGE QUEUE -->
+      <div id="triageSection">
+        <div class="triage-section">
+          <div class="section-header">
+            <span class="material-symbols-outlined" style="color:var(--md-primary);font-size:20px">inbox</span>
+            <span class="section-title">Fila de entrada</span>
+            <span class="section-count" id="triageCount">2</span>
+          </div>
+          <div id="triageList"></div>
+        </div>
+      </div>
+
+      <!-- FILTER CHIPS (mobile secondary nav) -->
+      <div class="filter-chips-row" id="filterChipsRow" aria-label="Filtros">
+        <button class="filter-chip selected" data-filter="ativas" onclick="setFilter('ativas')">
+          <span class="material-symbols-outlined">inbox</span>Ativas
+        </button>
+        <button class="filter-chip" data-filter="comigo" onclick="setFilter('comigo')">
+          <span class="material-symbols-outlined">person</span>Comigo
+        </button>
+        <button class="filter-chip" data-filter="delegadas" onclick="setFilter('delegadas')">
+          <span class="material-symbols-outlined">groups</span>Delegadas
+        </button>
+        <button class="filter-chip" data-filter="atencao" onclick="setFilter('atencao')">
+          <span class="material-symbols-outlined">warning</span>Atenção
+        </button>
+        <button class="filter-chip" data-filter="concluidas" onclick="setFilter('concluidas')">
+          <span class="material-symbols-outlined">check_circle</span>Concluídas
+        </button>
+      </div>
+
+      <!-- LIST -->
+      <div id="listSection">
+        <div class="list-header-row">
+          <div>Compromisso</div>
+          <div>Dono</div>
+          <div>Tipo</div>
+          <div>Prazo</div>
+          <div>Status</div>
+        </div>
+        <div id="commitmentList"></div>
+      </div>
+
+      <!-- EQUIPE -->
+      <div id="equipeSection" style="display:none"></div>
+
+      <!-- REVISÃO -->
+      <div id="revisaoSection" style="display:none"></div>
+
+      <!-- TIMELINE -->
+      <div id="timelineSection" style="display:none"></div>
+
+      <!-- LINKS -->
+      <div id="linksSection" style="display:none"></div>
+
+    </main>
+
+    <!-- SIDE SHEET -->
+    <aside class="side-sheet" id="sideSheet" aria-label="Detalhe do compromisso">
+      <div class="side-sheet-inner">
+        <div class="sheet-topbar">
+          <span class="sheet-id" id="sheetId">#—</span>
+          <div class="save-indicator" id="saveIndicator">
+            <span class="material-symbols-outlined">check</span>
+            <span>Salvo</span>
+          </div>
+          <div style="flex:1"></div>
+          <button class="icon-btn" onclick="closeSheet()" aria-label="Fechar">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+
+        <div class="sheet-body" id="sheetBody">
+          <!-- Dynamic content rendered by JS -->
+        </div>
+
+        <div class="sheet-footer">
+          <button class="btn btn-filled" onclick="concluirCompromisso()" id="btnConcluir">
+            <span class="material-symbols-outlined" style="font-size:18px">check_circle</span>
+            Concluir
+          </button>
+          <button class="btn btn-text-error" onclick="descartarCompromisso()" id="btnDescartar">
+            Descartar
+          </button>
+        </div>
+      </div>
+    </aside>
+
+  </div><!-- /content-wrapper -->
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav" id="bottomNav" aria-label="Navegação inferior">
+    <button class="bottom-nav-item active" data-section="compromissos" onclick="setSection('compromissos')">
+      <div class="bottom-nav-indicator"><span class="material-symbols-outlined">inbox</span></div>
+      <span class="bottom-nav-label">Início</span>
+    </button>
+    <button class="bottom-nav-item" data-section="equipe" onclick="setSection('equipe')">
+      <div class="bottom-nav-indicator"><span class="material-symbols-outlined">groups</span></div>
+      <span class="bottom-nav-label">Equipe</span>
+    </button>
+    <button class="bottom-nav-item" data-section="revisao" onclick="setSection('revisao')">
+      <div class="bottom-nav-indicator"><span class="material-symbols-outlined">rate_review</span></div>
+      <span class="bottom-nav-label">Revisão</span>
+    </button>
+    <button class="bottom-nav-item" data-section="timeline" onclick="setSection('timeline')">
+      <div class="bottom-nav-indicator"><span class="material-symbols-outlined">timeline</span></div>
+      <span class="bottom-nav-label">Timeline</span>
+    </button>
+    <button class="bottom-nav-item" data-section="links" onclick="setSection('links')">
+      <div class="bottom-nav-indicator"><span class="material-symbols-outlined">link</span></div>
+      <span class="bottom-nav-label">Links</span>
+    </button>
+  </nav>
+
+</div><!-- /app-body -->
+
+<!-- FAB MOBILE -->
+<button class="fab-mobile" id="fabMobile" onclick="openCapture()" aria-label="Capturar compromisso">
+  <span class="material-symbols-outlined">add</span>
+  Capturar
+</button>
+
+<!-- ── CAPTURE DIALOG ── -->
+<div class="dialog-backdrop" id="captureBackdrop">
+  <div class="dialog">
+    <div class="dialog-title">
+      <span class="material-symbols-outlined" style="vertical-align:middle;margin-right:8px;color:var(--md-primary)">add_circle</span>
+      Capturar compromisso
+    </div>
+    <div class="dialog-body">
+      <p style="font-size:13px;color:var(--md-on-surface-variant);margin-bottom:16px">
+        Descreva o <strong>resultado esperado</strong> — o que deve existir quando estiver concluído.
+      </p>
+      <div class="d-field">
+        <label for="captureInput">Resultado esperado</label>
+        <input type="text" id="captureInput" maxlength="280" placeholder="Ex: API de billing estável em produção" autocomplete="off">
+        <div class="helper" id="captureHelper">Descreva o resultado esperado.</div>
+      </div>
+      <div style="font-size:11px;color:var(--md-on-surface-variant);text-align:right" id="captureCounter">0 / 280</div>
+    </div>
+    <div class="dialog-actions">
+      <button class="btn btn-text" onclick="closeCapture()">Cancelar</button>
+      <button class="btn btn-filled" onclick="submitCapture()">
+        <span class="material-symbols-outlined" style="font-size:18px">send</span>
+        Capturar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── DELEGAR DIALOG ── -->
+<div class="dialog-backdrop" id="delegarBackdrop">
+  <div class="dialog">
+    <div class="dialog-title">
+      <span class="material-symbols-outlined" style="vertical-align:middle;margin-right:8px;color:var(--md-primary)">groups</span>
+      Delegar
+    </div>
+    <div class="dialog-body">
+      <p style="font-size:13px;color:var(--md-on-surface-variant);margin-bottom:20px">
+        Delegação exige dono, prazo e checkpoint anterior ao prazo.
+      </p>
+      <div class="d-field">
+        <label for="delegarDono">Dono</label>
+        <input type="text" id="delegarDono" placeholder="Nome do responsável" autocomplete="off">
+        <div class="helper" id="delegarDonoHelper">Campo obrigatório.</div>
+      </div>
+      <div class="d-field">
+        <label for="delegarPrazo">Prazo</label>
+        <input type="date" id="delegarPrazo">
+        <div class="helper" id="delegarPrazoHelper">Campo obrigatório.</div>
+      </div>
+      <div class="d-field">
+        <label for="delegarCheckpoint">Checkpoint (antes do prazo)</label>
+        <input type="date" id="delegarCheckpoint">
+        <div class="helper" id="delegarCheckpointHelper">Deve ser anterior ao prazo.</div>
+      </div>
+    </div>
+    <div class="dialog-actions">
+      <button class="btn btn-text" onclick="closeDelegarDialog()">Cancelar</button>
+      <button class="btn btn-filled" onclick="confirmDelegar()">Delegar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── ADIAR DIALOG ── -->
+<div class="dialog-backdrop" id="adiarBackdrop">
+  <div class="dialog">
+    <div class="dialog-title">
+      <span class="material-symbols-outlined" style="vertical-align:middle;margin-right:8px;color:var(--md-primary)">schedule</span>
+      Adiar
+    </div>
+    <div class="dialog-body">
+      <div class="d-field">
+        <label for="adiarPrazo">Nova data</label>
+        <input type="date" id="adiarPrazo">
+        <div class="helper" id="adiarHelper">Selecione uma data.</div>
+      </div>
+    </div>
+    <div class="dialog-actions">
+      <button class="btn btn-text" onclick="closeAdiarDialog()">Cancelar</button>
+      <button class="btn btn-filled" onclick="confirmAdiar()">Adiar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── SNACKBAR ── -->
+<div class="snackbar" id="snackbar" role="status" aria-live="polite"></div>
+
+<script>
+/* ══════════════════════════════════════════════
+   MOCK DATA
+═══════════════════════════════════════════════ */
+const TODAY = '2026-06-19';
+let nextId = 11;
+let nextRegId = 100;
+
+let compromissos = [
+  { id:1, titulo:'API de billing estável em produção', tipo:null, status:'nao_iniciada', dono:null, prazo:null, checkpoint:null, criada_em:'2026-06-15', descartada_em:null,
+    referencias:[],
+    registro:[{id:1,data:'2026-06-15',texto:'Capturada.',origem:'sistema'}]},
+
+  { id:2, titulo:'Dashboard de métricas do produto revisado com a equipe de produto', tipo:null, status:'nao_iniciada', dono:null, prazo:null, checkpoint:null, criada_em:'2026-06-18', descartada_em:null,
+    referencias:[],
+    registro:[{id:2,data:'2026-06-18',texto:'Capturada.',origem:'sistema'}]},
+
+  { id:3, titulo:'Contrato com fornecedor de cloud assinado', tipo:'delegada', status:'em_andamento', dono:'Ana Lima', prazo:'2026-07-01', checkpoint:'2026-06-10', criada_em:'2026-06-01', descartada_em:null,
+    referencias:[{id:1,descricao:'Proposta comercial',url:'https://docs.example.com/proposta'}],
+    registro:[
+      {id:3,data:'2026-06-10',texto:'Checkpoint: fornecedor confirmou envio. Aguardando assinaturas internas.',origem:'usuario'},
+      {id:4,data:'2026-06-01',texto:'Delegada para Ana Lima. Prazo 2026-07-01, checkpoint 2026-06-10.',origem:'sistema'},
+      {id:5,data:'2026-06-01',texto:'Capturada.',origem:'sistema'}]},
+
+  { id:4, titulo:'Plano de migração do banco de dados aprovado pela diretoria', tipo:'delegada', status:'aguardando', dono:'Carlos Mendes', prazo:'2026-06-30', checkpoint:'2026-06-12', criada_em:'2026-06-02', descartada_em:null,
+    referencias:[],
+    registro:[
+      {id:6,data:'2026-06-02',texto:'Delegada para Carlos Mendes. Prazo 2026-06-30, checkpoint 2026-06-12.',origem:'sistema'},
+      {id:7,data:'2026-06-02',texto:'Capturada.',origem:'sistema'}]},
+
+  { id:5, titulo:'Relatório de segurança Q2 entregue ao board', tipo:'delegada', status:'bloqueada', dono:'Maria Santos', prazo:'2026-06-15', checkpoint:'2026-06-08', criada_em:'2026-05-20', descartada_em:null,
+    referencias:[{id:2,descricao:'Template do relatório',url:'https://docs.example.com/relatorio'}],
+    registro:[
+      {id:8,data:'2026-06-16',texto:'Status: em_andamento → bloqueada. Pendente aprovação do jurídico.',origem:'sistema'},
+      {id:9,data:'2026-05-20',texto:'Delegada para Maria Santos. Prazo 2026-06-15, checkpoint 2026-06-08.',origem:'sistema'},
+      {id:10,data:'2026-05-20',texto:'Capturada.',origem:'sistema'}]},
+
+  { id:6, titulo:'Revisão do roadmap técnico 2026 H2 concluída', tipo:'fazer', status:'em_andamento', dono:'Eu', prazo:'2026-06-25', checkpoint:null, criada_em:'2026-06-10', descartada_em:null,
+    referencias:[{id:3,descricao:'Doc do roadmap',url:'https://docs.example.com/roadmap'}],
+    registro:[
+      {id:11,data:'2026-06-10',texto:'Triagem: execução própria.',origem:'sistema'},
+      {id:12,data:'2026-06-10',texto:'Capturada.',origem:'sistema'}]},
+
+  { id:7, titulo:'Onboarding do novo engenheiro sênior finalizado', tipo:'fazer', status:'nao_iniciada', dono:'Eu', prazo:'2026-06-28', checkpoint:null, criada_em:'2026-06-12', descartada_em:null,
+    referencias:[],
+    registro:[
+      {id:13,data:'2026-06-12',texto:'Triagem: execução própria.',origem:'sistema'},
+      {id:14,data:'2026-06-12',texto:'Capturada.',origem:'sistema'}]},
+
+  { id:8, titulo:'Integração com sistema de pagamentos homologada', tipo:'delegada', status:'em_andamento', dono:'Pedro Costa', prazo:'2026-07-10', checkpoint:'2026-06-25', criada_em:'2026-06-05', descartada_em:null,
+    referencias:[],
+    registro:[
+      {id:15,data:'2026-06-05',texto:'Delegada para Pedro Costa. Prazo 2026-07-10, checkpoint 2026-06-25.',origem:'sistema'},
+      {id:16,data:'2026-06-05',texto:'Capturada.',origem:'sistema'}]},
+
+  { id:9, titulo:'Documentação da API v2 publicada no portal do desenvolvedor', tipo:'fazer', status:'em_andamento', dono:'Eu', prazo:'2026-07-15', checkpoint:null, criada_em:'2026-06-08', descartada_em:null,
+    referencias:[{id:4,descricao:'Portal dev',url:'https://dev.example.com'}],
+    registro:[
+      {id:17,data:'2026-06-08',texto:'Triagem: execução própria.',origem:'sistema'},
+      {id:18,data:'2026-06-08',texto:'Capturada.',origem:'sistema'}]},
+
+  { id:10, titulo:'Auditoria de acessos ao ambiente de produção finalizada', tipo:'fazer', status:'concluida', dono:'Eu', prazo:'2026-06-10', checkpoint:null, criada_em:'2026-05-15', descartada_em:null,
+    referencias:[],
+    registro:[
+      {id:19,data:'2026-06-10',texto:'Compromisso concluído.',origem:'sistema'},
+      {id:20,data:'2026-05-15',texto:'Triagem: execução própria.',origem:'sistema'},
+      {id:21,data:'2026-05-15',texto:'Capturada.',origem:'sistema'}]},
+];
+
+/* ══════════════════════════════════════════════
+   MOCK DATA — LINKS
+═══════════════════════════════════════════════ */
+let nextLinkId = 6;
+let links = [
+  { id:1, nome:'GitHub — Radar',          url:'https://github.com/exemplo/radar',                 descricao:'Repositório principal',    categoria:'Dev',         cliques:12 },
+  { id:2, nome:'Linear — Board',           url:'https://linear.app/exemplo/team/RAD',              descricao:'Backlog e sprints',         categoria:'Gestão',      cliques:8  },
+  { id:3, nome:'Grafana — API Latency',    url:'https://grafana.example.com/d/api-latency',        descricao:'Oncall dashboard',          categoria:'Monitor',     cliques:25 },
+  { id:4, nome:'Confluence — Arquitetura', url:'https://confluence.example.com/arc',               descricao:'Docs de arquitetura',       categoria:'Docs',        cliques:5  },
+  { id:5, nome:'Slack — #eng-backend',     url:'https://example.slack.com/channels/eng-backend',   descricao:'Canal do time backend',     categoria:'Comunicação', cliques:47 },
+];
+
+/* ══════════════════════════════════════════════
+   MOCK DATA — REVISÃO
+═══════════════════════════════════════════════ */
+const REVISAO_SEMANAS = {
+  0: {
+    concluidos: [
+      { id:10, titulo:'Auditoria de acessos ao ambiente de produção finalizada', dono:'Eu', concluidoEm:'2026-06-10' }
+    ],
+    paralisados: [
+      { id:7, titulo:'Onboarding do novo engenheiro sênior finalizado', dono:'Eu', diasSemAtualizacao:7 }
+    ],
+    donosEmSilencio: [
+      { dono:'Carlos Mendes', ativos:1, diasSemAtualizacao:7 }
+    ],
+    resumo: { concluidos:1, paralisados:1, checkpointsVencidos:3, prazosEstourados:1 }
+  }
+};
+
+const NARRATIVA_MOCK = {
+  narrativa: 'Esta semana 1 compromisso foi concluído, mas 3 delegações têm checkpoints vencidos e 1 prazo já estourou. Carlos Mendes está há 7 dias sem atualização nos itens delegados. A carga comigo está em 43%, acima do limite de 30%.',
+  sugestoes: [
+    'Contatar Carlos Mendes sobre o plano de migração — checkpoint vencido há 7 dias.',
+    'Escalar ou descartar o relatório Q2 com Maria Santos — prazo estourado e status bloqueada.',
+    'Delegar 2 dos itens "fazer" para reduzir a carga de 43% para abaixo de 30%.'
+  ]
+};
+
+/* ══════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════ */
+let state = {
+  section: 'compromissos',
+  filter: 'ativas',
+  selectedId: null,
+  triagePendingId: null,
+  timelineJanela: 30,
+  revisaoOffset: 0,
+  revisaoIAShowing: false,
+  revisaoIACarregando: false,
+  linkFormMode: null, // null | 'criar' | number (id)
+  linkCatFilter: 'todos',
+};
+
+/* ══════════════════════════════════════════════
+   DERIVED
+═══════════════════════════════════════════════ */
+function isAtivo(c) {
+  return c.tipo !== null && c.status !== 'concluida' && !c.descartada_em;
+}
+function isComigo(c) {
+  return c.tipo === 'fazer' || (c.dono && c.dono.toLowerCase().trim() === 'eu');
+}
+function isCheckpointVencido(c) {
+  return isAtivo(c) && c.checkpoint && c.checkpoint < TODAY;
+}
+function isPrazoEstourado(c) {
+  return isAtivo(c) && c.prazo && c.prazo < TODAY;
+}
+function precisaAtencao(c) {
+  return isCheckpointVencido(c) || isPrazoEstourado(c) || c.status === 'bloqueada';
+}
+function isConcluida(c) { return c.status === 'concluida' && !c.descartada_em; }
+function isAguardandoTriagem(c) { return c.tipo === null && !c.descartada_em; }
+
+function getMetrics() {
+  const ativos = compromissos.filter(isAtivo);
+  const comigo = ativos.filter(isComigo);
+  const ckVencidos = ativos.filter(isCheckpointVencido);
+  const prazosEstourados = ativos.filter(isPrazoEstourado);
+  const carga = ativos.length ? Math.round(100 * comigo.length / ativos.length) : 0;
+  return { ativos: ativos.length, comigo: comigo.length, ckVencidos: ckVencidos.length, prazosEstourados: prazosEstourados.length, carga, alertaCarga: carga > 30 };
+}
+
+function filteredList() {
+  const f = state.filter;
+  if (f === 'ativas') return compromissos.filter(isAtivo);
+  if (f === 'comigo') return compromissos.filter(c => isAtivo(c) && isComigo(c));
+  if (f === 'delegadas') return compromissos.filter(c => isAtivo(c) && c.tipo === 'delegada');
+  if (f === 'atencao') return compromissos.filter(c => isAtivo(c) && precisaAtencao(c));
+  if (f === 'concluidas') return compromissos.filter(isConcluida);
+  return [];
+}
+
+/* ══════════════════════════════════════════════
+   DATE HELPERS
+═══════════════════════════════════════════════ */
+function addDias(dateStr, dias) {
+  const d = new Date(dateStr + 'T00:00:00');
+  d.setDate(d.getDate() + dias);
+  return d.toISOString().slice(0,10);
+}
+function inicioSemana(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  const dow = d.getDay();
+  d.setDate(d.getDate() + (dow === 0 ? -6 : 1 - dow));
+  return d.toISOString().slice(0,10);
+}
+const MESES = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+function labelSemana(iniStr) {
+  const ini = new Date(iniStr + 'T00:00:00');
+  const fim = new Date(iniStr + 'T00:00:00');
+  fim.setDate(fim.getDate() + 6);
+  const mi = MESES[ini.getMonth()], mf = MESES[fim.getMonth()];
+  return mi === mf ? `${ini.getDate()}–${fim.getDate()} ${mi}` : `${ini.getDate()} ${mi}–${fim.getDate()} ${mf}`;
+}
+function periodoSemana(offset) {
+  const ini = addDias(inicioSemana(TODAY), offset * 7);
+  const fim = addDias(ini, 6);
+  const a = new Date(ini + 'T00:00:00'), b = new Date(fim + 'T00:00:00');
+  const mi = MESES[a.getMonth()], mf = MESES[b.getMonth()];
+  const label = mi === mf ? `${a.getDate()}–${b.getDate()} ${mi}` : `${a.getDate()} ${mi}–${b.getDate()} ${mf}`;
+  return { ini, fim, label, ano: b.getFullYear() };
+}
+function numSemana(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  const jan1 = new Date(d.getFullYear(), 0, 1);
+  return Math.ceil(((d - jan1) / 86400000 + jan1.getDay() + 1) / 7);
+}
+
+/* ══════════════════════════════════════════════
+   SECTION NAVIGATION
+═══════════════════════════════════════════════ */
+function setSection(secao) {
+  state.section = secao;
+  document.querySelectorAll('.nav-item[data-section]').forEach(it =>
+    it.classList.toggle('active', it.dataset.section === secao));
+  document.querySelectorAll('.bottom-nav-item[data-section]').forEach(it =>
+    it.classList.toggle('active', it.dataset.section === secao));
+  if (secao !== 'compromissos') closeSheet();
+  closeNavMobile();
+  renderSection();
+}
+
+function renderSection() {
+  const s = state.section;
+  ['metricsSection','triageSection','filterChipsRow','listSection'].forEach(id =>
+    el(id).style.display = s === 'compromissos' ? '' : 'none');
+  el('equipeSection').style.display   = s === 'equipe'   ? '' : 'none';
+  el('revisaoSection').style.display  = s === 'revisao'  ? '' : 'none';
+  el('timelineSection').style.display = s === 'timeline' ? '' : 'none';
+  el('linksSection').style.display    = s === 'links'    ? '' : 'none';
+
+  if (s === 'compromissos') { renderMetrics(); renderTriage(); renderList(); }
+  if (s === 'equipe')   renderEquipe();
+  if (s === 'revisao')  renderRevisao();
+  if (s === 'timeline') renderTimeline();
+  if (s === 'links')    renderLinks();
+}
+
+/* ══════════════════════════════════════════════
+   RENDER
+═══════════════════════════════════════════════ */
+function renderAll() {
+  renderNavBadges();
+  renderSection();
+}
+
+function renderMetrics() {
+  const m = getMetrics();
+  document.getElementById('metricAtivos').textContent = m.ativos;
+  el('metricCheckpoints').textContent = m.ckVencidos;
+  el('metricPrazos').textContent = m.prazosEstourados;
+  el('metricCarga').textContent = m.carga + '%';
+  el('metricCarga').className = 'metric-value ' + (m.alertaCarga ? 'error' : (m.carga > 20 ? 'warn' : ''));
+  el('gaugeFill').style.width = Math.min(m.carga, 100) + '%';
+  el('gaugeFill').className = 'gauge-fill' + (m.alertaCarga ? ' alert' : '');
+  el('cargaHint').textContent = m.alertaCarga ? 'acima de 30% — delegue mais' : m.carga + '% dos ativos estão com você';
+  el('cargaHint').style.color = m.alertaCarga ? 'var(--md-error)' : 'var(--md-on-surface-variant)';
+}
+
+function renderNavBadges() {
+  const atencao = compromissos.filter(c => isAtivo(c) && precisaAtencao(c)).length;
+  el('badgeAtencao').textContent = atencao;
+  el('badgeAtencao').className = 'nav-badge' + (atencao > 0 ? '' : ' neutral');
+  el('badgeAtencao').style.display = atencao > 0 ? '' : 'none';
+}
+
+function statusLabel(s) {
+  const map = { nao_iniciada:'Não iniciada', em_andamento:'Em andamento', bloqueada:'Bloqueada', aguardando:'Aguardando', concluida:'Concluída' };
+  return map[s] || s;
+}
+function tipoLabel(t) {
+  const map = { fazer:'Fazer', delegada:'Delegada', adiada:'Adiada' };
+  return map[t] || '—';
+}
+function fmtDate(d) {
+  if (!d) return '—';
+  const [y,m,day] = d.split('-');
+  return `${day}/${m}/${y}`;
+}
+
+function renderTriage() {
+  const waiting = compromissos.filter(isAguardandoTriagem);
+  const sec = el('triageSection');
+  if (waiting.length === 0) { sec.classList.add('hidden'); return; }
+  sec.classList.remove('hidden');
+  el('triageCount').textContent = waiting.length;
+
+  el('triageList').innerHTML = waiting.map(c => `
+    <div class="triage-item" id="triage-${c.id}">
+      <div class="triage-item-icon">
+        <span class="material-symbols-outlined">radio_button_unchecked</span>
+      </div>
+      <div class="triage-item-body">
+        <div class="triage-item-title">${esc(c.titulo)}</div>
+        <div class="triage-actions">
+          <button class="chip chip-primary" onclick="triagem(${c.id},'fazer')">
+            <span class="material-symbols-outlined">person</span>Fazer
+          </button>
+          <button class="chip" onclick="openDelegarDialog(${c.id})">
+            <span class="material-symbols-outlined">groups</span>Delegar
+          </button>
+          <button class="chip" onclick="openAdiarDialog(${c.id})">
+            <span class="material-symbols-outlined">schedule</span>Adiar
+          </button>
+          <button class="chip chip-error" onclick="triagem(${c.id},'descartar')">
+            <span class="material-symbols-outlined">delete</span>Descartar
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderList() {
+  const items = filteredList();
+  const container = el('commitmentList');
+
+  if (items.length === 0) {
+    const msgs = {
+      ativas: ['inbox','Nada em aberto','Capture um compromisso para começar.'],
+      comigo: ['person','Nada comigo','Todos os ativos estão delegados.'],
+      delegadas: ['groups','Nada delegado','Delegue um compromisso para acompanhar.'],
+      atencao: ['check_circle','Nada precisa de atenção','Bom sinal — tudo em dia.'],
+      concluidas: ['emoji_events','Nenhuma conclusão ainda','Conclua compromissos para vê-los aqui.'],
+    };
+    const [icon,title,sub] = msgs[state.filter] || ['inbox','Nenhum resultado',''];
+    container.innerHTML = `
+      <div class="empty-state">
+        <span class="material-symbols-outlined">${icon}</span>
+        <div class="empty-title">${title}</div>
+        <div class="empty-subtitle">${sub}</div>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = items.map(c => {
+    const cpVencido = isCheckpointVencido(c);
+    const prazoEst = isPrazoEstourado(c);
+    const flagHtml = prazoEst
+      ? `<span class="badge badge-prazo">prazo estourado</span>`
+      : cpVencido
+        ? `<span class="badge badge-checkpoint">checkpoint vencido</span>`
+        : '';
+    const isActive = state.selectedId === c.id;
+    return `
+      <div class="commitment-row${isActive?' active-row':''}" onclick="openSheet(${c.id})" tabindex="0" role="button" aria-label="${esc(c.titulo)}">
+        <div class="row-title">
+          <span class="row-title-text">${esc(c.titulo)}</span>
+          <div class="row-flags">${flagHtml}</div>
+        </div>
+        <div class="row-owner${c.dono === 'Eu' ? ' me' : ''}">${esc(c.dono||'—')}</div>
+        <div class="row-type">${tipoLabel(c.tipo)}</div>
+        <div class="row-date${prazoEst?' overdue':''}">${fmtDate(c.prazo)}</div>
+        <div><span class="badge badge-${c.status}"><span class="badge-dot"></span>${statusLabel(c.status)}</span></div>
+      </div>`;
+  }).join('');
+
+  // Keyboard support
+  container.querySelectorAll('.commitment-row').forEach(row => {
+    row.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') { e.preventDefault(); row.click(); }});
+  });
+}
+
+/* ══════════════════════════════════════════════
+   SHEET
+═══════════════════════════════════════════════ */
+function openSheet(id) {
+  const c = compromissos.find(x => x.id === id);
+  if (!c) return;
+  state.selectedId = id;
+  renderList();
+
+  const sheet = el('sideSheet');
+  sheet.classList.add('open');
+
+  el('sheetId').textContent = '#' + String(id).padStart(4,'0') + ' · ' + fmtDate(c.criada_em);
+
+  // Show/hide footer buttons based on status
+  el('btnConcluir').style.display = c.status === 'concluida' ? 'none' : '';
+  el('btnDescartar').style.display = '';
+
+  el('sheetBody').innerHTML = renderSheetBody(c);
+  attachSheetListeners(c);
+
+  // Mobile: scroll to top
+  el('sheetBody').scrollTop = 0;
+}
+
+function renderSheetBody(c) {
+  const typeOptions = ['fazer','delegada','adiada'].map(t =>
+    `<option value="${t}" ${c.tipo===t?'selected':''}>${tipoLabel(t)}</option>`
+  ).join('');
+  const statusOptions = ['nao_iniciada','em_andamento','bloqueada','aguardando','concluida'].map(s =>
+    `<option value="${s}" ${c.status===s?'selected':''}>${statusLabel(s)}</option>`
+  ).join('');
+
+  const refsHtml = c.referencias.length
+    ? `<div class="ref-list">${c.referencias.map(r=>`
+        <div class="ref-item">
+          <span class="material-symbols-outlined" style="font-size:16px;color:var(--md-primary);flex-shrink:0">link</span>
+          <div style="min-width:0">
+            <div><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.descricao||r.url)}</a></div>
+            ${r.descricao?`<div class="ref-desc">${esc(r.url)}</div>`:''}
+          </div>
+          <button class="icon-btn" style="width:32px;height:32px" onclick="removeRef(${c.id},${r.id})" aria-label="Remover referência">
+            <span class="material-symbols-outlined" style="font-size:16px">close</span>
+          </button>
+        </div>`).join('')}</div>`
+    : `<p style="font-size:13px;color:var(--md-on-surface-variant);margin-bottom:8px">Nenhuma referência ainda.</p>`;
+
+  const logHtml = [...c.registro].sort((a,b)=>b.data.localeCompare(a.data)).map(e=>`
+    <div class="log-entry ${e.origem}">
+      <div>
+        <div class="log-entry-meta">
+          <span class="log-entry-date">${fmtDate(e.data)}</span>
+          <span class="log-entry-origin">${e.origem==='usuario'?'Você':'Sistema'}</span>
+        </div>
+        <div class="log-entry-text">${esc(e.texto)}</div>
+      </div>
+    </div>`).join('');
+
+  return `
+    <!-- Título -->
+    <div class="field-group">
+      <div class="field-label-sm">Resultado esperado</div>
+      <textarea class="field-value-editable title" id="sheetTitulo" rows="3"
+        data-field="titulo">${esc(c.titulo)}</textarea>
+    </div>
+
+    <div class="field-row-2">
+      <div>
+        <div class="field-label-sm">Tipo</div>
+        <select class="field-select" id="sheetTipo" data-field="tipo">
+          <option value="">— triagem pendente —</option>
+          ${typeOptions}
+        </select>
+      </div>
+      <div>
+        <div class="field-label-sm">Status</div>
+        <select class="field-select" id="sheetStatus" data-field="status">
+          ${statusOptions}
+        </select>
+      </div>
+    </div>
+
+    <div class="field-row-2">
+      <div>
+        <div class="field-label-sm">Dono</div>
+        <input class="field-value-editable" id="sheetDono" data-field="dono"
+          value="${esc(c.dono||'')}" placeholder="Eu" ${c.tipo==='fazer'?'readonly':''}>
+      </div>
+      <div>
+        <div class="field-label-sm">Prazo</div>
+        <input class="field-value-editable" type="date" id="sheetPrazo" data-field="prazo"
+          value="${c.prazo||''}">
+      </div>
+    </div>
+
+    <div class="field-group">
+      <div class="field-label-sm">Checkpoint</div>
+      <input class="field-value-editable" type="date" id="sheetCheckpoint" data-field="checkpoint"
+        value="${c.checkpoint||''}" ${c.tipo==='fazer'?'disabled':''}>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Referências -->
+    <div class="section-header">
+      <span class="material-symbols-outlined" style="font-size:18px;color:var(--md-on-surface-variant)">link</span>
+      <span class="section-title" style="font-size:14px">Referências</span>
+    </div>
+    <div style="margin-bottom:12px">${refsHtml}</div>
+    <div style="display:flex;gap:8px;margin-bottom:20px">
+      <input class="field-value-editable" id="refUrl" placeholder="https://..." style="flex:2">
+      <input class="field-value-editable" id="refDesc" placeholder="Descrição" style="flex:1">
+      <button class="btn btn-text btn-sm" onclick="addRef(${c.id})">Adicionar</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Registro -->
+    <div class="section-header">
+      <span class="material-symbols-outlined" style="font-size:18px;color:var(--md-on-surface-variant)">history</span>
+      <span class="section-title" style="font-size:14px">Registro</span>
+    </div>
+    <div class="log-section">
+      <div class="log-add-form">
+        <textarea id="logInput" placeholder="Adicionar anotação ao registro..." rows="2"></textarea>
+        <button class="btn btn-outlined btn-sm" style="align-self:flex-end" onclick="addLog(${c.id})">Adicionar</button>
+      </div>
+      <div class="log-timeline">${logHtml}</div>
+    </div>
+    <div style="height:16px"></div>
+  `;
+}
+
+function attachSheetListeners(c) {
+  // Auto-save on blur/change
+  const saveFields = ['sheetTitulo','sheetDono','sheetPrazo','sheetCheckpoint'];
+  saveFields.forEach(fId => {
+    const input = el(fId);
+    if (!input) return;
+    input.addEventListener('change', () => autoSave(c.id, input.dataset.field, input.value));
+    input.addEventListener('blur', () => autoSave(c.id, input.dataset.field, input.value));
+  });
+
+  ['sheetTipo','sheetStatus'].forEach(fId => {
+    const sel = el(fId);
+    if (!sel) return;
+    sel.addEventListener('change', () => {
+      autoSave(c.id, sel.dataset.field, sel.value);
+      // Lock dono if tipo=fazer
+      if (sel.dataset.field === 'tipo') {
+        const donoInput = el('sheetDono');
+        const checkInput = el('sheetCheckpoint');
+        if (sel.value === 'fazer') {
+          donoInput.value = 'Eu';
+          donoInput.readOnly = true;
+          checkInput.disabled = true;
+          autoSave(c.id, 'dono', 'Eu');
+        } else {
+          donoInput.readOnly = false;
+          checkInput.disabled = false;
+        }
+      }
+    });
+  });
+}
+
+function autoSave(id, field, value) {
+  const c = compromissos.find(x => x.id === id);
+  if (!c || c[field] === value) return;
+  c[field] = value || null;
+  showSaveIndicator();
+  renderMetrics();
+  renderNavBadges();
+  renderList();
+}
+
+function showSaveIndicator() {
+  const ind = el('saveIndicator');
+  ind.classList.add('visible','success');
+  clearTimeout(ind._t);
+  ind._t = setTimeout(() => ind.classList.remove('visible'), 2000);
+}
+
+function closeSheet() {
+  el('sideSheet').classList.remove('open');
+  state.selectedId = null;
+  renderList();
+}
+
+/* ══════════════════════════════════════════════
+   TRIAGE
+═══════════════════════════════════════════════ */
+function triagem(id, decisao) {
+  const c = compromissos.find(x => x.id === id);
+  if (!c) return;
+
+  if (decisao === 'descartar') {
+    if (!confirm(`Descartar "${c.titulo}"?`)) return;
+    c.descartada_em = TODAY;
+    addSysLog(c, 'Compromisso descartado.');
+    showSnackbar('Compromisso descartado.');
+  } else if (decisao === 'fazer') {
+    c.tipo = 'fazer';
+    c.dono = 'Eu';
+    addSysLog(c, 'Triagem: execução própria.');
+    showSnackbar('Movido para sua lista. Abra para complementar.');
+    setTimeout(() => openSheet(id), 300);
+  }
+  renderAll();
+}
+
+function openDelegarDialog(id) {
+  state.triagePendingId = id;
+  el('delegarDono').value = '';
+  el('delegarPrazo').value = '';
+  el('delegarCheckpoint').value = '';
+  clearDelegarErrors();
+  el('delegarBackdrop').classList.add('open');
+  setTimeout(() => el('delegarDono').focus(), 100);
+}
+function closeDelegarDialog() { el('delegarBackdrop').classList.remove('open'); }
+
+function clearDelegarErrors() {
+  ['delegarDono','delegarPrazo','delegarCheckpoint'].forEach(id => {
+    el(id).classList.remove('error');
+    el(id+'Helper').classList.remove('visible');
+  });
+}
+
+function confirmDelegar() {
+  const dono = el('delegarDono').value.trim();
+  const prazo = el('delegarPrazo').value;
+  const checkpoint = el('delegarCheckpoint').value;
+  let valid = true;
+
+  clearDelegarErrors();
+  if (!dono || dono.toLowerCase() === 'eu') {
+    el('delegarDono').classList.add('error');
+    el('delegarDonoHelper').textContent = dono.toLowerCase()==='eu' ? 'Delegação não pode ter dono "Eu".' : 'Campo obrigatório.';
+    el('delegarDonoHelper').classList.add('visible');
+    valid = false;
+  }
+  if (!prazo) {
+    el('delegarPrazo').classList.add('error');
+    el('delegarPrazoHelper').classList.add('visible');
+    valid = false;
+  }
+  if (!checkpoint || (prazo && checkpoint >= prazo)) {
+    el('delegarCheckpoint').classList.add('error');
+    el('delegarCheckpointHelper').textContent = !checkpoint ? 'Campo obrigatório.' : 'Checkpoint deve ser anterior ao prazo.';
+    el('delegarCheckpointHelper').classList.add('visible');
+    valid = false;
+  }
+  if (!valid) return;
+
+  const c = compromissos.find(x => x.id === state.triagePendingId);
+  if (c) {
+    c.tipo = 'delegada';
+    c.dono = dono;
+    c.prazo = prazo;
+    c.checkpoint = checkpoint;
+    addSysLog(c, `Delegada para ${dono}. Prazo ${prazo}, checkpoint ${checkpoint}.`);
+    showSnackbar(`Delegada para ${dono}.`);
+    closeDelegarDialog();
+    renderAll();
+    setTimeout(() => openSheet(c.id), 300);
+  }
+}
+
+function openAdiarDialog(id) {
+  state.triagePendingId = id;
+  el('adiarPrazo').value = '';
+  el('adiarHelper').classList.remove('visible');
+  el('adiarBackdrop').classList.add('open');
+  setTimeout(() => el('adiarPrazo').focus(), 100);
+}
+function closeAdiarDialog() { el('adiarBackdrop').classList.remove('open'); }
+
+function confirmAdiar() {
+  const prazo = el('adiarPrazo').value;
+  if (!prazo) { el('adiarHelper').classList.add('visible'); return; }
+  const c = compromissos.find(x => x.id === state.triagePendingId);
+  if (c) {
+    c.tipo = 'adiada';
+    c.prazo = prazo;
+    addSysLog(c, `Triagem: adiada para ${prazo}.`);
+    showSnackbar('Adiado com prazo ' + fmtDate(prazo) + '.');
+    closeAdiarDialog();
+    renderAll();
+    setTimeout(() => openSheet(c.id), 300);
+  }
+}
+
+/* ══════════════════════════════════════════════
+   CONCLUDE / DISCARD (sheet)
+═══════════════════════════════════════════════ */
+function concluirCompromisso() {
+  const c = compromissos.find(x => x.id === state.selectedId);
+  if (!c) return;
+  c.status = 'concluida';
+  addSysLog(c, 'Compromisso concluído.');
+  showSnackbar('Compromisso concluído!');
+  closeSheet();
+  renderAll();
+}
+
+function descartarCompromisso() {
+  const c = compromissos.find(x => x.id === state.selectedId);
+  if (!c) return;
+  if (!confirm(`Descartar "${c.titulo}"?`)) return;
+  c.descartada_em = TODAY;
+  addSysLog(c, 'Compromisso descartado.');
+  showSnackbar('Descartado.');
+  closeSheet();
+  renderAll();
+}
+
+/* ══════════════════════════════════════════════
+   CAPTURE
+═══════════════════════════════════════════════ */
+function openCapture() {
+  el('captureInput').value = '';
+  el('captureCounter').textContent = '0 / 280';
+  el('captureHelper').classList.remove('visible');
+  el('captureBackdrop').classList.add('open');
+  setTimeout(() => el('captureInput').focus(), 100);
+}
+function closeCapture() { el('captureBackdrop').classList.remove('open'); }
+
+el('captureInput').addEventListener('input', function() {
+  el('captureCounter').textContent = this.value.length + ' / 280';
+});
+el('captureInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitCapture(); }
+  if (e.key === 'Escape') closeCapture();
+});
+
+function submitCapture() {
+  const titulo = el('captureInput').value.trim();
+  if (!titulo) {
+    el('captureHelper').classList.add('visible');
+    el('captureInput').focus();
+    return;
+  }
+  const id = nextId++;
+  const c = {
+    id, titulo, tipo:null, status:'nao_iniciada', dono:null, prazo:null, checkpoint:null,
+    criada_em:TODAY, descartada_em:null, referencias:[],
+    registro:[{id:nextRegId++, data:TODAY, texto:'Capturada.', origem:'sistema'}]
+  };
+  compromissos.unshift(c);
+  closeCapture();
+  showSnackbar('Capturada. Faça a triagem quando puder.');
+  renderAll();
+}
+
+/* ══════════════════════════════════════════════
+   REFS & LOG
+═══════════════════════════════════════════════ */
+function addRef(cId) {
+  const c = compromissos.find(x => x.id === cId);
+  if (!c) return;
+  const url = (el('refUrl').value||'').trim();
+  const desc = (el('refDesc').value||'').trim();
+  if (!url || !/^https?:\/\//i.test(url)) { showSnackbar('URL inválida. Use http(s)://', true); return; }
+  const refId = Date.now();
+  c.referencias.push({ id:refId, descricao:desc, url });
+  openSheet(cId); // re-render
+}
+
+function removeRef(cId, rId) {
+  const c = compromissos.find(x => x.id === cId);
+  if (!c) return;
+  c.referencias = c.referencias.filter(r => r.id !== rId);
+  openSheet(cId);
+}
+
+function addLog(cId) {
+  const c = compromissos.find(x => x.id === cId);
+  const txt = (el('logInput').value||'').trim();
+  if (!txt) return;
+  c.registro.unshift({ id:nextRegId++, data:TODAY, texto:txt, origem:'usuario' });
+  openSheet(cId);
+}
+
+function addSysLog(c, texto) {
+  c.registro.unshift({ id:nextRegId++, data:TODAY, texto, origem:'sistema' });
+}
+
+/* ══════════════════════════════════════════════
+   NAV / FILTER
+═══════════════════════════════════════════════ */
+function setFilter(filter) {
+  state.filter = filter;
+  document.querySelectorAll('.filter-chip[data-filter]').forEach(chip => {
+    chip.classList.toggle('selected', chip.dataset.filter === filter);
+  });
+  closeSheet();
+  renderList();
+}
+
+/* ══════════════════════════════════════════════
+   EQUIPE
+═══════════════════════════════════════════════ */
+function renderEquipe() {
+  const map = new Map();
+  compromissos.filter(c => isAtivo(c) && c.dono && c.dono.toLowerCase().trim() !== 'eu').forEach(c => {
+    const m = map.get(c.dono) ?? { dono:c.dono, ativos:0, ckVencidos:0, prazosEstourados:0, bloqueados:0 };
+    m.ativos++;
+    if (isCheckpointVencido(c)) m.ckVencidos++;
+    if (isPrazoEstourado(c)) m.prazosEstourados++;
+    if (c.status === 'bloqueada') m.bloqueados++;
+    map.set(c.dono, m);
+  });
+  const membros = [...map.values()];
+  const ctr = el('equipeSection');
+  if (membros.length === 0) {
+    ctr.innerHTML = `<div class="empty-state"><span class="material-symbols-outlined">groups</span><div class="empty-title">Nenhuma delegação ativa</div><div class="empty-subtitle">Delegue compromissos para ver a equipe aqui.</div></div>`;
+    return;
+  }
+  function cb(v) {
+    const cls = v > 0 ? 'cell-badge-alert' : 'cell-badge-neutral';
+    return `<span class="cell-badge ${cls}">${v}</span>`;
+  }
+  ctr.innerHTML = `
+    <div class="section-header" style="margin-bottom:16px">
+      <span class="material-symbols-outlined" style="color:var(--md-primary);font-size:20px">groups</span>
+      <span class="section-title">Equipe</span>
+      <span class="section-count">${membros.length}</span>
+    </div>
+    <div style="background:var(--md-surface-container-lowest);border-radius:var(--md-shape-lg);overflow:hidden">
+      <table class="equipe-table">
+        <thead><tr>
+          <th>Dono</th>
+          <th style="text-align:center">Ativos</th>
+          <th style="text-align:center">Ck vencido</th>
+          <th style="text-align:center">Prazo estourado</th>
+          <th style="text-align:center">Bloqueados</th>
+        </tr></thead>
+        <tbody>${membros.map(m => `
+          <tr onclick="showSnackbar('Filtro por ${esc(m.dono)} — disponível na versão React')">
+            <td><strong>${esc(m.dono)}</strong></td>
+            <td style="text-align:center">${cb(m.ativos)}</td>
+            <td style="text-align:center">${cb(m.ckVencidos)}</td>
+            <td style="text-align:center">${cb(m.prazosEstourados)}</td>
+            <td style="text-align:center">${cb(m.bloqueados)}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
+}
+
+/* ══════════════════════════════════════════════
+   REVISÃO
+═══════════════════════════════════════════════ */
+function renderRevisao() {
+  const off = state.revisaoOffset;
+  const sem = periodoSemana(off);
+  const semN = numSemana(sem.ini);
+  const dados = REVISAO_SEMANAS[off];
+
+  let dataHtml = '';
+  if (!dados) {
+    dataHtml = `<div style="display:flex;flex-direction:column;align-items:center;padding:40px 20px;text-align:center;gap:10px">
+      <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-outline)">event_busy</span>
+      <div style="font-size:14px;color:var(--md-on-surface-variant)">Sem dados para este período.</div>
+    </div>`;
+  } else {
+    const d = dados;
+    const sum = d.resumo;
+    const conclHtml = d.concluidos.length ? d.concluidos.map(c => `
+      <div class="revisao-item">
+        <span class="material-symbols-outlined" style="font-size:16px;color:#2E7D32;flex-shrink:0">check_circle</span>
+        <div><div>${esc(c.titulo)}</div><div style="font-size:11px;color:var(--md-on-surface-variant);margin-top:2px">${esc(c.dono)} · ${fmtDate(c.concluidoEm)}</div></div>
+      </div>`).join('') : `<div style="font-size:13px;color:var(--md-on-surface-variant)">Nenhum concluído.</div>`;
+    const paralHtml = d.paralisados.length ? d.paralisados.map(c => `
+      <div class="revisao-item">
+        <span class="material-symbols-outlined" style="font-size:16px;color:var(--md-on-surface-variant);flex-shrink:0">pause_circle</span>
+        <div style="flex:1"><div>${esc(c.titulo)}</div><div style="font-size:11px;color:var(--md-on-surface-variant);margin-top:2px">${esc(c.dono)}</div></div>
+        <span class="revisao-item-days">${c.diasSemAtualizacao}d</span>
+      </div>`).join('') : `<div style="font-size:13px;color:var(--md-on-surface-variant)">Nenhum paralisado.</div>`;
+    const silHtml = d.donosEmSilencio.length ? d.donosEmSilencio.map(ds => `
+      <div class="revisao-item">
+        <span class="material-symbols-outlined" style="font-size:16px;color:var(--md-on-warning-container);flex-shrink:0">notifications_paused</span>
+        <div style="flex:1"><div><strong>${esc(ds.dono)}</strong></div><div style="font-size:11px;color:var(--md-on-surface-variant);margin-top:2px">${ds.ativos} ativo(s)</div></div>
+        <span class="revisao-item-days">${ds.diasSemAtualizacao}d</span>
+      </div>`).join('') : `<div style="font-size:13px;color:var(--md-on-surface-variant)">Nenhum.</div>`;
+    dataHtml = `
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px">
+        <span class="badge badge-concluida"><span class="badge-dot"></span>${sum.concluidos} concluído(s)</span>
+        <span class="badge badge-checkpoint">${sum.checkpointsVencidos} ck vencido(s)</span>
+        ${sum.prazosEstourados>0?`<span class="badge badge-prazo">${sum.prazosEstourados} prazo(s) estourado(s)</span>`:''}
+        ${sum.paralisados>0?`<span class="badge badge-nao_iniciada">${sum.paralisados} paralisado(s)</span>`:''}
+      </div>
+      <div class="revisao-group">
+        <div class="revisao-group-header"><span class="material-symbols-outlined" style="font-size:16px;color:#2E7D32">check_circle</span><span class="revisao-group-title">Concluídos (${d.concluidos.length})</span></div>
+        ${conclHtml}
+      </div>
+      <div class="revisao-group">
+        <div class="revisao-group-header"><span class="material-symbols-outlined" style="font-size:16px;color:var(--md-on-surface-variant)">pause_circle</span><span class="revisao-group-title">Paralisados (${d.paralisados.length})</span></div>
+        ${paralHtml}
+      </div>
+      <div class="revisao-group">
+        <div class="revisao-group-header"><span class="material-symbols-outlined" style="font-size:16px;color:var(--md-on-warning-container)">notifications_paused</span><span class="revisao-group-title">Em silêncio (${d.donosEmSilencio.length})</span></div>
+        ${silHtml}
+      </div>`;
+  }
+
+  let iaHtml = '';
+  if (state.revisaoIACarregando) {
+    iaHtml = `<div style="display:flex;flex-direction:column;gap:12px;padding:4px 0">
+      <div class="skeleton" style="height:14px;border-radius:4px"></div>
+      <div class="skeleton" style="height:14px;border-radius:4px;width:90%"></div>
+      <div class="skeleton" style="height:14px;border-radius:4px;width:95%"></div>
+      <div class="skeleton" style="height:14px;border-radius:4px;width:70%"></div>
+      <div style="height:4px"></div>
+      <div class="skeleton" style="height:44px;border-radius:8px"></div>
+      <div class="skeleton" style="height:44px;border-radius:8px"></div>
+      <div class="skeleton" style="height:44px;border-radius:8px"></div>
+    </div>`;
+  } else if (state.revisaoIAShowing && off === 0) {
+    iaHtml = `
+      <p class="ia-narrativa">${esc(NARRATIVA_MOCK.narrativa)}</p>
+      <ul class="ia-sugestoes">${NARRATIVA_MOCK.sugestoes.map((s,i) => `
+        <li class="ia-sugestao-item"><span class="ia-sugestao-num">${i+1}.</span><span>${esc(s)}</span></li>`).join('')}
+      </ul>`;
+  } else {
+    const poderar = off === 0 && dados;
+    iaHtml = `<div style="display:flex;flex-direction:column;align-items:center;padding:40px 20px;text-align:center;gap:12px">
+      <span class="material-symbols-outlined" style="font-size:48px;color:var(--md-outline)">auto_awesome</span>
+      <div style="font-size:13px;color:var(--md-on-surface-variant);line-height:1.5">${off !== 0 ? 'Análise disponível apenas para a semana atual.' : 'Gere uma análise com base nos dados desta semana.'}</div>
+      ${poderar ? `<button class="btn btn-outlined btn-sm" onclick="gerarNarrativa()"><span class="material-symbols-outlined" style="font-size:18px">auto_awesome</span>Gerar análise</button>` : ''}
+    </div>`;
+  }
+
+  el('revisaoSection').innerHTML = `
+    <div class="revisao-grid">
+      <div class="revisao-card">
+        <div class="revisao-card-header">
+          <button class="revisao-nav-btn" onclick="navegarSemana(-1)" title="Semana anterior"><span class="material-symbols-outlined">chevron_left</span></button>
+          <div style="text-align:center;flex:1">
+            <div class="revisao-week-label">Semana ${semN} · ${sem.label}</div>
+            <div style="font-size:11px;color:var(--md-on-surface-variant)">${sem.ano}</div>
+          </div>
+          <button class="revisao-nav-btn" onclick="navegarSemana(1)" title="Próxima semana"${off >= 0 ? ' disabled' : ''}><span class="material-symbols-outlined">chevron_right</span></button>
+        </div>
+        <div class="revisao-card-body">${dataHtml}</div>
+      </div>
+      <div class="revisao-card">
+        <div class="revisao-card-header" style="gap:8px">
+          <span class="material-symbols-outlined" style="color:var(--md-primary)">auto_awesome</span>
+          <span class="revisao-week-label" style="flex:1">Análise IA</span>
+          ${state.revisaoIAShowing ? `<button class="btn btn-text btn-sm" onclick="limparNarrativa()">Limpar</button>` : ''}
+        </div>
+        <div class="revisao-card-body">${iaHtml}</div>
+      </div>
+    </div>`;
+}
+
+function gerarNarrativa() {
+  state.revisaoIACarregando = true;
+  state.revisaoIAShowing = false;
+  renderRevisao();
+  setTimeout(() => { state.revisaoIACarregando = false; state.revisaoIAShowing = true; renderRevisao(); }, 2000);
+}
+function limparNarrativa() { state.revisaoIAShowing = false; state.revisaoIACarregando = false; renderRevisao(); }
+function navegarSemana(dir) {
+  const novo = state.revisaoOffset + dir;
+  if (novo > 0 || novo < -4) return;
+  state.revisaoOffset = novo;
+  state.revisaoIAShowing = false;
+  state.revisaoIACarregando = false;
+  renderRevisao();
+}
+
+/* ══════════════════════════════════════════════
+   TIMELINE
+═══════════════════════════════════════════════ */
+function renderTimeline() {
+  const janela = state.timelineJanela;
+  const fimJanela = addDias(TODAY, janela);
+  const ativos = compromissos.filter(isAtivo);
+  const atrasados = ativos.filter(c => c.prazo && c.prazo < TODAY);
+  const dentroJanela = ativos.filter(c => c.prazo && c.prazo >= TODAY && c.prazo <= fimJanela);
+  const semPrazo = ativos.filter(c => !c.prazo);
+
+  const weekMap = new Map();
+  dentroJanela.forEach(c => {
+    const k = inicioSemana(c.prazo);
+    if (!weekMap.has(k)) weekMap.set(k, []);
+    weekMap.get(k).push(c);
+  });
+  const semanas = [...weekMap.entries()].sort(([a],[b]) => a.localeCompare(b));
+
+  function tlRow(c) {
+    const cpV = isCheckpointVencido(c), prE = isPrazoEstourado(c);
+    return `<div class="timeline-row" onclick="goToCompromisso(${c.id})">
+      <div class="timeline-row-title">
+        <span>${esc(c.titulo)}</span>
+        <div class="row-flags">
+          ${prE?`<span class="badge badge-prazo">prazo estourado</span>`:''}
+          ${cpV?`<span class="badge badge-checkpoint">checkpoint vencido</span>`:''}
+        </div>
+      </div>
+      <div class="row-owner${c.dono==='Eu'?' me':''}">${esc(c.dono||'—')}</div>
+      <div class="row-date${prE?' overdue':''}">${fmtDate(c.prazo)}</div>
+      <div><span class="badge badge-${c.status}"><span class="badge-dot"></span>${statusLabel(c.status)}</span></div>
+    </div>`;
+  }
+
+  let html = `<div class="timeline-toolbar">
+    <span class="timeline-toolbar-label">Próximos ${janela} dias</span>
+    <div style="display:flex;gap:6px">
+      <button class="filter-chip${janela===30?' selected':''}" onclick="setTimelineJanela(30)">30d</button>
+      <button class="filter-chip${janela===60?' selected':''}" onclick="setTimelineJanela(60)">60d</button>
+      <button class="filter-chip${janela===90?' selected':''}" onclick="setTimelineJanela(90)">90d</button>
+    </div>
+  </div>`;
+
+  if (atrasados.length) html += `<div class="timeline-group">
+    <div class="timeline-group-header atrasados">
+      <span class="material-symbols-outlined" style="font-size:16px;color:var(--md-error)">warning</span>
+      <span class="timeline-group-label">Atrasados</span>
+      <span class="section-count" style="background:var(--md-error-container);color:var(--md-on-error-container)">${atrasados.length}</span>
+    </div>${atrasados.map(tlRow).join('')}
+  </div>`;
+
+  semanas.forEach(([ini, items]) => {
+    html += `<div class="timeline-group">
+      <div class="timeline-group-header">
+        <span class="material-symbols-outlined" style="font-size:16px;color:var(--md-on-surface-variant)">calendar_today</span>
+        <span class="timeline-group-label">${labelSemana(ini)}</span>
+        <span class="section-count">${items.length}</span>
+      </div>${items.map(tlRow).join('')}
+    </div>`;
+  });
+
+  if (semPrazo.length) html += `<div class="timeline-group">
+    <div class="timeline-group-header">
+      <span class="material-symbols-outlined" style="font-size:16px;color:var(--md-on-surface-variant)">event_busy</span>
+      <span class="timeline-group-label">Sem prazo</span>
+      <span class="section-count">${semPrazo.length}</span>
+    </div>${semPrazo.map(tlRow).join('')}
+  </div>`;
+
+  if (!atrasados.length && !dentroJanela.length && !semPrazo.length) {
+    html += `<div class="empty-state"><span class="material-symbols-outlined">event_available</span><div class="empty-title">Nenhum compromisso nesta janela</div><div class="empty-subtitle">Todos os prazos ficam fora dos próximos ${janela} dias.</div></div>`;
+  }
+
+  el('timelineSection').innerHTML = html;
+}
+
+function setTimelineJanela(dias) { state.timelineJanela = dias; renderTimeline(); }
+
+function goToCompromisso(id) {
+  setSection('compromissos');
+  setTimeout(() => openSheet(id), 80);
+}
+
+/* ══════════════════════════════════════════════
+   LINKS
+═══════════════════════════════════════════════ */
+function renderLinks() {
+  const cats = ['todos', ...new Set(links.map(l => l.categoria).filter(Boolean).sort())];
+  const cf = state.linkCatFilter;
+  const filtrados = cf === 'todos' ? links : links.filter(l => l.categoria === cf);
+  const sorted = [...filtrados].sort((a,b) => b.cliques - a.cliques);
+
+  const catsHtml = cats.map(c =>
+    `<button class="filter-chip${cf===c?' selected':''}" onclick="setLinkCat('${esc(c)}')">${esc(c==='todos'?'Todos':c)}</button>`
+  ).join('');
+
+  function linkRowHtml(l) {
+    return `<div class="link-row">
+      <span class="material-symbols-outlined" style="font-size:20px;color:var(--md-primary);flex-shrink:0">link</span>
+      <div class="link-row-main" onclick="clicarLink(${l.id})">
+        <div class="link-row-nome">${esc(l.nome)}<span style="font-size:12px">↗</span></div>
+        ${l.descricao?`<div class="link-row-desc">${esc(l.descricao)}</div>`:''}
+      </div>
+      <div class="link-row-meta">
+        ${l.categoria?`<span class="link-badge">${esc(l.categoria)}</span>`:''}
+        <span class="link-cliques">${l.cliques}×</span>
+        <button class="icon-btn" style="width:36px;height:36px" onclick="editarLink(${l.id})" title="Editar"><span class="material-symbols-outlined" style="font-size:18px">edit</span></button>
+        <button class="icon-btn" style="width:36px;height:36px;color:var(--md-error)" onclick="excluirLink(${l.id})" title="Excluir"><span class="material-symbols-outlined" style="font-size:18px">delete</span></button>
+      </div>
+    </div>`;
+  }
+
+  function linkEditFormHtml(l) {
+    return `<div class="link-form-wrap">
+      <div style="font-size:12px;font-weight:500;color:var(--md-on-surface-variant);margin-bottom:12px">Editando: ${esc(l.nome)}</div>
+      <div class="link-form-row">
+        <input class="link-input" id="lfNome" value="${esc(l.nome)}" placeholder="Nome *">
+        <input class="link-input" id="lfUrl" value="${esc(l.url)}" placeholder="URL *">
+      </div>
+      <div class="link-form-row2">
+        <input class="link-input" id="lfDesc" value="${esc(l.descricao||'')}" placeholder="Descrição">
+        <input class="link-input" id="lfCat" value="${esc(l.categoria||'')}" placeholder="Categoria">
+      </div>
+      <div class="link-form-actions">
+        <button class="btn btn-text btn-sm" onclick="cancelarLinkForm()">Cancelar</button>
+        <button class="btn btn-filled btn-sm" onclick="salvarLink(${l.id})">Salvar</button>
+      </div>
+    </div>`;
+  }
+
+  const criarFormHtml = state.linkFormMode === 'criar' ? `<div class="link-form-wrap">
+    <div class="link-form-row">
+      <input class="link-input" id="lfNome" placeholder="Nome *">
+      <input class="link-input" id="lfUrl" placeholder="URL * (https://...)">
+    </div>
+    <div class="link-form-row2">
+      <input class="link-input" id="lfDesc" placeholder="Descrição">
+      <input class="link-input" id="lfCat" placeholder="Categoria (ex: Docs)">
+    </div>
+    <div class="link-form-actions">
+      <button class="btn btn-text btn-sm" onclick="cancelarLinkForm()">Cancelar</button>
+      <button class="btn btn-filled btn-sm" onclick="salvarLink()">Salvar</button>
+    </div>
+  </div>` : '';
+
+  const listHtml = sorted.length === 0
+    ? `<div class="empty-state"><span class="material-symbols-outlined">link_off</span><div class="empty-title">Nenhum link</div><div class="empty-subtitle">Adicione links para acesso rápido.</div></div>`
+    : sorted.map(l => typeof state.linkFormMode === 'number' && state.linkFormMode === l.id ? linkEditFormHtml(l) : linkRowHtml(l)).join('');
+
+  el('linksSection').innerHTML = `
+    <div class="links-header">
+      <span class="links-title">Meus Links</span>
+      ${state.linkFormMode === null ? `<button class="btn btn-filled btn-sm" onclick="abrirFormCriar()"><span class="material-symbols-outlined" style="font-size:18px">add</span>Adicionar</button>` : ''}
+    </div>
+    ${criarFormHtml}
+    <div class="links-cat-chips">${catsHtml}</div>
+    <div>${listHtml}</div>`;
+
+  if (state.linkFormMode !== null) {
+    setTimeout(() => { const i = document.getElementById('lfNome'); if(i) i.focus(); }, 30);
+  }
+}
+
+function setLinkCat(cat) { state.linkCatFilter = cat; renderLinks(); }
+function abrirFormCriar() { state.linkFormMode = 'criar'; renderLinks(); }
+function editarLink(id) { state.linkFormMode = id; renderLinks(); }
+function cancelarLinkForm() { state.linkFormMode = null; renderLinks(); }
+
+function salvarLink(editId) {
+  const nome = (document.getElementById('lfNome')?.value||'').trim();
+  const url  = (document.getElementById('lfUrl')?.value||'').trim();
+  const desc = (document.getElementById('lfDesc')?.value||'').trim();
+  const cat  = (document.getElementById('lfCat')?.value||'').trim();
+  if (!nome || !url) { showSnackbar('Nome e URL são obrigatórios.'); return; }
+  if (editId) {
+    const l = links.find(x => x.id === editId);
+    if (l) { l.nome=nome; l.url=url; l.descricao=desc||null; l.categoria=cat||null; }
+    showSnackbar('Link atualizado.');
+  } else {
+    links.push({ id:nextLinkId++, nome, url, descricao:desc||null, categoria:cat||null, cliques:0 });
+    showSnackbar('Link adicionado.');
+  }
+  state.linkFormMode = null;
+  renderLinks();
+}
+
+function excluirLink(id) {
+  links = links.filter(l => l.id !== id);
+  showSnackbar('Link removido.');
+  renderLinks();
+}
+
+function clicarLink(id) {
+  const l = links.find(x => x.id === id);
+  if (!l) return;
+  l.cliques++;
+  window.open(l.url, '_blank', 'noopener,noreferrer');
+  renderLinks();
+}
+
+/* ══════════════════════════════════════════════
+   MENU / RESPONSIVE
+═══════════════════════════════════════════════ */
+el('menuBtn').addEventListener('click', toggleNav);
+
+function toggleNav() {
+  const nav = el('navDrawer');
+  const scrim = el('navScrim');
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    const open = !nav.classList.contains('mobile-open');
+    nav.style.display = open ? 'flex' : '';
+    nav.classList.toggle('mobile-open', open);
+    scrim.classList.toggle('visible', open);
+    if (open) {
+      nav.style.position = 'fixed';
+      nav.style.top = 'var(--topbar-height)';
+      nav.style.left = '0';
+      nav.style.bottom = '0';
+      nav.style.width = 'var(--nav-width)';
+      nav.style.zIndex = '150';
+      nav.style.boxShadow = 'var(--md-elev-3)';
+    } else {
+      nav.style = '';
+    }
+  }
+}
+
+function closeNavMobile() {
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    const nav = el('navDrawer');
+    nav.classList.remove('mobile-open');
+    nav.style = '';
+    el('navScrim').classList.remove('visible');
+  }
+}
+
+el('navScrim').addEventListener('click', closeNavMobile);
+
+// Close dialogs on backdrop click
+document.querySelectorAll('.dialog-backdrop').forEach(bd => {
+  bd.addEventListener('click', e => { if (e.target === bd) bd.classList.remove('open'); });
+});
+
+// Keyboard: Esc closes dialogs
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.dialog-backdrop.open').forEach(bd => bd.classList.remove('open'));
+    closeSheet();
+  }
+});
+
+/* ══════════════════════════════════════════════
+   SNACKBAR
+═══════════════════════════════════════════════ */
+let snackTimeout;
+function showSnackbar(msg, isError) {
+  const sb = el('snackbar');
+  sb.textContent = msg;
+  sb.classList.add('show');
+  clearTimeout(snackTimeout);
+  snackTimeout = setTimeout(() => sb.classList.remove('show'), 4000);
+}
+
+/* ══════════════════════════════════════════════
+   UTILS
+═══════════════════════════════════════════════ */
+function el(id) { return document.getElementById(id); }
+function esc(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ══════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════ */
+renderAll();
+</script>
+</body>
+</html>
