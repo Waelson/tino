@@ -3,7 +3,6 @@
 .wrap {
   background: var(--md-surface-container-lowest);
   border-radius: var(--md-shape-md);
-  box-shadow: var(--md-elev-1);
   padding: 16px 20px 20px;
 }
 
@@ -43,7 +42,7 @@
   transition: box-shadow 0.2s;
   white-space: nowrap;
 }
-.btnAdicionar .material-symbols-outlined { font-size: 20px; }
+.btnAdicionar :global(.material-symbols-outlined) { font-size: 20px; }
 .btnAdicionar:hover { box-shadow: var(--md-elev-1); }
 .btnAdicionar:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
 
@@ -174,9 +173,9 @@
   align-items: center;
   gap: 12px;
   padding: 14px 0;
-  border-bottom: 1px solid var(--md-outline-variant);
+  border-top: 1px solid var(--md-outline-variant);
 }
-.row:last-of-type { border-bottom: none; }
+.row:first-of-type { border-top: none; }
 
 /* Ícone de link em círculo verde */
 .rowIcon {
@@ -190,7 +189,7 @@
   justify-content: center;
   flex-shrink: 0;
 }
-.rowIcon .material-symbols-outlined { font-size: 18px; }
+.rowIcon :global(.material-symbols-outlined) { font-size: 18px; }
 
 /* Área clicável do link */
 .rowLink {
@@ -226,7 +225,7 @@
   font-size: 14px;
   color: var(--md-primary);
   flex-shrink: 0;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 .rowDesc {
@@ -280,12 +279,15 @@
   color: var(--md-on-surface-variant);
   transition: background 0.12s, color 0.12s;
 }
-.iconBtn .material-symbols-outlined { font-size: 18px; }
+.iconBtn :global(.material-symbols-outlined) { font-size: 18px; }
 .iconBtn:hover { background: rgba(25,28,28,.08); color: var(--md-on-surface); }
 .iconBtn:focus-visible { outline: 2px solid var(--md-primary); }
 
 .iconBtnDanger { color: var(--md-on-surface-variant); }
 .iconBtnDanger:hover { background: var(--md-error-container); color: var(--md-error); }
+
+.iconBtnSuccess { color: var(--md-primary); }
+.iconBtnSuccess:hover { background: var(--md-primary-container); color: var(--md-primary); }
 
 /* ── Info / empty ── */
 .info {

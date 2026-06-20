@@ -2,12 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 import { useOutlet, useSearchParams } from 'react-router-dom'
 import { listarTriagem } from '../api/compromissos.js'
 import { AppShell } from '../components/AppShell.js'
-import { CaptureBar } from '../components/CaptureBar.js'
 import { CommitmentList } from '../components/CommitmentList.js'
 import { FilterChips } from '../components/FilterChips.js'
 import { MetricsBar } from '../components/MetricsBar.js'
 import { type Secao } from '../components/NavPrincipal.js'
-import { SearchBar } from '../components/SearchBar.js'
 import { RiscoBriefing } from '../components/RiscoBriefing.js'
 import { TeamPanel } from '../components/TeamPanel.js'
 import { TriageQueue } from '../components/TriageQueue.js'
@@ -36,10 +34,8 @@ export function Painel() {
           {secao === 'compromissos' && (
             <>
               <MetricsBar />
-              <CaptureBar />
               <TriageQueue itens={triagemData?.itens ?? []} />
               <FilterChips />
-              <SearchBar />
               {filtro === 'risco' && <RiscoBriefing />}
               <CommitmentList />
             </>

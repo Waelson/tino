@@ -36,7 +36,7 @@
   justify-content: center;
   flex-shrink: 0;
 }
-.logoMark .material-symbols-outlined { color: white; font-size: 22px; }
+.logoIcon { color: white; font-size: 22px; }
 
 .logoText {
   font-family: 'Google Sans', sans-serif;

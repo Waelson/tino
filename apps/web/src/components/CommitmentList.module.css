@@ -4,7 +4,6 @@
   background: var(--md-surface-container-lowest);
   border-radius: var(--md-shape-md);
   padding: 8px 18px 12px;
-  box-shadow: var(--md-elev-1);
 }
 
 /* Tabela */
@@ -63,20 +62,31 @@
 }
 
 .flag {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px 2px 6px;
+  border-radius: var(--md-shape-full);
+  margin-top: 5px;
+  margin-right: 4px;
   color: var(--md-error);
-  margin-top: 3px;
+  background: var(--md-error-container);
+}
+
+.flagIcon {
+  font-size: 13px;
 }
 
 .flagAmber {
   color: var(--md-on-warning-container);
+  background: var(--md-warning-container);
 }
 
 .flagCritica {
-  color: #7c3aed;
-  margin-right: 6px;
+  color: #6d28d9;
+  background: #ede9fe;
 }
 
 .donoEu {

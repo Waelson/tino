@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { triagem } from '../api/compromissos.js'
+import { useNavigate } from 'react-router-dom'
+import { triagem, atualizar } from '../api/compromissos.js'
 import type { Compromisso } from '../types/api.js'
 import { isApiError } from '../types/api.js'
 import { DelegarPopover } from './DelegarPopover.js'
 import { useToast } from './Toast.js'
+import { saveOrigin } from './CommitmentList.js'
 import styles from './TriageQueue.module.css'
 import dpStyles from './DelegarPopover.module.css'
 
@@ -52,8 +54,11 @@ interface TriageItemProps {
 
 function TriageItem({ item, acaoAberta, setAcao }: TriageItemProps) {
   const [prazoAdiar, setPrazoAdiar] = useState('')
+  const [editandoTitulo, setEditandoTitulo] = useState(false)
+  const [novoTitulo, setNovoTitulo] = useState(item.titulo)
   const queryClient = useQueryClient()
   const { showToast } = useToast()
+  const navigate = useNavigate()
 
   function invalidar() {
     void queryClient.invalidateQueries({ queryKey: ['triagem'] })
@@ -63,7 +68,12 @@ function TriageItem({ item, acaoAberta, setAcao }: TriageItemProps) {
 
   const mutFazer = useMutation({
     mutationFn: () => triagem(item.id, { decisao: 'fazer' }),
-    onSuccess: () => { invalidar(); showToast('Marcado para fazer.') },
+    onSuccess: () => {
+      invalidar()
+      showToast('Marcado para fazer.')
+      saveOrigin()
+      void navigate(`/compromissos/${item.id}`)
+    },
     onError: (err: unknown) => {
       showToast(isApiError(err) ? err.mensagem : 'Erro ao processar.')
     },
@@ -85,6 +95,29 @@ function TriageItem({ item, acaoAberta, setAcao }: TriageItemProps) {
     },
   })
 
+  const mutEditarTitulo = useMutation({
+    mutationFn: (titulo: string) => atualizar(item.id, { titulo }),
+    onSuccess: () => {
+      invalidar()
+      setEditandoTitulo(false)
+      showToast('Resultado esperado atualizado.')
+    },
+    onError: (err: unknown) => {
+      showToast(isApiError(err) ? err.mensagem : 'Erro ao atualizar.')
+    },
+  })
+
+  function salvarTitulo() {
+    const t = novoTitulo.trim()
+    if (!t || t === item.titulo) { setEditandoTitulo(false); return }
+    mutEditarTitulo.mutate(t)
+  }
+
+  function cancelarEdicao() {
+    setNovoTitulo(item.titulo)
+    setEditandoTitulo(false)
+  }
+
   const isPending = mutFazer.isPending || mutAdiar.isPending || mutDescartar.isPending
 
   function handleDescartar() {
@@ -96,7 +129,50 @@ function TriageItem({ item, acaoAberta, setAcao }: TriageItemProps) {
     <div className={styles.item}>
       <span className={styles.itemCircle} aria-hidden="true" />
       <div className={styles.itemBody}>
-        <span className={styles.titulo}>{item.titulo}</span>
+        {editandoTitulo ? (
+          <div className={styles.editTituloRow}>
+            <input
+              className={styles.tituloInput}
+              value={novoTitulo}
+              onChange={(e) => setNovoTitulo(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') salvarTitulo(); if (e.key === 'Escape') cancelarEdicao() }}
+              autoFocus
+              maxLength={280}
+            />
+            <div className={styles.editActions}>
+              <button
+                className={styles.acaoSubmit}
+                onClick={salvarTitulo}
+                disabled={mutEditarTitulo.isPending || !novoTitulo.trim()}
+                type="button"
+              >
+                Salvar
+              </button>
+              <button className={styles.acaoCancel} onClick={cancelarEdicao} type="button">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className={styles.tituloRow}>
+            <span
+              className={styles.titulo}
+              onClick={() => { setNovoTitulo(item.titulo); setEditandoTitulo(true) }}
+              title="Clique para editar"
+            >
+              {item.titulo}
+            </span>
+            <button
+              className={styles.editBtn}
+              onClick={() => { setNovoTitulo(item.titulo); setEditandoTitulo(true) }}
+              title="Editar resultado esperado"
+              aria-label="Editar resultado esperado"
+              type="button"
+            >
+              <span className="material-symbols-outlined">edit</span>
+            </button>
+          </div>
+        )}
         <div className={styles.btns}>
           <button
             className={`${styles.btn} ${styles.btnFazer}`}

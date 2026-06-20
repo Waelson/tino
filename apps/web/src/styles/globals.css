@@ -1,36 +1,36 @@
-/* Material Design 3 tokens — seed #006B5E (teal) */
+/* Material Design 3 tokens — seed #0064A4 (azul celeste argentino) */
 
 :root {
-  --md-primary: #006B5E;
+  --md-primary: #0064A4;
   --md-on-primary: #FFFFFF;
-  --md-primary-container: #9EF2E4;
-  --md-on-primary-container: #00201C;
-  --md-secondary: #4A635F;
+  --md-primary-container: #D0E4FF;
+  --md-on-primary-container: #001C38;
+  --md-secondary: #4E6070;
   --md-on-secondary: #FFFFFF;
-  --md-secondary-container: #CCE8E2;
-  --md-on-secondary-container: #051F1C;
-  --md-tertiary: #456179;
+  --md-secondary-container: #D1E5F8;
+  --md-on-secondary-container: #091D2B;
+  --md-tertiary: #60587C;
   --md-on-tertiary: #FFFFFF;
-  --md-tertiary-container: #CCE5FF;
-  --md-on-tertiary-container: #001E31;
+  --md-tertiary-container: #E6DEFF;
+  --md-on-tertiary-container: #1C1535;
   --md-error: #BA1A1A;
   --md-on-error: #FFFFFF;
   --md-error-container: #FFDAD6;
   --md-on-error-container: #410002;
-  --md-surface: #FAFDFC;
-  --md-on-surface: #191C1C;
-  --md-surface-variant: #DAE5E2;
-  --md-on-surface-variant: #3F4948;
-  --md-outline: #6F7979;
-  --md-outline-variant: #BEC9C7;
+  --md-surface: #F8FAFE;
+  --md-on-surface: #191C1F;
+  --md-surface-variant: #DCE3EA;
+  --md-on-surface-variant: #40484D;
+  --md-outline: #70787E;
+  --md-outline-variant: #C0C7CE;
   --md-surface-container-lowest: #FFFFFF;
-  --md-surface-container-low: #F3F6F5;
-  --md-surface-container: #EDF0EF;
-  --md-surface-container-high: #E7EAEA;
-  --md-surface-container-highest: #E1E3E3;
-  --md-inverse-surface: #2D3131;
-  --md-inverse-on-surface: #EFF1F0;
-  --md-inverse-primary: #82D5C7;
+  --md-surface-container-low: #F2F4FA;
+  --md-surface-container: #ECF0F7;
+  --md-surface-container-high: #E6EAF1;
+  --md-surface-container-highest: #E0E4EB;
+  --md-inverse-surface: #2E3135;
+  --md-inverse-on-surface: #EFF1F8;
+  --md-inverse-primary: #9DCAFF;
   --md-warning-container: #FFDDB3;
   --md-on-warning-container: #271900;
 

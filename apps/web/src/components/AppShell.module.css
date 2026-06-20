@@ -28,7 +28,7 @@
   transition: background 0.15s;
 }
 .iconBtn:hover { background: rgba(25,28,28,.08); }
-.iconBtn .material-symbols-outlined { font-size: 24px; }
+.iconBtn :global(.material-symbols-outlined) { font-size: 24px; }
 
 .topbarLogo {
   display: flex;
@@ -46,7 +46,7 @@
   align-items: center;
   justify-content: center;
 }
-.logoMark .material-symbols-outlined { color: white; font-size: 20px; }
+.logoIcon { color: white; font-size: 20px; }
 
 .topbarTitle {
   font-family: 'Google Sans', sans-serif;
@@ -110,8 +110,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: var(--md-primary-container);
-  color: var(--md-on-primary-container);
+  background: var(--md-primary);
+  color: var(--md-on-primary);
   border: none;
   border-radius: var(--md-shape-lg);
   padding: 0 20px 0 16px;
@@ -127,7 +127,7 @@
   transition: box-shadow .2s;
   white-space: nowrap;
 }
-.fabExtended:hover { box-shadow: var(--md-elev-2); background: color-mix(in srgb, var(--md-primary-container) 92%, var(--md-on-primary-container)); }
+.fabExtended:hover { box-shadow: var(--md-elev-2); }
 .fabExtended .material-symbols-outlined { font-size: 24px; flex-shrink: 0; }
 .fabLabel { overflow: hidden; }
 

@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext.js'
 import { useCapture } from '../contexts/CaptureContext.js'
 import { CaptureModal } from './CaptureModal.js'
+import { SearchBar } from './SearchBar.js'
 import { getMetricas } from '../api/metricas.js'
 import type { Secao } from './NavPrincipal.js'
 // @ts-ignore
@@ -25,6 +26,7 @@ interface AppShellProps {
 export function AppShell({ children, drawer }: AppShellProps) {
   const { usuario, logout } = useAuth()
   const { isOpen, openCapture } = useCapture()
+  const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const [drawerOpen, setDrawerOpen] = useState(false)
 
@@ -62,22 +64,19 @@ export function AppShell({ children, drawer }: AppShellProps) {
     : 'RD'
 
   function navegar(s: Secao) {
-    if (s === 'compromissos') {
-      setSearchParams({})
-    } else {
-      setSearchParams({ secao: s })
-    }
+    const params = s === 'compromissos' ? '' : `?secao=${s}`
+    navigate(`/${params}`)
     setDrawerOpen(false)
   }
 
   function handleCapturar() {
-    if (secao !== 'compromissos') navegar('compromissos')
-    // Pequeno delay para a seção renderizar antes de focar o input
-    setTimeout(() => openCapture(), 80)
+    openCapture()
   }
 
   return (
     <>
+      {isOpen && <CaptureModal />}
+
       {/* Scrim (mobile drawer overlay) */}
       {drawerOpen && (
         <div
@@ -99,12 +98,11 @@ export function AppShell({ children, drawer }: AppShellProps) {
 
         <div className={styles.topbarLogo}>
           <div className={styles.logoMark}>
-            <span className="material-symbols-outlined">radar</span>
+            <span className={`material-symbols-outlined ${styles.logoIcon}`}>radar</span>
           </div>
-          <span className={styles.topbarTitle}>Radar</span>
         </div>
 
-        <div className={styles.topbarSpacer} />
+        <SearchBar />
 
         <button
           className={styles.avatarBtn}

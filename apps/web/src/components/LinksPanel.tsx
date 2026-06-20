@@ -102,21 +102,28 @@ function LinkRow({
   onExcluir: (id: number) => void
   onClique:  (id: number) => void
 }) {
+  const [copiado, setCopiado] = useState(false)
+
   function abrir() {
     onClique(item.id)
     window.open(item.url, '_blank', 'noopener,noreferrer')
   }
 
+  function copiar(e: React.MouseEvent) {
+    e.stopPropagation()
+    void navigator.clipboard.writeText(item.url).then(() => {
+      setCopiado(true)
+      setTimeout(() => setCopiado(false), 2000)
+    })
+  }
+
   return (
     <div className={styles.row}>
-      <div className={styles.rowIcon}>
-        <span className="material-symbols-outlined">link</span>
-      </div>
       <button className={styles.rowLink} onClick={abrir} title={item.url}>
         <div className={styles.rowInfo}>
           <span className={styles.rowNome}>
             {item.nome}
-            <span className={styles.rowNomeArrow} aria-hidden="true">↗</span>
+            <span className={`material-symbols-outlined ${styles.rowNomeArrow}`} aria-hidden="true">open_in_new</span>
           </span>
           {item.descricao && <span className={styles.rowDesc}>{item.descricao}</span>}
         </div>
@@ -126,6 +133,14 @@ function LinkRow({
           <span className={styles.badge}>{item.categoria}</span>
         )}
         <span className={styles.cliques}>{item.cliques}×</span>
+        <button
+          className={`${styles.iconBtn} ${copiado ? styles.iconBtnSuccess : ''}`}
+          onClick={copiar}
+          title={copiado ? 'Copiado!' : 'Copiar endereço'}
+          aria-label={`Copiar endereço de ${item.nome}`}
+        >
+          <span className="material-symbols-outlined">{copiado ? 'check' : 'content_copy'}</span>
+        </button>
         <button
           className={styles.iconBtn}
           onClick={() => onEditar(item)}

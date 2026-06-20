@@ -145,16 +145,28 @@ function CommitmentRow({ item, onFiltrarDono }: { item: Compromisso; onFiltrarDo
       <td className={styles.tdTitulo}>
         <span className={styles.titulo}>{item.titulo}</span>
         {item.critica && item.status !== 'concluida' && (
-          <span className={`${styles.flag} ${styles.flagCritica}`}>★ crítico</span>
+          <span className={`${styles.flag} ${styles.flagCritica}`}>
+            <span className={`material-symbols-outlined ${styles.flagIcon}`}>star</span>
+            crítico
+          </span>
         )}
         {flag === 'prazo' && (
-          <span className={styles.flag}>! prazo estourado</span>
+          <span className={styles.flag}>
+            <span className={`material-symbols-outlined ${styles.flagIcon}`}>warning</span>
+            prazo estourado
+          </span>
         )}
         {flag === 'checkpoint' && (
-          <span className={styles.flag}>checkpoint vencido</span>
+          <span className={styles.flag}>
+            <span className={`material-symbols-outlined ${styles.flagIcon}`}>schedule</span>
+            checkpoint vencido
+          </span>
         )}
         {flag === 'risco' && (
-          <span className={`${styles.flag} ${styles.flagAmber}`}>prazo em risco</span>
+          <span className={`${styles.flag} ${styles.flagAmber}`}>
+            <span className={`material-symbols-outlined ${styles.flagIcon}`}>schedule</span>
+            prazo em risco
+          </span>
         )}
       </td>
       <td>

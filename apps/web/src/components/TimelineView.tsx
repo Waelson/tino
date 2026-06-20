@@ -151,45 +151,52 @@ export function TimelineView() {
 
       {!isLoading && !isError && (
         <>
-          {/* Atrasados (prazo < hoje) */}
-          {estourados.length > 0 && (
-            <div className={styles.grupo}>
-              <div className={styles.semanaHeader}>
-                <span className={`material-symbols-outlined ${styles.semanaIconRed}`}>warning</span>
-                <h3 className={`${styles.semana} ${styles.semanaRed}`}>Atrasados</h3>
-                <span className={`${styles.countBadge} ${styles.countBadgeRed}`}>{estourados.length}</span>
-              </div>
-              {estourados
-                .sort((a, b) => (a.prazo ?? '').localeCompare(b.prazo ?? ''))
-                .map(item => <TimelineRow key={item.id} item={item} />)}
-            </div>
-          )}
-
-          {/* Grupos semanais */}
           {grupos.length === 0 && estourados.length === 0 && semPrazo.length === 0 && (
             <p className={styles.info}>Nenhum compromisso com prazo nos próximos {janela} dias.</p>
           )}
-          {grupos.map(g => (
-            <div key={g.chave} className={styles.grupo}>
-              <div className={styles.semanaHeader}>
-                <span className={`material-symbols-outlined ${styles.semanaIcon}`}>calendar_today</span>
-                <h3 className={styles.semana}>{g.label}</h3>
-                <span className={styles.countBadge}>{g.itens.length}</span>
-              </div>
-              {g.itens.map(item => <TimelineRow key={item.id} item={item} />)}
-            </div>
-          ))}
 
-          {/* Sem prazo */}
-          {semPrazo.length > 0 && (
-            <div className={styles.grupo}>
-              <div className={styles.semanaHeader}>
-                <span className={`material-symbols-outlined ${styles.semanaIcon}`}>calendar_today</span>
-                <h3 className={`${styles.semana} ${styles.semanaMuted}`}>Sem prazo</h3>
-                <span className={styles.countBadge}>{semPrazo.length}</span>
-              </div>
-              {semPrazo.map(item => <TimelineRow key={item.id} item={item} />)}
-            </div>
+          {(estourados.length > 0 || grupos.length > 0 || semPrazo.length > 0) && (
+            <>
+
+              {/* Atrasados (prazo < hoje) */}
+              {estourados.length > 0 && (
+                <div className={`${styles.grupo} ${styles.grupoAtrasado}`}>
+                  <div className={styles.semanaHeader}>
+                    <span className={`material-symbols-outlined ${styles.semanaIconRed}`}>warning</span>
+                    <h3 className={`${styles.semana} ${styles.semanaRed}`}>Atrasados</h3>
+                    <span className={`${styles.countBadge} ${styles.countBadgeRed}`}>{estourados.length}</span>
+                  </div>
+                  {estourados
+                    .sort((a, b) => (a.prazo ?? '').localeCompare(b.prazo ?? ''))
+                    .map(item => <TimelineRow key={item.id} item={item} />)}
+                </div>
+              )}
+
+              {/* Grupos semanais */}
+              {grupos.map(g => (
+                <div key={g.chave} className={styles.grupo}>
+                  <div className={styles.semanaHeader}>
+                    <span className={`material-symbols-outlined ${styles.semanaIcon}`}>calendar_today</span>
+                    <h3 className={styles.semana}>{g.label}</h3>
+                    <span className={styles.countBadge}>{g.itens.length}</span>
+                  </div>
+                  {g.itens.map(item => <TimelineRow key={item.id} item={item} />)}
+                </div>
+              ))}
+
+              {/* Sem prazo */}
+              {semPrazo.length > 0 && (
+                <div className={styles.grupo}>
+                  <div className={styles.semanaHeader}>
+                    <span className={`material-symbols-outlined ${styles.semanaIcon}`}>calendar_today</span>
+                    <h3 className={`${styles.semana} ${styles.semanaMuted}`}>Sem prazo</h3>
+                    <span className={styles.countBadge}>{semPrazo.length}</span>
+                  </div>
+                  {semPrazo.map(item => <TimelineRow key={item.id} item={item} />)}
+                </div>
+              )}
+
+            </>
           )}
         </>
       )}
@@ -214,7 +221,7 @@ function TimelineRow({ item }: { item: Compromisso }) {
     void navigate(`/compromissos/${item.id}`)
   }
 
-  const temFlags = item.prazoEstourado || item.checkpointVencido || item.prazoEmRisco
+  const temFlags = item.critica || item.prazoEstourado || item.checkpointVencido || item.prazoEmRisco
 
   return (
     <div
@@ -225,35 +232,54 @@ function TimelineRow({ item }: { item: Compromisso }) {
       onClick={abrir}
       onKeyDown={(e) => { if (e.key === 'Enter') abrir() }}
     >
+      <span className={styles.timelineDot} aria-hidden="true" />
       <div className={styles.rowMain}>
         <div className={styles.rowTop}>
-          {item.critica && <span className={styles.estrela}>★</span>}
+          <span
+            className={item.prazoEstourado ? `${styles.prazoInline} ${styles.prazoRed}` : styles.prazoInline}
+            title="Prazo de entrega"
+          >
+            {fmtDate(item.prazo)}
+          </span>
           <span className={item.prazoEstourado ? `${styles.titulo} ${styles.tituloRed}` : styles.titulo}>
             {item.titulo}
           </span>
         </div>
         {temFlags && (
           <div className={styles.rowFlags}>
-            {item.prazoEstourado && <span className={styles.chipRed}>prazo estourado</span>}
-            {item.checkpointVencido && <span className={styles.chipAmber}>checkpoint vencido</span>}
+            {item.critica && item.status !== 'concluida' && (
+              <span className={`${styles.chip} ${styles.chipCritica}`}>
+                <span className={`material-symbols-outlined ${styles.chipIcon}`}>star</span>
+                crítico
+              </span>
+            )}
+            {item.prazoEstourado && (
+              <span className={`${styles.chip} ${styles.chipRed}`}>
+                <span className={`material-symbols-outlined ${styles.chipIcon}`}>warning</span>
+                prazo estourado
+              </span>
+            )}
+            {item.checkpointVencido && (
+              <span className={`${styles.chip} ${styles.chipRed}`}>
+                <span className={`material-symbols-outlined ${styles.chipIcon}`}>schedule</span>
+                checkpoint vencido
+              </span>
+            )}
             {!item.prazoEstourado && !item.checkpointVencido && item.prazoEmRisco && (
-              <span className={styles.chipAmber}>prazo em risco</span>
+              <span className={`${styles.chip} ${styles.chipAmber}`}>
+                <span className={`material-symbols-outlined ${styles.chipIcon}`}>schedule</span>
+                prazo em risco
+              </span>
             )}
           </div>
         )}
       </div>
       <div className={styles.rowMeta}>
         {item.dono
-          ? <span className={styles.dono}>{item.dono}</span>
-          : <span className={styles.donoEu}>Eu</span>
+          ? <span className={styles.dono} title="Responsável">{item.dono}</span>
+          : <span className={styles.donoEu} title="Responsável">Eu</span>
         }
-        <span className={item.prazoEstourado ? `${styles.prazoData} ${styles.prazoRed}` : styles.prazoData}>
-          {fmtDate(item.prazo)}
-        </span>
-        <span className={`${styles.badge} ${statusClass}`}>
-          <span className={styles.badgeDot} aria-hidden="true">•</span>
-          {statusLabel}
-        </span>
+        <span className={`${styles.badge} ${statusClass}`}>{statusLabel}</span>
       </div>
     </div>
   )

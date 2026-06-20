@@ -51,7 +51,6 @@
   background: var(--md-surface-container-lowest);
   border-radius: var(--md-shape-md);
   padding: 20px 24px;
-  box-shadow: var(--md-elev-1);
 }
 
 .iaHeader {
@@ -224,7 +223,6 @@
   background: var(--md-surface-container-lowest);
   border-radius: var(--md-shape-md);
   padding: 14px 16px 16px;
-  box-shadow: var(--md-elev-1);
   min-width: 0;
 }
 

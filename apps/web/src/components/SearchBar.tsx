@@ -43,8 +43,8 @@ export function SearchBar() {
       <input
         type="search"
         className={styles.input}
-        placeholder="Buscar por resultado esperado…"
-        aria-label="Buscar por resultado esperado"
+        placeholder="Buscar compromissos..."
+        aria-label="Buscar compromissos"
         value={valor}
         onChange={(e) => setValor(e.target.value)}
       />

@@ -48,7 +48,7 @@ export function Login() {
       <div className={styles.card}>
         <div className={styles.logoArea}>
           <div className={styles.logoMark}>
-            <span className="material-symbols-outlined">radar</span>
+            <span className={`material-symbols-outlined ${styles.logoIcon}`}>radar</span>
           </div>
           <span className={styles.logoText}>Radar</span>
         </div>
