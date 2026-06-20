@@ -92,6 +92,9 @@ export interface DonoMetricas {
   checkpointsVencidos: number
   prazosEstourados: number
   bloqueados: number
+  criticos: number
+  emRisco: number
+  proximoPrazo: string | null
 }
 
 export interface EquipeResponse {

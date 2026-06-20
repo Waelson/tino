@@ -82,10 +82,41 @@
   border-bottom: none;
 }
 
+.donoCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .nome {
   font-weight: 600;
   color: var(--md-on-surface);
   font-size: 14px;
+}
+
+/* ── Health dot ── */
+.dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.dot :global(.material-symbols-outlined) {
+  font-size: 14px;
+  color: #fff;
+}
+.dotGreen  { background: #22c55e; }
+.dotAmber  { background: #f59e0b; }
+.dotRed    { background: var(--md-error); }
+
+/* ── Próximo prazo ── */
+.prazoMono {
+  font-size: 13px;
+  font-family: 'Roboto Mono', monospace;
+  color: var(--md-on-surface-variant);
 }
 
 /* ── Badges circulares de número ── */

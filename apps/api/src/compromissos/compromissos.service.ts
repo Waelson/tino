@@ -242,17 +242,25 @@ export interface DonoMetricasApi {
   checkpointsVencidos: number
   prazosEstourados: number
   bloqueados: number
+  criticos: number
+  emRisco: number
+  proximoPrazo: string | null
 }
 
 export async function obterEquipe(usuarioId: bigint): Promise<DonoMetricasApi[]> {
   const hoje = hojeEmSP()
-  const rows = await equipeRepo({ usuarioId, hoje })
+  const prox3Dias = addDias(hoje, 3)
+  const limiarSilencio = addDias(hoje, -5)
+  const rows = await equipeRepo({ usuarioId, hoje, prox3Dias, limiarSilencio })
   return rows.map((r) => ({
     dono: r.dono!,
     ativos: Number(r.ativos),
     checkpointsVencidos: Number(r.checkpoints_vencidos),
     prazosEstourados: Number(r.prazos_estourados),
     bloqueados: Number(r.bloqueados),
+    criticos: Number(r.criticos),
+    emRisco: Number(r.em_risco),
+    proximoPrazo: r.proximo_prazo ?? null,
   }))
 }
 

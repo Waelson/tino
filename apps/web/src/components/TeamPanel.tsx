@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 import { getEquipe } from '../api/compromissos.js'
+import type { DonoMetricas } from '../types/api.js'
 // @ts-ignore
 import styles from './TeamPanel.module.css'
 
@@ -10,6 +11,25 @@ function NumBadge({ value, alerta }: { value: number; alerta?: boolean }) {
       {value}
     </span>
   )
+}
+
+function HealthDot({ m }: { m: DonoMetricas }) {
+  const isRed   = m.prazosEstourados > 0 || m.checkpointsVencidos > 0
+  const isAmber = !isRed && (m.bloqueados > 0 || m.emRisco > 0)
+  const cls = isRed ? styles.dotRed : isAmber ? styles.dotAmber : styles.dotGreen
+  const icon = isRed ? 'priority_high' : isAmber ? 'warning' : 'check'
+  return (
+    <span className={`${styles.dot} ${cls}`} aria-hidden="true">
+      <span className="material-symbols-outlined">{icon}</span>
+    </span>
+  )
+}
+
+
+function fmtDate(iso: string | null): string {
+  if (!iso) return '—'
+  const [y, m, d] = iso.slice(0, 10).split('-')
+  return `${d}/${m}/${y}`
 }
 
 export function TeamPanel() {
@@ -64,34 +84,53 @@ export function TeamPanel() {
             <th>Dono</th>
             <th>Ativos</th>
             <th className={styles.hideMobile}>CK Vencido</th>
-            <th className={styles.hideMobile}>Prazo Estourado</th>
+            <th className={styles.hideMobile}>Prazo Est.</th>
+            <th className={styles.hideMobile}>Em Risco</th>
+            <th className={styles.hideMobile}>Críticos</th>
             <th>Bloqueados</th>
+            <th className={styles.hideMobile}>Próx. Prazo</th>
           </tr>
         </thead>
         <tbody>
-          {data.membros.map((m) => (
-            <tr
-              key={m.dono}
-              className={styles.row}
-              tabIndex={0}
-              role="button"
-              aria-label={`Ver compromissos de ${m.dono}`}
-              onClick={() => verDono(m.dono)}
-              onKeyDown={(e) => { if (e.key === 'Enter') verDono(m.dono) }}
-            >
-              <td className={styles.nome}>{m.dono}</td>
-              <td><NumBadge value={m.ativos} /></td>
-              <td className={styles.hideMobile}>
-                <NumBadge value={m.checkpointsVencidos} alerta />
-              </td>
-              <td className={styles.hideMobile}>
-                <NumBadge value={m.prazosEstourados} alerta />
-              </td>
-              <td>
-                <NumBadge value={m.bloqueados} alerta />
-              </td>
-            </tr>
-          ))}
+          {data.membros.map((m) => {
+            return (
+              <tr
+                key={m.dono}
+                className={styles.row}
+                tabIndex={0}
+                role="button"
+                aria-label={`Ver compromissos de ${m.dono}`}
+                onClick={() => verDono(m.dono)}
+                onKeyDown={(e) => { if (e.key === 'Enter') verDono(m.dono) }}
+              >
+                <td>
+                  <div className={styles.donoCell}>
+                    <HealthDot m={m} />
+                    <span className={styles.nome}>{m.dono}</span>
+                  </div>
+                </td>
+                <td><NumBadge value={m.ativos} /></td>
+                <td className={styles.hideMobile}>
+                  <NumBadge value={m.checkpointsVencidos} alerta />
+                </td>
+                <td className={styles.hideMobile}>
+                  <NumBadge value={m.prazosEstourados} alerta />
+                </td>
+                <td className={styles.hideMobile}>
+                  <NumBadge value={m.emRisco} alerta />
+                </td>
+                <td className={styles.hideMobile}>
+                  <NumBadge value={m.criticos} alerta />
+                </td>
+                <td>
+                  <NumBadge value={m.bloqueados} alerta />
+                </td>
+                <td className={styles.hideMobile}>
+                  <span className={styles.prazoMono}>{fmtDate(m.proximoPrazo)}</span>
+                </td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
       </div>
@@ -111,7 +150,7 @@ function SkeletonRows() {
         <tbody>
           {[1, 2, 3].map((i) => (
             <tr key={i} className={styles.row}>
-              {[1, 2, 3, 4, 5].map((j) => (
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((j) => (
                 <td key={j}><span className={styles.skeleton} /></td>
               ))}
             </tr>

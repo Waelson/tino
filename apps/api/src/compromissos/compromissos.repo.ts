@@ -421,30 +421,38 @@ export interface DonoMetricasRow {
   checkpoints_vencidos: number
   prazos_estourados: number
   bloqueados: number
+  criticos: number
+  em_risco: number
+  proximo_prazo: string | null
 }
 
 export async function equipe(params: {
   usuarioId: bigint
   hoje: string
+  prox3Dias: string
+  limiarSilencio: string
 }): Promise<DonoMetricasRow[]> {
   return db
-    .selectFrom('compromissos')
+    .selectFrom('compromissos as c')
     .select([
-      'dono',
+      'c.dono',
       sql<number>`COUNT(*)`.as('ativos'),
-      sql<number>`COALESCE(SUM(checkpoint IS NOT NULL AND checkpoint < ${params.hoje}), 0)`.as('checkpoints_vencidos'),
-      sql<number>`COALESCE(SUM(prazo IS NOT NULL AND prazo < ${params.hoje}), 0)`.as('prazos_estourados'),
-      sql<number>`COALESCE(SUM(status = 'bloqueada'), 0)`.as('bloqueados'),
+      sql<number>`COALESCE(SUM(c.checkpoint IS NOT NULL AND c.checkpoint < ${params.hoje}), 0)`.as('checkpoints_vencidos'),
+      sql<number>`COALESCE(SUM(c.prazo IS NOT NULL AND c.prazo < ${params.hoje}), 0)`.as('prazos_estourados'),
+      sql<number>`COALESCE(SUM(c.status = 'bloqueada'), 0)`.as('bloqueados'),
+      sql<number>`COALESCE(SUM(c.critica = 1), 0)`.as('criticos'),
+      sql<number>`COALESCE(SUM(c.prazo IS NOT NULL AND c.prazo >= ${params.hoje} AND c.prazo <= ${params.prox3Dias} AND NOT EXISTS (SELECT 1 FROM registro_entradas re WHERE re.compromisso_id = c.id AND re.criada_em >= ${params.limiarSilencio})), 0)`.as('em_risco'),
+      sql<string | null>`MIN(CASE WHEN c.prazo IS NOT NULL AND c.prazo >= ${params.hoje} THEN c.prazo END)`.as('proximo_prazo'),
     ])
-    .where('usuario_id', '=', params.usuarioId)
-    .where('descartada_em', 'is', null)
-    .where('tipo', 'is not', null)
-    .where('status', '!=', 'concluida')
-    .where('dono', 'is not', null)
-    .where(sql<boolean>`TRIM(dono) != ''`)
-    .groupBy('dono')
+    .where('c.usuario_id', '=', params.usuarioId)
+    .where('c.descartada_em', 'is', null)
+    .where('c.tipo', 'is not', null)
+    .where('c.status', '!=', 'concluida')
+    .where('c.dono', 'is not', null)
+    .where(sql<boolean>`TRIM(c.dono) != ''`)
+    .groupBy('c.dono')
     .orderBy(sql`COUNT(*) DESC`)
-    .orderBy('dono', 'asc')
+    .orderBy('c.dono', 'asc')
     .execute() as unknown as DonoMetricasRow[]
 }
 
