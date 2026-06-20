@@ -6,7 +6,7 @@ import { CaptureBar } from '../components/CaptureBar.js'
 import { CommitmentList } from '../components/CommitmentList.js'
 import { FilterChips } from '../components/FilterChips.js'
 import { MetricsBar } from '../components/MetricsBar.js'
-import { NavPrincipal, type Secao } from '../components/NavPrincipal.js'
+import { type Secao } from '../components/NavPrincipal.js'
 import { SearchBar } from '../components/SearchBar.js'
 import { RiscoBriefing } from '../components/RiscoBriefing.js'
 import { TeamPanel } from '../components/TeamPanel.js'
@@ -15,6 +15,7 @@ import { WeeklyReview } from '../components/WeeklyReview.js'
 import { TimelineView } from '../components/TimelineView.js'
 import { LinksPanel } from '../components/LinksPanel.js'
 import { ToastProvider } from '../components/Toast.js'
+import { CaptureProvider } from '../contexts/CaptureContext.js'
 
 export function Painel() {
   const [searchParams] = useSearchParams()
@@ -28,31 +29,32 @@ export function Painel() {
   })
 
   return (
-    <ToastProvider>
-      <AppShell>
-        <MetricsBar />
-        <NavPrincipal />
+    <CaptureProvider>
+      <ToastProvider>
+        <AppShell>
+          <MetricsBar />
 
-        {secao === 'compromissos' && (
-          <>
-            <CaptureBar />
-            <TriageQueue itens={triagemData?.itens ?? []} />
-            <FilterChips />
-            <SearchBar />
-            {filtro === 'risco' && <RiscoBriefing />}
-            <CommitmentList />
-          </>
-        )}
+          {secao === 'compromissos' && (
+            <>
+              <CaptureBar />
+              <TriageQueue itens={triagemData?.itens ?? []} />
+              <FilterChips />
+              <SearchBar />
+              {filtro === 'risco' && <RiscoBriefing />}
+              <CommitmentList />
+            </>
+          )}
 
-        {secao === 'equipe' && <TeamPanel />}
+          {secao === 'equipe' && <TeamPanel />}
 
-        {secao === 'revisao' && <WeeklyReview />}
+          {secao === 'revisao' && <WeeklyReview />}
 
-        {secao === 'timeline' && <TimelineView />}
+          {secao === 'timeline' && <TimelineView />}
 
-        {secao === 'links' && <LinksPanel />}
-      </AppShell>
-      <Outlet />
-    </ToastProvider>
+          {secao === 'links' && <LinksPanel />}
+        </AppShell>
+        <Outlet />
+      </ToastProvider>
+    </CaptureProvider>
   )
 }
