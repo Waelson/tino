@@ -4,8 +4,10 @@ import { useQuery } from '@tanstack/react-query'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext.js'
 import { useCapture } from '../contexts/CaptureContext.js'
+import { useTheme } from '../contexts/ThemeContext.js'
 import { CaptureModal } from './CaptureModal.js'
 import { SearchBar } from './SearchBar.js'
+import { ThemePicker } from './ThemePicker.js'
 import { getMetricas } from '../api/metricas.js'
 import type { Secao } from './NavPrincipal.js'
 // @ts-ignore
@@ -25,6 +27,7 @@ interface AppShellProps {
 }
 
 export function AppShell({ children, drawer }: AppShellProps) {
+  const { tema } = useTheme()
   const { usuario, logout } = useAuth()
   const { isOpen, openCapture } = useCapture()
   const navigate = useNavigate()
@@ -102,6 +105,8 @@ export function AppShell({ children, drawer }: AppShellProps) {
         </div>
 
         <SearchBar />
+
+        <ThemePicker />
 
         <div className={styles.topbarUser}>
           <div className={styles.topbarAvatar}>{initials}</div>

@@ -51,6 +51,72 @@
   --nav-width: 240px;
   --topbar-height: 64px;
   --bottom-nav-height: 80px;
+
+  /* Tokens de componente (override por tema) */
+  --md-topbar-bg: var(--md-surface-container-low);
+}
+
+/* ── Tema: Mercado Livre ── */
+[data-theme="mercadolivre"] {
+  --md-primary: #FFE600;
+  --md-on-primary: #1A1400;
+  --md-primary-container: #FFE600;
+  --md-on-primary-container: #1A1400;
+  --md-secondary: #B8A800;
+  --md-on-secondary: #1A1400;
+  --md-secondary-container: #FFE600;
+  --md-on-secondary-container: #1A1400;
+  --md-tertiary: #6A7800;
+  --md-on-tertiary: #FFFFFF;
+  --md-tertiary-container: #E8F0A0;
+  --md-on-tertiary-container: #1E2600;
+  --md-surface: #FFF9C4;
+  --md-on-surface: #1A1A1A;
+  --md-surface-variant: #FFF3A0;
+  --md-on-surface-variant: #555555;
+  --md-outline: #CCBB00;
+  --md-outline-variant: #EEE080;
+  --md-surface-container-lowest: #FFFFFF;
+  --md-surface-container-low: #FFF9C4;
+  --md-surface-container: #FFF5A0;
+  --md-surface-container-high: #FFF099;
+  --md-surface-container-highest: #FFEC80;
+  --md-warning-container: #FFF3CD;
+  --md-on-warning-container: #4A3800;
+  --md-inverse-primary: #B8A800;
+  /* Topbar com amarelo ML */
+  --md-topbar-bg: #FFE600;
+}
+
+/* ── Tema: Escuro ── */
+[data-theme="escuro"] {
+  --md-primary: #9DCAFF;
+  --md-on-primary: #003258;
+  --md-primary-container: #004A7B;
+  --md-on-primary-container: #D0E4FF;
+  --md-secondary: #B5CAD9;
+  --md-on-secondary: #202D37;
+  --md-secondary-container: #374450;
+  --md-on-secondary-container: #D1E5F8;
+  --md-surface: #111316;
+  --md-on-surface: #E1E3EA;
+  --md-surface-variant: #2A2E33;
+  --md-on-surface-variant: #C0C7CE;
+  --md-outline: #8A9298;
+  --md-outline-variant: #40484D;
+  --md-surface-container-lowest: #0E1114;
+  --md-surface-container-low: #191C1F;
+  --md-surface-container: #1D2024;
+  --md-surface-container-high: #272B2F;
+  --md-surface-container-highest: #32363A;
+  --md-warning-container: #4A3800;
+  --md-on-warning-container: #FFDDB3;
+  --md-error: #FFB4AB;
+  --md-error-container: #93000A;
+  --md-on-error-container: #FFDAD6;
+  --md-inverse-surface: #E1E3EA;
+  --md-inverse-on-surface: #2E3135;
+  --md-inverse-primary: #0064A4;
 }
 
 *, *::before, *::after {

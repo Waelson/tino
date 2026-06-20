@@ -3,7 +3,7 @@
   position: fixed;
   top: 0; left: 0; right: 0;
   height: var(--topbar-height);
-  background: var(--md-surface-container-low);
+  background: var(--md-topbar-bg);
   display: flex;
   align-items: center;
   padding: 0 8px;
