@@ -3,7 +3,7 @@
 .wrap {
   background: var(--md-surface-container-lowest);
   border-radius: var(--md-shape-md);
-  padding: 16px 20px 20px;
+  padding: 16px 25px 20px;
 }
 
 /* ── Cabeçalho ── */
@@ -281,7 +281,7 @@
 }
 
 .rowDesc {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--md-on-surface-variant);
   white-space: nowrap;
   overflow: hidden;
