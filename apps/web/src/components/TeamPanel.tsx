@@ -57,6 +57,7 @@ export function TeamPanel() {
         <span className={styles.countBadge}>{data.membros.length}</span>
       </div>
 
+      <div className={styles.tableCard}>
       <table className={styles.table}>
         <thead>
           <tr>
@@ -93,6 +94,7 @@ export function TeamPanel() {
           ))}
         </tbody>
       </table>
+      </div>
     </section>
   )
 }
@@ -104,6 +106,7 @@ function SkeletonRows() {
         <span className={`material-symbols-outlined ${styles.sectionIcon}`}>groups</span>
         <span className={styles.sectionTitle}>Equipe</span>
       </div>
+      <div className={styles.tableCard}>
       <table className={styles.table}>
         <tbody>
           {[1, 2, 3].map((i) => (
@@ -115,6 +118,7 @@ function SkeletonRows() {
           ))}
         </tbody>
       </table>
+      </div>
     </section>
   )
 }

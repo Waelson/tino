@@ -32,10 +32,9 @@ export function Painel() {
     <CaptureProvider>
       <ToastProvider>
         <AppShell>
-          <MetricsBar />
-
           {secao === 'compromissos' && (
             <>
+              <MetricsBar />
               <CaptureBar />
               <TriageQueue itens={triagemData?.itens ?? []} />
               <FilterChips />

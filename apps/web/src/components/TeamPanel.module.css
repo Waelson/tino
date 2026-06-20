@@ -4,6 +4,13 @@
   padding: 0;
 }
 
+.tableCard {
+  background: var(--md-surface-container-lowest);
+  border-radius: var(--md-shape-md);
+  box-shadow: var(--md-elev-1);
+  overflow: hidden;
+}
+
 /* ── Header da seção ── */
 .sectionHeader {
   display: flex;
