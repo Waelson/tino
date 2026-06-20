@@ -67,7 +67,7 @@
   height: 40px;
   padding: 0 40px 0 40px;
   background: var(--md-input-bg);
-  border: none;
+  border: 2px solid var(--md-search-border);
   border-radius: var(--md-shape-full);
   font-size: 14px;
   font-family: 'Roboto', sans-serif;

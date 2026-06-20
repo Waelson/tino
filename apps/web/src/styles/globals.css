@@ -57,6 +57,7 @@
   --md-input-bg: #FFFFFF;
   --md-input-color: var(--md-on-surface);
   --md-input-placeholder: var(--md-on-surface-variant);
+  --md-search-border: transparent;
 }
 
 /* ── Tema: Mercado Livre ── */
@@ -89,6 +90,7 @@
   --md-inverse-primary: #B8A800;
   /* Topbar com amarelo ML */
   --md-topbar-bg: #FFE600;
+  --md-search-border: #FFE600;
 }
 
 /* ── Tema: Escuro ── */

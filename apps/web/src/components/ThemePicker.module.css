@@ -74,3 +74,11 @@
   font-size: 18px !important;
   color: var(--md-primary);
 }
+
+/* ── Tema Mercado Livre: botão com cor do menu ── */
+:global([data-theme="mercadolivre"]) .btn {
+  background: var(--md-surface-container-low);
+}
+:global([data-theme="mercadolivre"]) .btn:hover {
+  background: var(--md-surface-container);
+}

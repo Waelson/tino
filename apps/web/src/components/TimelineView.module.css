@@ -336,3 +336,90 @@
   cursor: pointer;
 }
 .retryBtn:hover { box-shadow: var(--md-elev-1); }
+
+@media (max-width: 768px) {
+  .wrap {
+    padding: 12px 12px 16px;
+  }
+
+  /* Toolbar: empilha título e botões */
+  .toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  /*
+   * Layout mobile das linhas:
+   * "dissolve" rowMain e rowTop com display:contents para que
+   * titulo, prazoInline, rowFlags e rowMeta se tornem
+   * filhos diretos do flex container .row e possam ser
+   * ordenados e dimensionados livremente.
+   *
+   * Linha 1 (order:1): titulo — 100% de largura, quebra de texto
+   * Linha 2 (order:2): prazoInline · chips · dono · badge — na mesma linha
+   */
+  .row {
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px 8px;
+    padding: 10px 8px;
+  }
+
+  .rowMain {
+    display: contents;
+  }
+
+  .rowTop {
+    display: contents;
+  }
+
+  /* Dot não faz sentido no layout achatado */
+  .timelineDot {
+    display: none;
+  }
+
+  /* Título: linha 1, largura total, sem truncar */
+  .titulo {
+    order: 1;
+    flex: 0 0 100%;
+    white-space: normal;
+    word-break: break-word;
+    overflow: visible;
+    text-overflow: unset;
+  }
+
+  /* Prazo inline: linha 2, ao lado dos chips */
+  .prazoInline {
+    order: 2;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* Chips: linha 2, expande o espaço restante */
+  .rowFlags {
+    order: 2;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /* Meta (dono + badge): linha 2, no final */
+  .rowMeta {
+    order: 2;
+    flex-shrink: 0;
+    gap: 6px;
+  }
+
+  .dono,
+  .donoEu {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  /* Bloco atrasados: reduz padding */
+  .grupoAtrasado {
+    padding: 10px;
+  }
+}
