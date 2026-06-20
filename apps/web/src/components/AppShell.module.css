@@ -460,10 +460,29 @@
 
 /* Mobile */
 @media (max-width: 768px) {
+  .topbarLogo { display: none; }
+  .topbarUser  { display: none; }
+
   .drawerPanel {
-    flex: 1;
+    position: fixed;
+    top: var(--topbar-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 120;
     border-left: none;
-    animation: none;
+    animation: drawerSlideMobileIn 220ms cubic-bezier(.4,0,.2,1);
+  }
+  .drawerClosing {
+    animation: drawerSlideMobileOut 220ms cubic-bezier(.4,0,.2,1) forwards;
+  }
+  @keyframes drawerSlideMobileIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+  }
+  @keyframes drawerSlideMobileOut {
+    from { transform: translateX(0);    opacity: 1; }
+    to   { transform: translateX(100%); opacity: 0; }
   }
   .navDrawer { display: none; }
   .navDrawer.navOpen {

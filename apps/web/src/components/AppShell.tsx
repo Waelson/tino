@@ -32,7 +32,7 @@ export function AppShell({ children, drawer }: AppShellProps) {
   const { isOpen, openCapture } = useCapture()
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth > 768)
 
   // Mantém conteúdo do drawer visível durante animação de saída
   const [closing, setClosing] = useState(false)
