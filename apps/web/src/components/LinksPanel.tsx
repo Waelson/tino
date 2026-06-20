@@ -109,15 +109,14 @@ function LinkRow({
 
   return (
     <div className={styles.row}>
-      <button
-        className={styles.rowLink}
-        onClick={abrir}
-        title={item.url}
-      >
+      <div className={styles.rowIcon}>
+        <span className="material-symbols-outlined">link</span>
+      </div>
+      <button className={styles.rowLink} onClick={abrir} title={item.url}>
         <div className={styles.rowInfo}>
           <span className={styles.rowNome}>
             {item.nome}
-            <span className={styles.rowNomeArrow}>↗</span>
+            <span className={styles.rowNomeArrow} aria-hidden="true">↗</span>
           </span>
           {item.descricao && <span className={styles.rowDesc}>{item.descricao}</span>}
         </div>
@@ -126,25 +125,23 @@ function LinkRow({
         {item.categoria && (
           <span className={styles.badge}>{item.categoria}</span>
         )}
-        <span className={styles.cliques}>{item.cliques}x</span>
-        <div className={styles.rowActions}>
-          <button
-            className={styles.iconBtn}
-            onClick={() => onEditar(item)}
-            title="Editar"
-            aria-label={`Editar ${item.nome}`}
-          >
-            ✎
-          </button>
-          <button
-            className={`${styles.iconBtn} ${styles.iconBtnDanger}`}
-            onClick={() => onExcluir(item.id)}
-            title="Excluir"
-            aria-label={`Excluir ${item.nome}`}
-          >
-            ✕
-          </button>
-        </div>
+        <span className={styles.cliques}>{item.cliques}×</span>
+        <button
+          className={styles.iconBtn}
+          onClick={() => onEditar(item)}
+          title="Editar"
+          aria-label={`Editar ${item.nome}`}
+        >
+          <span className="material-symbols-outlined">edit</span>
+        </button>
+        <button
+          className={`${styles.iconBtn} ${styles.iconBtnDanger}`}
+          onClick={() => onExcluir(item.id)}
+          title="Excluir"
+          aria-label={`Excluir ${item.nome}`}
+        >
+          <span className="material-symbols-outlined">delete</span>
+        </button>
       </div>
     </div>
   )
@@ -155,6 +152,7 @@ function LinkRow({
 export function LinksPanel() {
   const qc = useQueryClient()
   const [mostrando, setMostrando] = useState<'nenhum' | 'criar' | number>('nenhum')
+  const [catFilter, setCatFilter] = useState('Todos')
 
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['links'],
@@ -189,23 +187,39 @@ export function LinksPanel() {
 
   const itens = data?.itens ?? []
 
-  function itemEmEdicao(): LinkFavorito | undefined {
-    if (typeof mostrando === 'number') {
-      return itens.find((i) => i.id === mostrando)
-    }
-    return undefined
-  }
+  // Categorias únicas derivadas dos links carregados
+  const categorias = ['Todos', ...Array.from(new Set(itens.map((i) => i.categoria).filter(Boolean) as string[]))]
+
+  // Filtra por categoria selecionada
+  const itensFiltrados = catFilter === 'Todos' ? itens : itens.filter((i) => i.categoria === catFilter)
 
   return (
     <div className={styles.wrap}>
       <div className={styles.header}>
         <h2 className={styles.titulo}>Meus Links</h2>
         {mostrando === 'nenhum' && (
-          <button className={styles.btnPrimary} onClick={() => setMostrando('criar')}>
-            + Adicionar link
+          <button className={styles.btnAdicionar} onClick={() => setMostrando('criar')}>
+            <span className="material-symbols-outlined">add</span>
+            Adicionar
           </button>
         )}
       </div>
+
+      {/* Filter chips de categoria */}
+      {!isLoading && !isError && categorias.length > 1 && (
+        <div className={styles.catChips}>
+          {categorias.map((cat) => (
+            <button
+              key={cat}
+              className={`${styles.catChip} ${catFilter === cat ? styles.catChipOn : ''}`}
+              onClick={() => setCatFilter(cat)}
+              aria-pressed={catFilter === cat}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      )}
 
       {mostrando === 'criar' && (
         <div className={styles.formWrap}>
@@ -235,36 +249,40 @@ export function LinksPanel() {
         <p className={styles.info}>Nenhum link cadastrado ainda. Adicione o primeiro acima.</p>
       )}
 
-      {!isLoading && !isError && itens.map((item) => (
-        typeof mostrando === 'number' && mostrando === item.id ? (
-          <div key={item.id} className={styles.formWrap}>
-            <LinkForm
-              inicial={{
-                nome:      item.nome,
-                url:       item.url,
-                descricao: item.descricao ?? '',
-                categoria: item.categoria ?? '',
-              }}
-              onSalvar={(body) => atualizarMutation.mutate({ id: item.id, body })}
-              onCancelar={() => setMostrando('nenhum')}
-              salvando={atualizarMutation.isPending}
-            />
-            {atualizarMutation.isError && (
-              <p className={styles.erro}>
-                {(atualizarMutation.error as { mensagem?: string })?.mensagem ?? 'Erro ao salvar.'}
-              </p>
-            )}
-          </div>
-        ) : (
-          <LinkRow
-            key={item.id}
-            item={item}
-            onEditar={(i) => setMostrando(i.id)}
-            onExcluir={(id) => excluirMutation.mutate(id)}
-            onClique={(id) => cliqueMutation.mutate(id)}
-          />
-        )
-      ))}
+      {!isLoading && !isError && (
+        <div className={styles.list}>
+          {itensFiltrados.map((item) =>
+            typeof mostrando === 'number' && mostrando === item.id ? (
+              <div key={item.id} className={styles.formWrap}>
+                <LinkForm
+                  inicial={{
+                    nome:      item.nome,
+                    url:       item.url,
+                    descricao: item.descricao ?? '',
+                    categoria: item.categoria ?? '',
+                  }}
+                  onSalvar={(body) => atualizarMutation.mutate({ id: item.id, body })}
+                  onCancelar={() => setMostrando('nenhum')}
+                  salvando={atualizarMutation.isPending}
+                />
+                {atualizarMutation.isError && (
+                  <p className={styles.erro}>
+                    {(atualizarMutation.error as { mensagem?: string })?.mensagem ?? 'Erro ao salvar.'}
+                  </p>
+                )}
+              </div>
+            ) : (
+              <LinkRow
+                key={item.id}
+                item={item}
+                onEditar={(i) => setMostrando(i.id)}
+                onExcluir={(id) => excluirMutation.mutate(id)}
+                onClique={(id) => cliqueMutation.mutate(id)}
+              />
+            )
+          )}
+        </div>
+      )}
     </div>
   )
 }
