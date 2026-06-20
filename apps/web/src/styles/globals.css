@@ -54,6 +54,8 @@
 
   /* Tokens de componente (override por tema) */
   --md-topbar-bg: var(--md-surface-container-low);
+  --md-input-bg: #FFFFFF;
+  --md-input-placeholder: var(--md-on-surface-variant);
 }
 
 /* ── Tema: Mercado Livre ── */
@@ -90,6 +92,9 @@
 
 /* ── Tema: Escuro ── */
 [data-theme="escuro"] {
+  --md-input-bg: #E8EAED;
+  --md-input-placeholder: #555555;
+  --md-topbar-bg: #000000;
   --md-primary: #9DCAFF;
   --md-on-primary: #003258;
   --md-primary-container: #004A7B;
@@ -104,11 +109,11 @@
   --md-on-surface-variant: #C0C7CE;
   --md-outline: #8A9298;
   --md-outline-variant: #40484D;
-  --md-surface-container-lowest: #0E1114;
-  --md-surface-container-low: #191C1F;
-  --md-surface-container: #1D2024;
-  --md-surface-container-high: #272B2F;
-  --md-surface-container-highest: #32363A;
+  --md-surface-container-lowest: #1A1A1A;
+  --md-surface-container-low: #2D2D2D;
+  --md-surface-container: #333333;
+  --md-surface-container-high: #3A3A3A;
+  --md-surface-container-highest: #444444;
   --md-warning-container: #4A3800;
   --md-on-warning-container: #FFDDB3;
   --md-error: #FFB4AB;

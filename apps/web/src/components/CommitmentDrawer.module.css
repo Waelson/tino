@@ -112,7 +112,7 @@
   border: 1px solid var(--md-outline);
   border-radius: var(--md-shape-xs);
   padding: 8px 12px;
-  background: #FFFFFF;
+  background: var(--md-input-bg);
   color: var(--md-on-surface);
   width: 100%;
   box-sizing: border-box;
@@ -207,7 +207,7 @@
   border-radius: var(--md-shape-xs);
   padding: 6px 10px;
   outline: none;
-  background: #FFFFFF;
+  background: var(--md-input-bg);
   color: var(--md-on-surface);
   font-family: 'Roboto', sans-serif;
 }
@@ -253,7 +253,7 @@
   min-height: 72px;
   width: 100%;
   box-sizing: border-box;
-  background: #FFFFFF;
+  background: var(--md-input-bg);
   color: var(--md-on-surface);
   outline: none;
 }

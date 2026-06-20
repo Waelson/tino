@@ -83,6 +83,16 @@
 .grupoAtrasado::before { display: none; }
 .grupoAtrasado .timelineDot { display: none; }
 
+:global([data-theme="escuro"]) .grupoAtrasado,
+:global([data-theme="escuro"]) .grupoAtrasado .semanaLabel,
+:global([data-theme="escuro"]) .grupoAtrasado .titulo,
+:global([data-theme="escuro"]) .grupoAtrasado .prazoInline,
+:global([data-theme="escuro"]) .grupoAtrasado .dono,
+:global([data-theme="escuro"]) .semanaRed,
+:global([data-theme="escuro"]) .semanaIconRed {
+  color: var(--md-error-container);
+}
+
 .semanaHeader {
   display: flex;
   align-items: center;
