@@ -168,6 +168,7 @@ export function LinksPanel() {
   const qc = useQueryClient()
   const [mostrando, setMostrando] = useState<'nenhum' | 'criar' | number>('nenhum')
   const [catFilter, setCatFilter] = useState('Todos')
+  const [busca, setBusca] = useState('')
 
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['links'],
@@ -205,8 +206,11 @@ export function LinksPanel() {
   // Categorias únicas derivadas dos links carregados
   const categorias = ['Todos', ...Array.from(new Set(itens.map((i) => i.categoria).filter(Boolean) as string[]))]
 
-  // Filtra por categoria selecionada
-  const itensFiltrados = catFilter === 'Todos' ? itens : itens.filter((i) => i.categoria === catFilter)
+  // Filtra por categoria e busca
+  const q = busca.trim().toLowerCase()
+  const itensFiltrados = itens
+    .filter((i) => catFilter === 'Todos' || i.categoria === catFilter)
+    .filter((i) => !q || [i.nome, i.url, i.descricao ?? '', i.categoria ?? ''].some((v) => v.toLowerCase().includes(q)))
 
   return (
     <div className={styles.wrap}>
@@ -219,6 +223,26 @@ export function LinksPanel() {
           </button>
         )}
       </div>
+
+      {/* Campo de busca */}
+      {!isLoading && !isError && itens.length > 0 && (
+        <div className={styles.searchWrap}>
+          <span className={`material-symbols-outlined ${styles.searchIcon}`}>search</span>
+          <input
+            className={styles.searchInput}
+            type="text"
+            placeholder="Buscar links…"
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+            aria-label="Buscar links"
+          />
+          {busca && (
+            <button className={styles.searchClear} onClick={() => setBusca('')} aria-label="Limpar busca">
+              <span className="material-symbols-outlined">close</span>
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Filter chips de categoria */}
       {!isLoading && !isError && categorias.length > 1 && (
