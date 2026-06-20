@@ -28,7 +28,7 @@ export function AppShell({ children, drawer }: AppShellProps) {
   const { isOpen, openCapture } = useCapture()
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
-  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(true)
 
   // Mantém conteúdo do drawer visível durante animação de saída
   const [closing, setClosing] = useState(false)
@@ -66,7 +66,7 @@ export function AppShell({ children, drawer }: AppShellProps) {
   function navegar(s: Secao) {
     const params = s === 'compromissos' ? '' : `?secao=${s}`
     navigate(`/${params}`)
-    setDrawerOpen(false)
+    if (window.innerWidth <= 768) setSidebarOpen(false)
   }
 
   function handleCapturar() {
@@ -78,10 +78,10 @@ export function AppShell({ children, drawer }: AppShellProps) {
       {isOpen && <CaptureModal />}
 
       {/* Scrim (mobile drawer overlay) */}
-      {drawerOpen && (
+      {sidebarOpen && (
         <div
           className={styles.scrim}
-          onClick={() => setDrawerOpen(false)}
+          onClick={() => setSidebarOpen(false)}
           aria-hidden="true"
         />
       )}
@@ -90,7 +90,7 @@ export function AppShell({ children, drawer }: AppShellProps) {
       <header className={styles.topbar}>
         <button
           className={styles.iconBtn}
-          onClick={() => setDrawerOpen((v) => !v)}
+          onClick={() => setSidebarOpen((v) => !v)}
           aria-label="Menu"
         >
           <span className="material-symbols-outlined">menu</span>
@@ -118,7 +118,7 @@ export function AppShell({ children, drawer }: AppShellProps) {
 
         {/* NAV DRAWER */}
         <nav
-          className={`${styles.navDrawer} ${drawerOpen ? styles.mobileOpen : ''}`}
+          className={`${styles.navDrawer} ${sidebarOpen ? styles.navOpen : styles.navClosed}`}
           aria-label="Navegação"
         >
           {/* FAB Estendido — Capturar */}

@@ -106,13 +106,14 @@
   max-width: 160px;
 }
 
-/* ── SCRIM (mobile) ── */
+/* ── SCRIM (mobile only) ── */
 .scrim {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,.4);
   z-index: 149;
   cursor: pointer;
+  display: none;
 }
 
 /* ── APP BODY ── */
@@ -381,6 +382,42 @@
 
 /* ── RESPONSIVE ── */
 
+/* Desktop: navClosed colapsa para rail de ícones (72px) */
+@media (min-width: 769px) {
+  .navClosed {
+    width: 67px;
+  }
+  .navClosed .fabExtended {
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    border-radius: var(--md-shape-lg);
+    justify-content: center;
+    margin: 4px auto 20px;
+  }
+  .navClosed .fabLabel { display: none; }
+  .navClosed .navItem {
+    padding: 0;
+    justify-content: center;
+    margin-right: 0;
+    width: 56px;
+    margin: 0 auto 2px;
+    border-radius: var(--md-shape-full);
+  }
+  .navClosed .navItemLabel,
+  .navClosed .navSectionLabel,
+  .navClosed .navDivider,
+  .navClosed .navFooter { display: none; }
+  .navClosed .navBadge {
+    position: absolute;
+    top: 4px; right: 4px;
+    width: 16px; height: 16px;
+    min-width: 0;
+    font-size: 9px;
+    padding: 0;
+  }
+}
+
 /* Tablet: rail 72px */
 @media (max-width: 1280px) {
   .navDrawer {
@@ -434,7 +471,7 @@
     animation: none;
   }
   .navDrawer { display: none; }
-  .navDrawer.mobileOpen {
+  .navDrawer.navOpen {
     display: flex;
     position: fixed;
     top: var(--topbar-height);
@@ -445,7 +482,7 @@
     /* restaura estilos do drawer completo */
     padding: 12px 0 16px;
   }
-  .navDrawer.mobileOpen .fabExtended {
+  .navDrawer.navOpen .fabExtended {
     width: auto;
     height: 56px;
     padding: 0 20px 0 16px;
@@ -453,8 +490,8 @@
     justify-content: flex-start;
     margin: 4px 12px 20px;
   }
-  .navDrawer.mobileOpen .fabLabel { display: block; }
-  .navDrawer.mobileOpen .navItem {
+  .navDrawer.navOpen .fabLabel { display: block; }
+  .navDrawer.navOpen .navItem {
     padding: 0 16px 0 28px;
     justify-content: flex-start;
     width: auto;
@@ -462,19 +499,20 @@
     margin-right: 12px;
     border-radius: 0 var(--md-shape-full) var(--md-shape-full) 0;
   }
-  .navDrawer.mobileOpen .navItemLabel,
-  .navDrawer.mobileOpen .navSectionLabel,
-  .navDrawer.mobileOpen .navDivider,
-  .navDrawer.mobileOpen .navFooter { display: flex; }
-  .navDrawer.mobileOpen .navSectionLabel { display: block; }
-  .navDrawer.mobileOpen .navDivider { display: block; }
-  .navDrawer.mobileOpen .navBadge {
+  .navDrawer.navOpen .navItemLabel,
+  .navDrawer.navOpen .navSectionLabel,
+  .navDrawer.navOpen .navDivider,
+  .navDrawer.navOpen .navFooter { display: flex; }
+  .navDrawer.navOpen .navSectionLabel { display: block; }
+  .navDrawer.navOpen .navDivider { display: block; }
+  .navDrawer.navOpen .navBadge {
     position: static;
     width: auto; height: 20px;
     min-width: 20px;
     font-size: 11px;
     padding: 0 6px;
   }
+  .scrim { display: block; }
   .bottomNav { display: flex; }
   .fabMobile { display: flex; }
   .main { padding: 12px 16px 140px; }

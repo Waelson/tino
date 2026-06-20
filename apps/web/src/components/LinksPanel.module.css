@@ -174,8 +174,10 @@
   gap: 12px;
   padding: 14px 8px;
   border-radius: var(--md-shape-xs);
+  border-bottom: 1px solid var(--md-outline-variant);
   transition: background 0.1s;
 }
+.row:last-child { border-bottom: none; }
 .row:hover { background: var(--md-surface-container-low); }
 
 /* Ícone de link em círculo verde */
@@ -213,7 +215,7 @@
 .rowNome {
   font-size: 14px;
   font-weight: 500;
-  color: var(--md-primary);
+  color: var(--md-on-surface);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -224,7 +226,7 @@
 
 .rowNomeArrow {
   font-size: 14px;
-  color: var(--md-primary);
+  color: inherit;
   flex-shrink: 0;
   opacity: 0.6;
 }
