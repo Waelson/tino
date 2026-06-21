@@ -535,3 +535,9 @@
   background: var(--md-surface-container-low);
   color: var(--md-on-surface);
 }
+
+/* ── Tema Escuro: botão Capturar preto com texto na cor dos itens de menu ── */
+:global([data-theme="escuro"]) .fabExtended {
+  background: #000000;
+  color: var(--md-on-surface-variant);
+}
