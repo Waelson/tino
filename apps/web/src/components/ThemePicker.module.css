@@ -76,11 +76,11 @@
 }
 
 /* ── Tema Default: botão com cor do Capturar ── */
-:global(:not([data-theme])) .btn {
+:global(html:not([data-theme])) .btn {
   background: var(--md-primary);
   color: var(--md-on-primary);
 }
-:global(:not([data-theme])) .btn:hover {
+:global(html:not([data-theme])) .btn:hover {
   background: var(--md-primary);
   opacity: 0.9;
 }

@@ -394,10 +394,10 @@
   border-color: #000000;
 }
 
-:global(:not([data-theme])) .rowNome {
+:global(html:not([data-theme])) .rowNome {
   color: #40484D;
 }
-:global(:not([data-theme])) .rowDesc {
+:global(html:not([data-theme])) .rowDesc {
   color: #40484D;
 }
 

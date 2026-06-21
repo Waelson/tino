@@ -4,6 +4,7 @@
   top: 0; left: 0; right: 0;
   height: var(--topbar-height);
   background: var(--md-topbar-bg);
+  border-bottom: 1px solid var(--md-outline-variant);
   display: flex;
   align-items: center;
   padding: 0 8px;
@@ -531,7 +532,7 @@
 
 
 /* ── Tema Default: avatar com cor do Capturar ── */
-:global(:not([data-theme])) .topbarAvatar {
+:global(html:not([data-theme])) .topbarAvatar {
   background: var(--md-primary);
   color: var(--md-on-primary);
 }
@@ -548,7 +549,17 @@
   color: var(--md-on-surface-variant);
 }
 
-/* ── Tema Mercado Livre: item ativo com amarelo claro ── */
+/* ── Tema Default: painel 30% mais claro ── */
+:global(html:not([data-theme])) .navDrawer {
+  background: #F6F7FC;
+}
+
+
+/* ── Tema Mercado Livre: painel 30% mais claro ── */
+:global([data-theme="mercadolivre"]) .navDrawer {
+  background: #FFFBD6;
+}
+
 :global([data-theme="mercadolivre"]) .navItemActive {
   background: #FFEC80;
   color: var(--md-on-surface);

@@ -155,10 +155,10 @@
 .bCon { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
 
 /* ── Tema Default ── */
-:global(:not([data-theme])) .titulo {
+:global(html:not([data-theme])) .titulo {
   color: #40484D;
 }
-:global(:not([data-theme])) .donoLink {
+:global(html:not([data-theme])) .donoLink {
   color: #40484D;
 }
 

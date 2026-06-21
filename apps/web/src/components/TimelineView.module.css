@@ -215,7 +215,7 @@
   border-color: #000000;
 }
 
-:global(:not([data-theme])) .titulo {
+:global(html:not([data-theme])) .titulo {
   color: #40484D;
 }
 

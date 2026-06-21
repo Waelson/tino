@@ -214,7 +214,7 @@
 }
 
 /* ── Tema Default ── */
-:global(:not([data-theme])) .nome {
+:global(html:not([data-theme])) .nome {
   color: #40484D;
 }
 
