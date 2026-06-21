@@ -29,9 +29,13 @@
   border-radius: var(--md-shape-full);
   font-size: 14px;
   font-family: 'Roboto', sans-serif;
-  color: var(--md-on-surface);
+  color: var(--md-input-color);
   outline: none;
   transition: outline 0.1s;
+}
+
+:global([data-theme="escuro"]) .input {
+  font-size: 16px;
 }
 
 .input::placeholder {

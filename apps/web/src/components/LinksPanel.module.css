@@ -71,9 +71,13 @@
   border-radius: var(--md-shape-full);
   font-size: 14px;
   font-family: 'Roboto', sans-serif;
-  color: var(--md-on-surface);
+  color: var(--md-input-color);
   outline: none;
   transition: box-shadow 0.12s;
+}
+
+:global([data-theme="escuro"]) .searchInput {
+  font-size: 16px;
 }
 .searchInput::placeholder { color: var(--md-input-placeholder); }
 .searchInput:focus { box-shadow: 0 0 0 2px var(--md-primary); }
