@@ -154,7 +154,7 @@
 
 .numAlerta {
   background: var(--md-error-container);
-  color: var(--md-error);
+  color: var(--md-on-error-container);
 }
 
 /* ── Estados ── */

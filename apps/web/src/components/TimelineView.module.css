@@ -145,7 +145,7 @@
 
 .countBadgeRed {
   background: var(--md-error-container);
-  color: var(--md-error);
+  color: var(--md-on-error-container);
 }
 
 /* ── Linhas de item ── */
@@ -229,7 +229,7 @@
 }
 
 .chipRed {
-  color: var(--md-error);
+  color: var(--md-on-error-container);
   background: var(--md-error-container);
 }
 

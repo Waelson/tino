@@ -262,7 +262,7 @@
 
 .dadosBadgeAlert {
   background: var(--md-error-container);
-  color: var(--md-error);
+  color: var(--md-on-error-container);
 }
 
 /* lista de itens dentro de cada card */
