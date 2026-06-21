@@ -54,6 +54,7 @@
 .body {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -121,6 +122,7 @@
   background: var(--md-input-bg);
   color: var(--md-input-color);
   width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
   outline: none;
   transition: border-color 0.12s, border-width 0.05s;
