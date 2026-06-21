@@ -6,6 +6,7 @@
 
 .tableCard {
   background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-primary);
   border-radius: var(--md-shape-md);
   padding: 8px 18px 12px;
 }
@@ -205,6 +206,11 @@
 @keyframes shimmer {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.4; }
+}
+
+/* ── Tema Escuro: borda com cor do Capturar ── */
+:global([data-theme="escuro"]) .tableCard {
+  border-color: #000000;
 }
 
 /* ── Tema Default ── */

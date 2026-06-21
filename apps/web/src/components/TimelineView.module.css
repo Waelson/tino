@@ -2,6 +2,7 @@
 
 .wrap {
   background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-primary);
   border-radius: var(--md-shape-md);
   padding: 16px 20px 20px;
 }
@@ -209,6 +210,10 @@
   text-overflow: ellipsis;
 }
 .tituloRed { color: var(--md-error); }
+
+:global([data-theme="escuro"]) .wrap {
+  border-color: #000000;
+}
 
 :global(:not([data-theme])) .titulo {
   color: #40484D;

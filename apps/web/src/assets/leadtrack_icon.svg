@@ -1,71 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <title>LeadTrack Icon</title>
-  <desc>Minimal SaaS icon with checklist, tracking nodes, and upward arrow in navy and Argentine flag blue.</desc>
+  <title>Ícone em estilo Gmail</title>
+  <desc>Ícone com quatro formas, inspirado no layout enviado, usando o efeito de cores do ícone do Gmail.</desc>
 
   <defs>
-    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
-      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0B1F3A" flood-opacity="0.14"/>
-    </filter>
+    <linearGradient id="gradRed" x1="96" y1="96" x2="224" y2="224" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5FA0F4"/>
+      <stop offset="0.01%" stop-color="#5FA0F4"/>
+      <stop offset="0.02%" stop-color="#5FA0F4"/>
+      <stop offset="0.03%" stop-color="#5FA0F4"/>
+      <stop offset="0.04%" stop-color="#5FA0F4"/>
+      <stop offset="0.05%" stop-color="#5FA0F4"/>
+      <stop offset="0.06%" stop-color="#5FA0F4"/>
+      <stop offset="0.07%" stop-color="#5FA0F4"/>
+      <stop offset="0.08%" stop-color="#5FA0F4"/>
+      <stop offset="0.09%" stop-color="#5FA0F4"/>
+      <stop offset="0.1%" stop-color="#5FA0F4"/>
+      <stop offset="0.11%" stop-color="#5FA0F4"/>
+      <stop offset="0.12%" stop-color="#5FA0F4"/>
+      <stop offset="0.13%" stop-color="#5FA0F4"/>
+      <stop offset="0.14%" stop-color="#5FA0F4"/>
+      <stop offset="0.15%" stop-color="#5FA0F4"/>
+      <stop offset="0.16%" stop-color="#5FA0F4"/>
+      <stop offset="0.17%" stop-color="#5FA0F4"/>
+      <stop offset="0.18%" stop-color="#5FA0F4"/>
+      <stop offset="0.19%" stop-color="#5FA0F4"/>
+      <stop offset="0.2%" stop-color="#5FA0F4"/>
+      <stop offset="0.21%" stop-color="#5FA0F4"/>
+      <stop offset="0.22%" stop-color="#5FA0F4"/>
+      <stop offset="0.23%" stop-color="#5FA0F4"/>
+      <stop offset="0.24%" stop-color="#5FA0F4"/>
+      <stop offset="0.25%" stop-color="#5FA0F4"/>
+      <stop offset="0.26%" stop-color="#5FA0F4"/>
+      <stop offset="0.27%" stop-color="#5FA0F4"/>
+      <stop offset="0.28%" stop-color="#5FA0F4"/>
+      <stop offset="0.29%" stop-color="#5FA0F4"/>
+      <stop offset="0.3%" stop-color="#5FA0F4"/>
+      <stop offset="0.31%" stop-color="#5FA0F4"/>
+      <stop offset="0.32%" stop-color="#5FA0F4"/>
+      <stop offset="0.33%" stop-color="#5FA0F4"/>
+      <stop offset="0.34%" stop-color="#5FA0F4"/>
+      <stop offset="0.35%" stop-color="#5FA0F4"/>
+      <stop offset="0.36%" stop-color="#5FA0F4"/>
+      <stop offset="0.37%" stop-color="#5FA0F4"/>
+      <stop offset="0.38%" stop-color="#5FA0F4"/>
+      <stop offset="0.39%" stop-color="#5FA0F4"/>
+      <stop offset="0.40%" stop-color="#EA4335"/>
+      <stop offset="1" stop-color="#FF3B1F"/>
+    </linearGradient>
+
+    <linearGradient id="gradYellow" x1="288" y1="96" x2="416" y2="224" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFD54F"/>
+      <stop offset="0.55%" stop-color="#FBBC05"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+
+    <linearGradient id="gradGreen" x1="96" y1="288" x2="224" y2="416" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5EDC6C"/>
+      <stop offset="55%" stop-color="#34A853"/>
+      <stop offset="100%" stop-color="#00C232"/>
+    </linearGradient>
+
+    <linearGradient id="gradBlue" x1="288" y1="288" x2="416" y2="416" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5FA0F4"/>
+      <stop offset="55%" stop-color="#4285F4"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+
+    <clipPath id="clipTL">
+      <rect x="88" y="88" width="136" height="136" rx="28"/>
+    </clipPath>
+    <clipPath id="clipTR">
+      <rect x="288" y="88" width="136" height="136" rx="28"/>
+    </clipPath>
+    <clipPath id="clipBL">
+      <rect x="88" y="288" width="136" height="136" rx="28"/>
+    </clipPath>
+    <clipPath id="clipBR">
+      <circle cx="356" cy="356" r="68"/>
+    </clipPath>
   </defs>
 
-  <!-- App tile -->
-  <rect x="32" y="32" width="448" height="448" rx="74" fill="#FFFFFF" filter="url(#softShadow)"/>
-  <rect x="33.5" y="33.5" width="445" height="445" rx="72.5" stroke="#E8EEF6" stroke-width="3"/>
+  <!-- top-left -->
+  <rect x="88" y="88" width="136" height="136" rx="28" fill="url(#gradRed)"/>
+  <g clip-path="url(#clipTL)" opacity="0.14">
+    <path d="M70 250C110 180 160 130 240 96L260 96L260 240L70 240Z" fill="#FFFFFF"/>
+  </g>
 
-  <!-- Checklist document outline -->
-  <path
-    d="M171 353
-       C151 353 135 337 135 317
-       V157
-       C135 137 151 121 171 121
-       H287
-       C307 121 323 137 323 157
-       V228"
-    stroke="#082F63"
-    stroke-width="20"
-    stroke-linecap="round"
-    stroke-linejoin="round"/>
+  <!-- top-right -->
+  <rect x="288" y="88" width="136" height="136" rx="28" fill="url(#gradYellow)"/>
+  <g clip-path="url(#clipTR)" opacity="0.14">
+    <path d="M270 250C312 190 362 145 440 120L460 120L460 240L270 240Z" fill="#FFFFFF"/>
+  </g>
 
-  <!-- Subtle left bottom document curve -->
-  <path
-    d="M135 316
-       C135 342 155 361 181 361"
-    stroke="#082F63"
-    stroke-width="20"
-    stroke-linecap="round"
-    stroke-linejoin="round"/>
+  <!-- bottom-left -->
+  <rect x="88" y="288" width="136" height="136" rx="28" fill="url(#gradGreen)"/>
+  <g clip-path="url(#clipBL)" opacity="0.14">
+    <path d="M70 450C112 384 162 340 240 320L260 320L260 440L70 440Z" fill="#FFFFFF"/>
+  </g>
 
-  <!-- Checklist ticks -->
-  <path d="M172 174 L190 192 L222 157" stroke="#74ACDF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M172 226 L190 244 L222 209" stroke="#74ACDF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M172 278 L190 296 L222 261" stroke="#74ACDF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
-
-  <!-- Checklist text lines -->
-  <path d="M247 175 H306" stroke="#082F63" stroke-width="16" stroke-linecap="round"/>
-  <path d="M247 227 H306" stroke="#082F63" stroke-width="16" stroke-linecap="round"/>
-  <path d="M247 279 H295" stroke="#082F63" stroke-width="16" stroke-linecap="round"/>
-
-  <!-- Tracking/progress path -->
-  <path
-    d="M169 381
-       L239 315
-       L310 260
-       L387 183"
-    stroke="#74ACDF"
-    stroke-width="20"
-    stroke-linecap="round"
-    stroke-linejoin="round"/>
-
-  <!-- Upward arrow head -->
-  <path
-    d="M340 183 H387 V230"
-    stroke="#74ACDF"
-    stroke-width="20"
-    stroke-linecap="round"
-    stroke-linejoin="round"/>
-
-  <!-- Nodes -->
-  <circle cx="169" cy="381" r="28" fill="#FFFFFF" stroke="#74ACDF" stroke-width="18"/>
-  <circle cx="239" cy="315" r="25" fill="#FFFFFF" stroke="#74ACDF" stroke-width="18"/>
-  <circle cx="310" cy="260" r="25" fill="#FFFFFF" stroke="#74ACDF" stroke-width="18"/>
+  <!-- bottom-right -->
+  <circle cx="356" cy="356" r="68" fill="url(#gradBlue)"/>
+  <g clip-path="url(#clipBR)" opacity="0.14">
+    <path d="M260 440C302 380 355 338 440 320L460 320L460 440L260 440Z" fill="#FFFFFF"/>
+  </g>
 </svg>

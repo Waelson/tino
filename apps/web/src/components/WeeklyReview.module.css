@@ -49,6 +49,7 @@
 /* ─── Card de IA (full-width, destaque) ───────────────────────── */
 .iaCard {
   background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-primary);
   border-radius: var(--md-shape-md);
   padding: 20px 24px;
 }
@@ -221,6 +222,7 @@
 
 .dadosCard {
   background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-primary);
   border-radius: var(--md-shape-md);
   padding: 14px 16px 16px;
   min-width: 0;
@@ -347,4 +349,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .skeleton { animation: none; }
+}
+
+/* ── Tema Escuro: borda com cor do Capturar ── */
+:global([data-theme="escuro"]) .iaCard,
+:global([data-theme="escuro"]) .dadosCard {
+  border-color: #000000;
 }

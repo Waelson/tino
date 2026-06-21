@@ -2,6 +2,7 @@
 
 .wrap {
   background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-primary);
   border-radius: var(--md-shape-md);
   padding: 16px 25px 20px;
 }
@@ -387,6 +388,10 @@
 :global([data-theme="escuro"]) .btnAdicionar:hover {
   background: #A8B0B8;
   box-shadow: var(--md-elev-1);
+}
+
+:global([data-theme="escuro"]) .wrap {
+  border-color: #000000;
 }
 
 :global(:not([data-theme])) .rowNome {
