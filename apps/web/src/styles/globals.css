@@ -49,11 +49,11 @@
 
   /* Layout */
   --nav-width: 240px;
-  --topbar-height: 64px;
+  --topbar-height: 74px;
   --bottom-nav-height: 80px;
 
   /* Tokens de componente (override por tema) */
-  --md-topbar-bg: var(--md-surface-container-low);
+  --md-topbar-bg: linear-gradient(to bottom, #0064A4 0%, transparent 100%);
   --md-input-bg: #FFFFFF;
   --md-input-color: var(--md-on-surface);
   --md-input-placeholder: var(--md-on-surface-variant);
@@ -88,8 +88,8 @@
   --md-warning-container: #FFF3CD;
   --md-on-warning-container: #4A3800;
   --md-inverse-primary: #B8A800;
-  /* Topbar com amarelo ML */
-  --md-topbar-bg: #FFE600;
+  /* Topbar com degradê ML */
+  --md-topbar-bg: linear-gradient(to bottom, #FFE600 0%, transparent 100%);
   --md-search-border: #FFE600;
 }
 
@@ -98,7 +98,7 @@
   --md-input-bg: #E8EAED;
   --md-input-color: #1A1A1A;
   --md-input-placeholder: #555555;
-  --md-topbar-bg: #000000;
+  --md-topbar-bg: linear-gradient(to bottom, #000000 0%, transparent 100%);
   --md-primary: #9DCAFF;
   --md-on-primary: #003258;
   --md-primary-container: #004A7B;

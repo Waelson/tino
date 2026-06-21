@@ -9,7 +9,6 @@
   padding: 0 8px;
   gap: 4px;
   z-index: 200;
-  border-bottom: 1px solid var(--md-outline-variant);
 }
 
 .iconBtn {
