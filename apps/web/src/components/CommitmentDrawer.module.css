@@ -95,7 +95,20 @@
 
 @media (max-width: 768px) {
   .grid2 {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Força o item de grid a não ultrapassar a coluna */
+  .field {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  /* Remove aparência nativa do iOS que ignora width */
+  .field input[type="date"] {
+    -webkit-appearance: none;
+    appearance: none;
+    text-align: left;
   }
 }
 
