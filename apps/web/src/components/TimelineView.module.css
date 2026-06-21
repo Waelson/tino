@@ -210,6 +210,14 @@
 }
 .tituloRed { color: var(--md-error); }
 
+:global(:not([data-theme])) .titulo {
+  color: #40484D;
+}
+
+:global([data-theme="escuro"]) .titulo {
+  color: #C0C7CE;
+}
+
 /* ── Chips de flag (abaixo do título) ── */
 .rowFlags {
   display: flex;

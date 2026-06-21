@@ -25,7 +25,7 @@
   height: 44px;
   padding: 0 40px 0 40px;
   background: var(--md-input-bg);
-  border: none;
+  border: 1px solid var(--md-primary);
   border-radius: var(--md-shape-full);
   font-size: 14px;
   font-family: 'Roboto', sans-serif;
@@ -45,6 +45,12 @@
 .input:focus {
   outline: 2px solid var(--md-primary);
   outline-offset: -2px;
+}
+:global([data-theme="escuro"]) .input {
+  border-color: #000000;
+}
+:global([data-theme="escuro"]) .input:focus {
+  outline-color: #C0C7CE;
 }
 
 /* Remove o botão nativo de limpar do input[type=search] */

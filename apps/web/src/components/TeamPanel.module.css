@@ -207,6 +207,16 @@
   50%       { opacity: 0.4; }
 }
 
+/* ── Tema Default ── */
+:global(:not([data-theme])) .nome {
+  color: #40484D;
+}
+
+/* ── Tema Escuro ── */
+:global([data-theme="escuro"]) .nome {
+  color: #C0C7CE;
+}
+
 @media (max-width: 760px) {
   .hideMobile { display: none; }
 }

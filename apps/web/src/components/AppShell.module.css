@@ -530,10 +530,31 @@
 }
 
 
-/* ── Tema Mercado Livre: avatar com cor do menu ── */
+/* ── Tema Default: avatar com cor do Capturar ── */
+:global(:not([data-theme])) .topbarAvatar {
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+}
+
+/* ── Tema Mercado Livre: avatar com cor do Capturar ── */
 :global([data-theme="mercadolivre"]) .topbarAvatar {
-  background: var(--md-surface-container-low);
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+}
+
+/* ── Tema Escuro: avatar com cor do Capturar ── */
+:global([data-theme="escuro"]) .topbarAvatar {
+  background: #000000;
+  color: var(--md-on-surface-variant);
+}
+
+/* ── Tema Mercado Livre: item ativo com amarelo claro ── */
+:global([data-theme="mercadolivre"]) .navItemActive {
+  background: #FFEC80;
   color: var(--md-on-surface);
+}
+:global([data-theme="mercadolivre"]) .navItemActive:hover {
+  background: #FFE84D;
 }
 
 /* ── Tema Escuro: botão Capturar preto com texto na cor dos itens de menu ── */

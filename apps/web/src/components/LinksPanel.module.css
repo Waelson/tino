@@ -67,7 +67,7 @@
   height: 40px;
   padding: 0 40px 0 40px;
   background: var(--md-input-bg);
-  border: 2px solid var(--md-search-border);
+  border: 1px solid var(--md-primary);
   border-radius: var(--md-shape-full);
   font-size: 14px;
   font-family: 'Roboto', sans-serif;
@@ -81,6 +81,8 @@
 }
 .searchInput::placeholder { color: var(--md-input-placeholder); }
 .searchInput:focus { box-shadow: 0 0 0 2px var(--md-primary); }
+:global([data-theme="escuro"]) .searchInput { border-color: #000000; }
+:global([data-theme="escuro"]) .searchInput:focus { box-shadow: 0 0 0 2px #C0C7CE; }
 
 .searchClear {
   position: absolute;
@@ -367,6 +369,39 @@
   cursor: pointer;
 }
 .retryBtn:hover { box-shadow: var(--md-elev-1); }
+
+/* ── Tema Escuro ── */
+:global([data-theme="escuro"]) .btnPrimary {
+  background: #C0C7CE;
+  color: #000000;
+}
+:global([data-theme="escuro"]) .btnPrimary:hover {
+  background: #A8B0B8;
+  box-shadow: var(--md-elev-1);
+}
+
+:global([data-theme="escuro"]) .btnAdicionar {
+  background: #C0C7CE;
+  color: #000000;
+}
+:global([data-theme="escuro"]) .btnAdicionar:hover {
+  background: #A8B0B8;
+  box-shadow: var(--md-elev-1);
+}
+
+:global(:not([data-theme])) .rowNome {
+  color: #40484D;
+}
+:global(:not([data-theme])) .rowDesc {
+  color: #40484D;
+}
+
+:global([data-theme="escuro"]) .rowNome {
+  color: #C0C7CE;
+}
+:global([data-theme="escuro"]) .rowDesc {
+  color: #C0C7CE;
+}
 
 @media (max-width: 768px) {
   .formRow {

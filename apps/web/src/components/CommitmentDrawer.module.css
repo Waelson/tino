@@ -393,3 +393,13 @@
   background: #f5f3ff;
   border-color: #7c3aed;
 }
+
+/* ── Tema Escuro ── */
+:global([data-theme="escuro"]) .btnConcluir {
+  background: #C0C7CE;
+  color: #000000;
+}
+:global([data-theme="escuro"]) .btnConcluir:hover:not(:disabled) {
+  background: #A8B0B8;
+  box-shadow: var(--md-elev-1);
+}

@@ -9,11 +9,17 @@
 
 .card {
   background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-primary);
   border-radius: var(--md-shape-md);
   padding: 16px 20px 18px;
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+/* ── Tema Escuro: borda com cor do Capturar ── */
+:global([data-theme="escuro"]) .card {
+  border-color: #000000;
 }
 
 .cardGauge {

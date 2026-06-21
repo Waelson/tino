@@ -75,10 +75,31 @@
   color: var(--md-primary);
 }
 
-/* ── Tema Mercado Livre: botão com cor do menu ── */
+/* ── Tema Default: botão com cor do Capturar ── */
+:global(:not([data-theme])) .btn {
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+}
+:global(:not([data-theme])) .btn:hover {
+  background: var(--md-primary);
+  opacity: 0.9;
+}
+
+/* ── Tema Escuro: botão com cor do Capturar ── */
+:global([data-theme="escuro"]) .btn {
+  background: #000000;
+  color: var(--md-on-surface-variant);
+}
+:global([data-theme="escuro"]) .btn:hover {
+  background: #1a1a1a;
+}
+
+/* ── Tema Mercado Livre: botão com cor do Capturar ── */
 :global([data-theme="mercadolivre"]) .btn {
-  background: var(--md-surface-container-low);
+  background: var(--md-primary);
+  color: var(--md-on-primary);
 }
 :global([data-theme="mercadolivre"]) .btn:hover {
-  background: var(--md-surface-container);
+  background: var(--md-primary);
+  opacity: 0.9;
 }

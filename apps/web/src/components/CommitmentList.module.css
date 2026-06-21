@@ -149,6 +149,19 @@
 .bAgu { background: var(--md-warning-container); color: var(--md-on-warning-container); }
 .bCon { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
 
+/* ── Tema Default ── */
+:global(:not([data-theme])) .titulo {
+  color: #40484D;
+}
+:global(:not([data-theme])) .donoLink {
+  color: #40484D;
+}
+
+/* ── Tema Escuro ── */
+:global([data-theme="escuro"]) .titulo {
+  color: #C0C7CE;
+}
+
 /* ── Skeleton ── */
 .skeleton {
   display: block;

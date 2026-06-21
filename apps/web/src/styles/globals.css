@@ -49,11 +49,11 @@
 
   /* Layout */
   --nav-width: 240px;
-  --topbar-height: 74px;
+  --topbar-height: 100px;
   --bottom-nav-height: 80px;
 
   /* Tokens de componente (override por tema) */
-  --md-topbar-bg: linear-gradient(to bottom, #0064A4 0%, transparent 100%);
+  --md-topbar-bg: none;
   --md-input-bg: #FFFFFF;
   --md-input-color: var(--md-on-surface);
   --md-input-placeholder: var(--md-on-surface-variant);
@@ -89,7 +89,7 @@
   --md-on-warning-container: #4A3800;
   --md-inverse-primary: #B8A800;
   /* Topbar com degradê ML */
-  --md-topbar-bg: linear-gradient(to bottom, #FFE600 0%, transparent 100%);
+  --md-topbar-bg: none;
   --md-search-border: #FFE600;
 }
 
@@ -98,7 +98,7 @@
   --md-input-bg: #E8EAED;
   --md-input-color: #1A1A1A;
   --md-input-placeholder: #555555;
-  --md-topbar-bg: linear-gradient(to bottom, #000000 0%, transparent 100%);
+  --md-topbar-bg: none;
   --md-primary: #9DCAFF;
   --md-on-primary: #003258;
   --md-primary-container: #004A7B;
@@ -122,7 +122,7 @@
   --md-on-warning-container: #FFDDB3;
   --md-error: #BA1A1A;
   --md-error-container: #93000A;
-  --md-on-error-container: #FFFFFF;
+  --md-on-error-container: #C0C7CE;
   --md-inverse-surface: #E1E3EA;
   --md-inverse-on-surface: #2E3135;
   --md-inverse-primary: #0064A4;
